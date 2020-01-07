@@ -13,4 +13,4 @@ The specific purpose of this repo is to contain all Angular files required to bu
 
 ## Very much "Under Construction"!
 
-First steps for the web client have also already been made, but are until now contained in a private GIT repo. This repo will be made available public shortly. So if it seems that things are not complete by looking at this public repo, we'll, that's (partially) true at this moment :-). So please bear with me!
+First steps for this Angular web client have also already been made, but are until now contained in a private GIT repo. The files in that private repo will be copiued to this public repo shortly. So if it seems that things are not complete by looking at this public repo, we'll, that's in general partially true and at this moment specifically true for this repo :-). So please bear with me!
