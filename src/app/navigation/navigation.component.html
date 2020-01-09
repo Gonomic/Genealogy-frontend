@@ -13,8 +13,17 @@
         <!-- <router-outlet name="sidenavInhoud"></router-outlet> -->
         <!-- <svg id="MySvgID" width="100%" height="100%"> </svg> -->
         <!-- <svg id="MySvgID" width='100%' height='100%'></svg> -->
-        <input perzonId>
-        <button (click)='getFamily($perzonId)'>Test</button>
+        <input perzonId1>
+        <button (click)='getFamily($perzonId1)'>Test</button>
+        <div>
+            {{persons.data.FatherId}}
+        </div>
+        <div>
+            {{persons.data.Father}}
+        </div>
+
+        <input perzonId2>
+        <button (click)='getFamilyTree($perzonId2)'>Test</button>
         <div>
             {{persons.data.FatherId}}
         </div>

@@ -3,6 +3,7 @@ import 'snapsvg-cjs';
 import { TemplateBindingParseResult } from '@angular/compiler';
 import { DataSprocsService } from '../datasprocs.service';
 import { Person } from '../person';
+import {FamilyTree} from '../FamilyTree';
 
 declare var Snap: any;
 declare var mina: any;
@@ -107,14 +108,23 @@ export class NavigationComponent implements OnInit {
 //   }
 // }
 
-private getFamily(perzonId): void {
+private getFamily(perzonId1): void {
   console.log('getFamily aangeklikt.');
-  this.dataSprocsService.getPersons(perzonId).
+  this.dataSprocsService.getPersons(perzonId1).
     subscribe(persons => {
       this.persons = persons;
-      console.log(JSON.stringify(persons.data));
+      console.log(JSON.stringify(persons));
     });
   }
+
+  private getFamilyTree(perzonId2): void {
+    console.log('getFamily aangeklikt.');
+    this.dataSprocsService.getPersons(perzonId2).
+      subscribe(FamilyTree => {
+        this.FamilyTree = FamilyTree;
+        console.log(JSON.stringify(FamilyTree));
+      });
+    }
 
 }
 

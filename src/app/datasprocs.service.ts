@@ -41,6 +41,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import { Person } from './person';
+import {FamilyTree} from './FamilyTree';
 
 
 @Injectable({
@@ -69,6 +70,13 @@ export class DataSprocsService {
     };
   }
 
+  getFamilyTree(PersonId: number): Observable<FamilyTree[]> {
+    const url = 'getFamilyTree?person=' + PersonId + '&GenerationsToGoUp=20&GenerationsToGoDown=20&IncludePartners=1';
+    return this.http.get<FamilyTree[]>(url).pipe(
+      tap(_ => console.log('Fetched FamilyTree for person with id= ' + PersonId)),
+      catchError(this.handleError<FamilyTree[]>('getPersons id=${PersonId}'))
+    );
+  }
 
   getPersons(PersonId: number): Observable<Person[]> {
     const url = 'http://localhost:1337/getFather?person=' + PersonId;
