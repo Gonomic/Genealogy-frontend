@@ -1,0 +1,14 @@
+<mat-nav-list fxFlex>
+    <mat-list-item>
+        <mat-icon>add_circle</mat-icon>&nbsp;
+        <a [routerLink]="[{ outlets: { sidenavInhoud: ['addrelation'] } } ]" routerLinkActive="active-list-item">Relatie <br> Toevoegen </a>
+    </mat-list-item>
+    <mat-list-item>
+        <mat-icon>remove_circle</mat-icon>&nbsp;
+        <a [routerLink]="[{ outlets: { sidenavInhoud: ['deleterelation'] } } ]" routerLinkActive="active-list-item">Relatie <br> Verwijderen </a>
+    </mat-list-item>
+    <mat-list-item>
+        <mat-icon>edit</mat-icon>&nbsp;
+        <a [routerLink]="[{ outlets: { sidenavInhoud: ['changerelation'] } } ]" routerLinkActive="active-list-item">Relatie <br> Bewerken </a>
+    </mat-list-item>
+</mat-nav-list>

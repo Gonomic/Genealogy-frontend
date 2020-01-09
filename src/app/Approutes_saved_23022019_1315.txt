@@ -1,0 +1,12 @@
+const appRoutes: Routes = [
+  { path: '', component: TopmenuComponent, pathMatch: 'full'},
+  { path: 'persoonmenu', outlet: 'SidenavMenu', component: PersoonMenuComponent, 
+  children: [
+      { path: 'addperson', component: AddPersonComponent, outlet: 'SideNavContent' }]},
+  { path: 'relatiemenu', component: RelatieMenuComponent, outlet: 'SideNavMenu', children: [
+      { path: 'addrelation', component: AddRelationComponent, outlet: 'SideNavContent' }]},
+  { path: 'infomenu', component: InfoMenuComponent, outlet: 'SideNavMenu', children: [
+      { path: 'companyinfo', component: CompanyInfoComponent, outlet: 'SideNavContent'},
+      { path: 'applicationinfo', component: ApplicationInfoComponent, outlet: 'SideNavContent'},
+      { path: 'variousinfo', component: VariousInfoComponent, outlet: 'SideNavContent'}]}
+];

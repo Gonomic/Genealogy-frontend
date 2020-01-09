@@ -1,0 +1,33 @@
+.mat-toolbar {
+    background-color: turquoise;
+    height: 80px;
+}
+
+.mat-sidenav-container {
+    height: 100%;
+}
+
+.mat-sidenav {
+    background-color: turquoise;
+    border: 15px;
+    width: 170px;
+}
+
+.mat-sidenav-content {
+    background-color: white;
+    padding: 15px;
+}
+
+.active-list-item {
+    color: blue !important;
+}
+
+.logo-container {
+    width: 165px;
+}
+
+.logo-img {
+    height: 60px;
+    width: 140px;
+    border-radius: 15%;
+}

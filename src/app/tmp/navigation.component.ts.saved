@@ -1,0 +1,188 @@
+import { Component, OnInit } from '@angular/core';
+import 'snapsvg-cjs';
+import { TemplateBindingParseResult } from '@angular/compiler';
+import { DataSprocsService } from '../datasprocs.service';
+import { Person } from '../person';
+
+declare var Snap: any;
+declare var mina: any;
+
+@Component({
+  selector: 'app-navigation',
+  templateUrl: './navigation.component.html',
+  styleUrls: ['./navigation.component.css']
+})
+
+export class NavigationComponent implements OnInit {
+
+  private persons: Person[];
+  private s: object;
+  private StartposX = 0;
+  private StartPosY = 0;
+  private endPosX = 0;
+  private endPosY = 0;
+  private indexOfPerson = 0;
+  private tmpLineIn = null;
+  private tmpLineOut = null;
+
+  private const widthBox = 30;
+  private const heightBox = 30;
+
+  private const defaultGapX = 50;
+  private const defaultGapY = 50;
+
+
+  constructor(
+    private dataSprocsService: DataSprocsService
+  ) {}
+
+  getFamily(): void {
+    console.log('getFamily aangeklikt.');
+    this.dataSprocsService.getPersons(4).
+    subscribe(persons => this.persons = persons);
+  }
+
+  ngOnInit() {
+
+    this.s = Snap('#MySvgID');
+
+    // const fa = [ 1, 11, 12, 13];
+    // let humans = this.dataSprocsService.getFather(4);
+    
+
+// let fa = [ {'Person': 1,  'posXinitial': 0, 'posYinitial': 0, 'dx': 0, 'dy': 0, 'parrent': 0,'ConnectingLineInX': 0, 'ConnectingLineInY': 0, 'ConnectingLineInId': '', 'ConnectingLineOutX': 0, 'ConnectingLineOutY': 0, 'ConnectingLineOutId': ''},
+//            {'Person': 11, 'posXinitial': 0, 'posYinitial': 0, 'dx': 0, 'dy': 0, 'parrent': 1, 'ConnectingLineInX': 0,'ConnectingLineInY': 0, 'ConnectingLineInId': '', 'ConnectingLineOutX': 0, 'ConnectingLineOutY': 0, 'ConnectingLineOutId': ''},
+//            {'Person': 12, 'posXinitial': 0, 'posYinitial': 0, 'dx': 0, 'dy': 0, 'parrent': 11, 'ConnectingLineInX': 0, 'ConnectingLineInY': 0, 'ConnectingLineInId': '', 'ConnectingLineOutX': 0, 'ConnectingLineOutY': 0, 'ConnectingLineOutId': ''},
+//            {'Person': 13, 'posXinitial': 0, 'posYinitial': 0, 'dx': 0, 'dy': 0, 'parrent': 12, 'ConnectingLineInX': 0, 'ConnectingLineInY': 0, 'ConnectingLineInId': '', 'ConnectingLineOutX': 0, 'ConnectingLineOutY': 0, 'ConnectingLineOutId': ''}];
+//   let currentX = 10,
+//   currentY = 10;
+
+//   let StartPosX = 0,
+//   StartPosY = 0,
+//   EndPosX = 0,
+//   EndPosY = 0;
+
+// let indexOfPerson = 0;
+
+// let tmpLineIn = null,
+//   tmpLineOut = null;
+
+// let ExecuteDragEndApplicable = true;
+
+// const widthBox = 30;
+// const heightBox = 30;
+
+// const defaultGapX = 50;
+// const defaultGapY = 50;
+
+// for (let i = 0; i < this.fa.length; i++ ) {
+// this.s.append(s.rect(currentX, currentY, widthBox, heightBox).
+//   data('id', i).
+//   attr({gynID: fa[i].Person}).
+//   mouseout( escapedDrag ).
+//   drag(dragMove, dragStart, dragEnd));
+// this.fa[i].posXinitial = currentX;
+// this.fa[i].posYinitial = currentY;
+// this.fa[i].dx = 0;
+// this.fa[i].dy = 0;
+// if (i > 0) {
+//   this.fa[i].ConnectingLineInX = currentX;
+//   this.fa[i].ConnectingLineInY = currentY + Math.ceil(0.5 * heightBox);
+//   this.fa[i].ConnectingLineInId = 'L' + i;
+//   this.fa[i - 1].ConnectingLineOutId = 'L' + i;
+//   StartPosX = this.fa[i - 1].ConnectingLineOutX;
+//   StartPosY = this.fa[i - 1].ConnectingLineOutY;
+//   EndPosX = this.fa[i].ConnectingLineInX;
+//   EndPosY = this.fa[i].ConnectingLineInY;
+//   this.s.append(s.line(StartPosX, StartPosY, EndPosX, EndPosY).
+//   attr({id: 'L' + i, stroke: '#000', strokeWidth: 2}));
+// }
+// if (i < this.fa.length) {
+//   this.fa[i].ConnectingLineOutX = currentX + widthBox;
+//   this.fa[i].ConnectingLineOutY = currentY + Math.ceil(0.5 * heightBox);
+// }
+// currentX = currentX + widthBox + defaultGapX;
+// }
+
+// function escapedDrag(e) {
+// if (e.buttons > 0) {
+//   dragEnd(e);
+// }
+// }
+
+function dragStart(x, y, e) {
+this.attr('fill', 'red');
+indexOfPerson = GetArrayIndexOfPerson(parseInt(this.attr('gynID')));
+console.log('In dragstart. IndexOfPerson= ' + indexOfPerson + '. Length of fa array= ' + this.fa.length);
+if (indexOfPerson > 0) {
+  console.log('Setting tmpLineIn');
+  tmpLineIn = s.select('#' + (this.fa[indexOfPerson].ConnectingLineInId));
+  console.log('tmpLineIn= ' + JSON.stringify(tmpLineIn));
+}
+if (indexOfPerson < this.fa.length) {
+  console.log('Setting tmpLineOut');
+  tmpLineOut = this.s.select('#' + (this.fa[indexOfPerson].ConnectingLineOutId));
+  console.log('tmpLineOut= ' + JSON.stringify(tmpLineOut));
+}
+console.log('');
+}
+
+// function dragMove(dx, dy, x, y, e) {
+// indexOfPerson = GetArrayIndexOfPerson(parseInt(this.attr('gynID')));
+// console.log('In dragMove. IndexOfPerson= ' + indexOfPerson + '. Length of fa array= ' + this.fa.length);
+// this.fa[indexOfPerson].dx = dx;
+// this.fa[indexOfPerson].dy = dy;
+// this.transform('translate(' + dx + ',' + dy + ')');
+// if (indexOfPerson > 0) {
+//   console.log('Setting attributes of tmpLineIn');
+//   tmpLineIn.attr({  x2: (this.fa[indexOfPerson].ConnectingLineInX + dx),   y2: (this.fa[indexOfPerson].ConnectingLineInY + dy)});
+//   console.log('Attributes of tmpLineIn= ' + JSON.stringify(tmpLineIn));
+// }
+// if (indexOfPerson < (this.fa.length - 1)) {
+//   console.log('Setting attributes of tmpLineOut');
+//   tmpLineOut.attr({  x1: (this.fa[indexOfPerson].ConnectingLineOutX + dx),   y1: (this.fa[indexOfPerson].ConnectingLineOutY + dy)});
+//   console.log('Attributes of tmpLineOut= ' + JSON.stringify(tmpLineOut));
+// }
+// console.log('');
+// }
+
+// function dragEnd(e) {
+//   indexOfPerson = GetArrayIndexOfPerson(parseInt(this.attr('gynID')));
+//   this.transform('');
+//   this.fa[indexOfPerson].dx += this.fa[indexOfPerson].posXinitial;
+//   this.fa[indexOfPerson].dy += this.fa[indexOfPerson].posYinitial;
+//   this.fa[indexOfPerson].posXinitial = this.fa[indexOfPerson].dx;
+//   this.fa[indexOfPerson].posYinitial = this.fa[indexOfPerson].dy;
+//   this.attr({'x': this.fa[indexOfPerson].dx,
+//              'y': this.fa[indexOfPerson].dy,
+//              'fill': 'black'});
+//   this.fa[indexOfPerson].dx = 0;
+//   this.fa[indexOfPerson].dy = 0;
+//   if (indexOfPerson > 0) {
+//     this.fa[indexOfPerson].ConnectingLineInX = tmpLineIn.attr('x2');
+//     this.fa[indexOfPerson].ConnectingLineInY = tmpLineIn.attr('y2');
+//   }
+//   if (indexOfPerson < (this.fa.length - 1)) {
+//     this.fa[indexOfPerson].ConnectingLineOutX = tmpLineOut.attr('x1');
+//     this.fa[indexOfPerson].ConnectingLineOutY = tmpLineOut.attr('y1');
+//   }
+// }
+
+// function GetArrayIndexOfPerson(PersonIn) {
+// for (let i = 0; i < this.fa.length; i++ ) {
+//   if (this.fa[i].Person === PersonIn) {
+//     return i;
+//   }
+// }
+
+  function getHumansz(): void {
+    this.humansz = this.dataSprocsService.getFather(4);
+  }
+
+  getFamily(): void {
+    console.log('getFamily aangeklikt.');
+    this.dataSprocsService.getPersons(4).
+    subscribe(persons => this.persons = persons);
+  }
+  }
+}

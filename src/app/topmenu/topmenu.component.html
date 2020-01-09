@@ -1,0 +1,14 @@
+<mat-nav-list fxFlex fxLayout='row'>
+    <mat-list-item fxLayoutAlign="center">
+        <mat-icon>directions_walk</mat-icon>&nbsp;
+        <a [routerLink]="['/', { outlets: { sidenavNavigatie: ['persoonmenu']}}]" routerLinkActive="active-list-item">Persoon</a>
+    </mat-list-item>
+    <mat-list-item fxLayoutAlign="center">
+        <mat-icon>supervisor_account</mat-icon>&nbsp;
+        <a [routerLink]="['/', { outlets: { sidenavNavigatie: ['relatiemenu']}}]" routerLinkActive="active-list-item">Relatie</a>
+    </mat-list-item>
+    <mat-list-item fxLayoutAlign="center">
+        <mat-icon>description</mat-icon>&nbsp;
+        <a [routerLink]="['/', { outlets: { sidenavNavigatie: ['infomenu']}}]" routerLinkActive="active-list-item">Info</a>
+    </mat-list-item>
+</mat-nav-list>

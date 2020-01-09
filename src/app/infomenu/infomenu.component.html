@@ -1,0 +1,14 @@
+<mat-nav-list fxFlex>
+    <mat-list-item>
+        <mat-icon>store_mall_directory</mat-icon>&nbsp;
+        <a [routerLink]="[{ outlets: { sidenavInhoud: ['companyinfo'] } } ]" routerLinkActive="active-list-item">Bedrijfs <br> Info </a>
+    </mat-list-item>
+    <mat-list-item>
+        <mat-icon>phone_android</mat-icon>&nbsp;
+        <a [routerLink]="[{ outlets: { sidenavInhoud: ['applicationinfo'] } } ]" routerLinkActive="active-list-item">Applicatie <br> Info </a>
+    </mat-list-item>
+    <mat-list-item>
+        <mat-icon>grid_on</mat-icon>&nbsp;
+        <a [routerLink]="[{ outlets: { sidenavInhoud: ['variousinfo'] } } ]" routerLinkActive="active-list-item">Verschillende <br> Info </a>
+    </mat-list-item>
+</mat-nav-list>
