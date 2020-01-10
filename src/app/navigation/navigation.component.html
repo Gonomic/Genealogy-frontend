@@ -13,8 +13,9 @@
         <!-- <router-outlet name="sidenavInhoud"></router-outlet> -->
         <!-- <svg id="MySvgID" width="100%" height="100%"> </svg> -->
         <!-- <svg id="MySvgID" width='100%' height='100%'></svg> -->
+
         <input perzonId1>
-        <button (click)='getFamily($perzonId1)'>Test</button>
+        <button (click)='getFamily($perzonId1)'>getFamily</button>
         <div>
             {{persons.data.FatherId}}
         </div>
@@ -23,12 +24,15 @@
         </div>
 
         <input perzonId2>
-        <button (click)='getFamilyTree($perzonId2)'>Test</button>
+        <button (click)='getFamilyTree($perzonId2)'>getFamilyTree</button>
         <div>
-            {{persons.data.FatherId}}
+            {{familytree.data}}
         </div>
+
+        <input namesToLookFor>
+        <button (click)='getPlainListOfPersons($namesToLookFor)'>getPlainListOfPersons</button>
         <div>
-            {{persons.data.Father}}
+            {{familytree.data}}
         </div>
 
     </mat-sidenav-content>

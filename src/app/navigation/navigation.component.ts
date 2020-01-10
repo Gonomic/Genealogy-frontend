@@ -20,6 +20,7 @@ export class NavigationComponent implements OnInit {
   private persons: Person[];
   private familytree: FamilytreeMember[];
   private plainpersonlist: PlainPersonListMember[];
+  private namesToLookFor: string;
   private s: object;
   private StartposX = 0;
   private StartPosY = 0;
@@ -130,8 +131,8 @@ private getFamily(perzonId1): void {
     }
 
   private getPlainListOfPersons(namesToLookFor): void {
-    console.log('getPlainListOfPersons aangeklikt.');
-    this.dataSprocsService.getPlainListOfPersons(namesToLookFor).
+    console.log('getPlainListOfPersons aangeklikt. namesToLookFor= ' + this.namesToLookFor);
+    this.dataSprocsService.getPlainListOfPersons(this.namesToLookFor).
       subscribe(plainListofPersons => {
         this.plainpersonlist = plainListofPersons;
         console.log(JSON.stringify(this.plainpersonlist));
