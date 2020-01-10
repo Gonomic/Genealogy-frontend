@@ -41,7 +41,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import { Person } from './person';
-import {FamilyTree} from './FamilyTree';
+import { FamilytreeMember } from './familytreemember';
+import { PlainPersonListMember } from './Plainpersonlistmember';
 
 
 @Injectable({
@@ -70,11 +71,11 @@ export class DataSprocsService {
     };
   }
 
-  getFamilyTree(PersonId: number): Observable<FamilyTree[]> {
+  getFamilyTree(PersonId: number): Observable<FamilytreeMember[]> {
     const url = 'getFamilyTree?person=' + PersonId + '&GenerationsToGoUp=20&GenerationsToGoDown=20&IncludePartners=1';
-    return this.http.get<FamilyTree[]>(url).pipe(
+    return this.http.get<FamilytreeMember[]>(url).pipe(
       tap(_ => console.log('Fetched FamilyTree for person with id= ' + PersonId)),
-      catchError(this.handleError<FamilyTree[]>('getPersons id=${PersonId}'))
+      catchError(this.handleError<FamilytreeMember[]>('getFamilyTree id=${PersonId}'))
     );
   }
 
@@ -83,6 +84,14 @@ export class DataSprocsService {
     return this.http.get<Person[]>(url).pipe(
       tap(_ => console.log('Fetched person details from person with id= ' + PersonId)),
       catchError(this.handleError<Person[]>('getPersons id=${PersonId}'))
+    );
+  }
+
+  getPlainListOfPersons(PersonNamesLike: string): Observable<PlainPersonListMember[]> {
+    const url = 'http://localhost:1337/getPlainListOfPersons?NameInLike=' + PersonNamesLike;
+    return this.http.get<PlainPersonListMember[]>(url).pipe(
+      tap(_ => console.log('Fetched persons with names like= ' + PersonNamesLike)),
+      catchError(this.handleError<PlainPersonListMember[]>('getPlainListOfPersons PersonNamesLike=${PersonNamesLike}'))
     );
   }
 

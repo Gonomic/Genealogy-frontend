@@ -1,4 +1,4 @@
-export class FamilyTree {
+export class FamilytreeMember {
     RecordId: number;
     PersonsFather: number;
     FatherFetched: boolean;

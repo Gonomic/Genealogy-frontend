@@ -3,7 +3,8 @@ import 'snapsvg-cjs';
 import { TemplateBindingParseResult } from '@angular/compiler';
 import { DataSprocsService } from '../datasprocs.service';
 import { Person } from '../person';
-import {FamilyTree} from '../FamilyTree';
+import {FamilytreeMember} from '../familytreemember';
+import { PlainPersonListMember } from '../Plainpersonlistmember';
 
 declare var Snap: any;
 declare var mina: any;
@@ -17,6 +18,8 @@ declare var mina: any;
 export class NavigationComponent implements OnInit {
 
   private persons: Person[];
+  private familytree: FamilytreeMember[];
+  private plainpersonlist: PlainPersonListMember[];
   private s: object;
   private StartposX = 0;
   private StartPosY = 0;
@@ -113,18 +116,26 @@ private getFamily(perzonId1): void {
   this.dataSprocsService.getPersons(perzonId1).
     subscribe(persons => {
       this.persons = persons;
-      console.log(JSON.stringify(persons));
+      console.log(JSON.stringify(this.persons));
     });
   }
 
   private getFamilyTree(perzonId2): void {
-    console.log('getFamily aangeklikt.');
-    this.dataSprocsService.getPersons(perzonId2).
-      subscribe(FamilyTree => {
-        this.FamilyTree = FamilyTree;
-        console.log(JSON.stringify(FamilyTree));
+    console.log('getFamilyTree aangeklikt.');
+    this.dataSprocsService.getFamilyTree(perzonId2).
+      subscribe(familytree => {
+        this.familytree = familytree;
+        console.log(JSON.stringify(this.familytree));
       });
     }
 
+  private getPlainListOfPersons(namesToLookFor): void {
+    console.log('getPlainListOfPersons aangeklikt.');
+    this.dataSprocsService.getPlainListOfPersons(namesToLookFor).
+      subscribe(plainListofPersons => {
+        this.plainpersonlist = plainListofPersons;
+        console.log(JSON.stringify(this.plainpersonlist));
+      });
+    }
 }
 
