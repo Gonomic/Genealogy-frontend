@@ -20,6 +20,8 @@ export class NavigationComponent implements OnInit {
   private persons: Person[];
   private familytree: FamilytreeMember[];
   private plainpersonlist: PlainPersonListMember[];
+  private PerzonId1: number;
+  private PerzonId2: number;
   private namesToLookFor: string;
   private s: object;
   private StartposX = 0;
@@ -112,27 +114,27 @@ export class NavigationComponent implements OnInit {
 //   }
 // }
 
-private getFamily(perzonId1): void {
-  console.log('getFamily aangeklikt.');
-  this.dataSprocsService.getPersons(perzonId1).
+private getFather(PersonIdFromScreen): void {
+  console.log('getFamily aangeklikt met Person= ' + PersonIdFromScreen);
+  this.dataSprocsService.getFather(PersonIdFromScreen).
     subscribe(persons => {
       this.persons = persons;
       console.log(JSON.stringify(this.persons));
     });
   }
 
-  private getFamilyTree(perzonId2): void {
-    console.log('getFamilyTree aangeklikt.');
-    this.dataSprocsService.getFamilyTree(perzonId2).
+  private getFamilyTree(PersonIdFromScreen): void {
+    console.log('getFamilyTree aangeklikt met Person= ' + PersonIdFromScreen);
+    this.dataSprocsService.getFamilyTree(PersonIdFromScreen).
       subscribe(familytree => {
         this.familytree = familytree;
         console.log(JSON.stringify(this.familytree));
       });
     }
 
-  private getPlainListOfPersons(namesToLookFor): void {
-    console.log('getPlainListOfPersons aangeklikt. namesToLookFor= ' + this.namesToLookFor);
-    this.dataSprocsService.getPlainListOfPersons(this.namesToLookFor).
+  private getPlainListOfPersons(namesToLookForFromScreen): void {
+    console.log('getPlainListOfPersons aangeklikt. namesToLookFor= ' + namesToLookForFromScreen);
+    this.dataSprocsService.getPlainListOfPersons(namesToLookForFromScreen).
       subscribe(plainListofPersons => {
         this.plainpersonlist = plainListofPersons;
         console.log(JSON.stringify(this.plainpersonlist));
