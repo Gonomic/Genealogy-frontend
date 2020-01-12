@@ -11,7 +11,7 @@ import { PlainPersonListMember } from '../Plainpersonlistmember';
 export class SearchHubComponent implements OnInit {
 
   private plainpersonlist: PlainPersonListMember[];
-  private namesToLookFor: string;
+  private namesToLookForFromScreen: string;
 
   constructor(
     private dataSprocsService: DataSprocsService

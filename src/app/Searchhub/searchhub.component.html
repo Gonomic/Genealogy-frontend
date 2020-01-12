@@ -1,5 +1,5 @@
 <input #namesToLookForFromScreen>
-<button (click)='getPlainListOfPersons(namesToLookFor.value) '>getPlainListOfPersons</button>
-<div>
-    {{familytree.data}}
+<button (click)='getPlainListOfPersons(namesToLookForFromScreen.value) '>getPlainListOfPersons</button>
+<div *ngFor="let item of plainpersonlist">
+    {{item.name}}
 </div>
