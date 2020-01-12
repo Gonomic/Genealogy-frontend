@@ -2,7 +2,23 @@
     <span class="logo-container" fxLayoutAlign="start">
         <img class="logo-img" src='../../assets/oak-tree-png-2.svg'>
     </span>
-    <!-- <router-outlet></router-outlet> -->
+    <mat-nav-list fxFlex fxLayout='row'>
+        <mat-list-item fxLayoutAlign="center">
+            <mat-icon>directions_walk</mat-icon>&nbsp;
+            <!-- <a [routerLink]="'/personscreen'" routerLinkActive="active-list-item">Personen</a> -->
+            <a [routerLink]="[{ outlets: { primary: ['personscreen'], sidenavNavigatie: ['searchhub'] } } ]" routerLinkActive="active-list-item">Personen</a>
+        </mat-list-item>
+        <mat-list-item fxLayoutAlign="center">
+            <mat-icon>supervisor_account</mat-icon>&nbsp;
+            <a [routerLink]="[{ outlets: { primary: ['relationscreen'], sidenavNavigatie: ['searchhub'] } } ]" routerLinkActive="active-list-item">Relaties</a>
+        </mat-list-item>
+        <mat-list-item fxLayoutAlign="center">
+            <mat-icon>description</mat-icon>&nbsp;
+            <a [routerLink]="[{ outlets: { primary: ['infoscreen'] } } ]" routerLinkActive="active-list-item">Relaties</a>
+            <!-- <a routerLink="infoscreen" routerLinkActive="active-list-item">Info</a> -->
+        </mat-list-item>
+    </mat-nav-list>
+
 </mat-toolbar>
 
 <mat-sidenav-container autosize>
@@ -10,30 +26,6 @@
         <router-outlet name="sidenavNavigatie"></router-outlet>
     </mat-sidenav>
     <mat-sidenav-content role="main">
-        <!-- <router-outlet name="sidenavInhoud"></router-outlet> -->
-        <!-- <svg id="MySvgID" width="100%" height="100%"> </svg> -->
-        <!-- <svg id="MySvgID" width=' 100% ' height='100% '></svg> -->
-
-        <input #PerzonId1>
-        <button (click)='getFather(PerzonId1.value) '>getFather</button>
-        <div>
-            FatherId= {{persons.data.FatherId}}
-        </div>
-        <div>
-            Father= {{persons.data.Father}}
-        </div>
-
-        <input #PerzonId2>
-        <button (click)='getFamilyTree(PerzonId2.value) '>getFamilyTree</button>
-        <div>
-            {{familytree.data}}
-        </div>
-
-        <input #namesToLookFor>
-        <button (click)='getPlainListOfPersons(namesToLookFor.value) '>getPlainListOfPersons</button>
-        <div>
-            {{familytree.data}}
-        </div>
-
+        <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>

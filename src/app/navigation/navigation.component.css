@@ -10,7 +10,7 @@
 .mat-sidenav {
     background-color: turquoise;
     border: 15px;
-    width: 170px;
+    width: 250px;
 }
 
 .mat-sidenav-content {
@@ -23,10 +23,10 @@
 }
 
 .logo-container {
-    width: 165px;
+    width: 200px;
 }
 
 .logo-img {
-    height: 80px;
+    height: 70px;
     width: 200px;
 }

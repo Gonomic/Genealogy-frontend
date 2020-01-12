@@ -1,0 +1,20 @@
+<input #PerzonId1>
+<button (click)='getFather(PerzonId1.value) '>getFather</button>
+<div>
+    FatherId= {{persons.data.FatherId}}
+</div>
+<div>
+    Father= {{persons.data.Father}}
+</div>
+
+<input #PerzonId2>
+<button (click)='getFamilyTree(PerzonId2.value) '>getFamilyTree</button>
+<div>
+    {{familytree.data}}
+</div>
+
+<input #namesToLookFor>
+<button (click)='getPlainListOfPersons(namesToLookFor.value) '>getPlainListOfPersons</button>
+<div>
+    {{familytree.data}}
+</div>
