@@ -1,5 +1,14 @@
-<input #namesToLookForFromScreen>
-<button (click)='getPlainListOfPersons(namesToLookForFromScreen.value) '>getPlainListOfPersons</button>
-<div *ngFor="let item of plainpersonlist">
-    {{item.name}}
-</div>
+<mat-toolbar>
+    <mat-toolbar-row>
+        <label>Voer naam persoon in:</label>
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+        <input (keyup)='getPlainListOfPersons(namesToLookForFromScreen.value)' #namesToLookForFromScreen>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-action-list>
+    <button mat-list-item *ngFor="let item of namesToLookForFromScreen | keyvalue" (click)="GetPersonDetails(item.value.PersonID)">
+            {{item.value.Name}}
+    </button>
+</mat-action-list>

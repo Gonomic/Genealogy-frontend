@@ -10,7 +10,8 @@ import { PlainPersonListMember } from '../Plainpersonlistmember';
 })
 export class SearchHubComponent implements OnInit {
 
-  private plainpersonlist: PlainPersonListMember[];
+  // private plainpersonlist: PlainPersonListMember[];
+  private plainpersonlist: object;
   private namesToLookForFromScreen: string;
 
   constructor(
@@ -20,11 +21,15 @@ export class SearchHubComponent implements OnInit {
   ngOnInit() {
   }
 
+private GetPersonDetails(PersonIDFromScreen): void {
+  console.log('PersonIDFromScreen= ' + PersonIDFromScreen);
+}
+
   private getPlainListOfPersons(namesToLookForFromScreen): void {
     console.log('getPlainListOfPersons aangeklikt. namesToLookFor= ' + namesToLookForFromScreen);
     this.dataSprocsService.getPlainListOfPersons(namesToLookForFromScreen).
       subscribe(plainListofPersons => {
-        this.plainpersonlist = plainListofPersons;
+        this.plainpersonlist = plainListofPersons.data;
         console.log(JSON.stringify(this.plainpersonlist));
       });
   }
