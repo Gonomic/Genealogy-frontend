@@ -29,8 +29,8 @@ private GetPersonDetails(PersonIDFromScreen): void {
     console.log('getPlainListOfPersons aangeklikt. namesToLookFor= ' + namesToLookForFromScreen);
     this.dataSprocsService.getPlainListOfPersons(namesToLookForFromScreen).
       subscribe(plainListofPersons => {
-        this.plainpersonlist = plainListofPersons.data;
-        console.log(JSON.stringify(this.plainpersonlist));
+        this.plainpersonlist = plainListofPersons;
+        console.log(JSON.stringify(this.plainpersonlist.data));
       });
   }
 }
