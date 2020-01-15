@@ -1,28 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { DataSprocsService } from '../datasprocs.service';
 import { PlainPersonListMember } from '../Plainpersonlistmember';
+import { Subject } from 'rxjs/Subject';
+import { EventBridgeService } from '../eventbridge.service';
+import { EventEmitter } from 'protractor';
 
 
 @Component({
   selector: 'app-search-hub',
   templateUrl: './searchhub.component.html',
-  styleUrls: ['./searchhub.component.css']
+  styleUrls: ['./searchhub.component.css'],
+  providers: [EventBridgeService]
 })
 export class SearchHubComponent implements OnInit {
-
-  // private plainpersonlist: PlainPersonListMember[];
+  @Output() onChoosePersonDetails = new EventEmitter();
   private plainpersonlist: object;
   private namesToLookForFromScreen: string;
+  private onPersonChosenEndSource = new Subject();
+  public onPersonChosenEnd$ = this.onPersonChosenEndSource.asObservable();
 
   constructor(
-    private dataSprocsService: DataSprocsService
+    private dataSprocsService: DataSprocsService,
+    public eventB: EventBridgeService
   ) {}
 
   ngOnInit() {
   }
 
-private GetPersonDetails(PersonIDFromScreen): void {
-  console.log('PersonIDFromScreen= ' + PersonIDFromScreen);
+private ChoosePersonDetails(PersonIDFromScreen): void {
+  this.eventB.SendTheMessage(PersonIDFromScreen);
+  console.log('Message emitted from ChoosePersonDetails with onPersonChosenEndSource, PersonIDFromScreen= ' + PersonIDFromScreen);
 }
 
   private getPlainListOfPersons(namesToLookForFromScreen): void {
@@ -30,7 +37,7 @@ private GetPersonDetails(PersonIDFromScreen): void {
     this.dataSprocsService.getPlainListOfPersons(namesToLookForFromScreen).
       subscribe(plainListofPersons => {
         this.plainpersonlist = plainListofPersons;
-        console.log(JSON.stringify(this.plainpersonlist.data));
+        console.log(JSON.stringify(this.plainpersonlist));
       });
   }
 }

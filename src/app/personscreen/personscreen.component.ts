@@ -1,30 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { DataSprocsService } from '../datasprocs.service';
 import { Person } from '../person';
 import {FamilytreeMember} from '../familytreemember';
 import { PlainPersonListMember } from '../Plainpersonlistmember';
+import { Subscription } from 'rxjs/Subscription';
+import { EventBridgeService } from '../eventbridge.service';
+import { Subscription } from 'rxjs';
+import { EventEmitter } from 'protractor';
 
 
 @Component({
   selector: 'app-person-screen',
   templateUrl: './personscreen.component.html',
-  styleUrls: ['./personscreen.component.css']
+  styleUrls: ['./personscreen.component.css'],
+  providers: [EventBridgeService]
+
 })
 export class PersonScreenComponent implements OnInit {
-
+  @Output() onComplete = new EventEmitter<void>();
   private persons: Person[];
   private familytree: FamilytreeMember[];
   private plainpersonlist: PlainPersonListMember[];
-  private PerzonId1: number;
-  private PerzonId2: number;
   private namesToLookFor: string;
   private indexOfPerson = 0;
+  private EventBridgeRef: Subscription = null;
 
   constructor(
-    private dataSprocsService: DataSprocsService
+    private dataSprocsService: DataSprocsService,
+    public eventbridgeservice: EventBridgeService
   ) {}
 
   ngOnInit() {
+    this.EventBridgeRef = this.eventbridgeservice.onPersonChosenEnd$.subscribe(() => {
+      this.onComplete.emit();
+    });
   }
 
   private getFather(PersonIdFromScreen): void {
@@ -36,21 +45,5 @@ export class PersonScreenComponent implements OnInit {
       });
   }
 
-  private getFamilyTree(PersonIdFromScreen): void {
-    console.log('getFamilyTree aangeklikt met Person= ' + PersonIdFromScreen);
-    this.dataSprocsService.getFamilyTree(PersonIdFromScreen).
-      subscribe(familytree => {
-        this.familytree = familytree;
-        console.log(JSON.stringify(this.familytree));
-      });
-  }
 
-  private getPlainListOfPersons(namesToLookForFromScreen): void {
-    console.log('getPlainListOfPersons aangeklikt. namesToLookFor= ' + namesToLookForFromScreen);
-    this.dataSprocsService.getPlainListOfPersons(namesToLookForFromScreen).
-      subscribe(plainListofPersons => {
-        this.plainpersonlist = plainListofPersons;
-        console.log(JSON.stringify(this.plainpersonlist));
-      });
-  }
 }

@@ -1,14 +1,23 @@
-<mat-toolbar>
+<!-- <mat-toolbar>
     <mat-toolbar-row>
         <label>Voer naam persoon in:</label>
     </mat-toolbar-row>
     <mat-toolbar-row>
         <input (keyup)='getPlainListOfPersons(namesToLookForFromScreen.value)' #namesToLookForFromScreen>
     </mat-toolbar-row>
-</mat-toolbar>
+</mat-toolbar> -->
 
-<mat-action-list>
-    <button mat-list-item *ngFor="let item of plainpersonlist.data | keyvalue" (click)="GetPersonDetails(item.value.PersonID)">
-        {{item.value.Name}}
-    </button>
-</mat-action-list>
+<div fxLayout="column">
+    <div>
+        <label>Voer naam persoon in:</label>
+        <input (keyup)='getPlainListOfPersons(namesToLookForFromScreen.value)' #namesToLookForFromScreen>
+    </div>
+
+    <div>
+        <mat-action-list>
+            <button mat-list-item *ngFor="let item of plainpersonlist.data | keyvalue" (click)="ChoosePersonDetails(item.value.PersonID)">
+                {{item.value.Name}} =>
+            </button>
+        </mat-action-list>
+    </div>
+</div>
