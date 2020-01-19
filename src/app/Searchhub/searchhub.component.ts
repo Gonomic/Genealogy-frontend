@@ -25,7 +25,7 @@ export class SearchHubComponent implements OnInit {
   ) {}
 
 
-  // ngOnInit() {}
+  ngOnInit() {}
 
   sendMessage(PersonIn): void {
     console.log('SearchHubComponent / sendMessage, PersonIn= ' + PersonIn);
