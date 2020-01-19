@@ -15,7 +15,7 @@
 
     <div>
         <mat-action-list>
-            <button mat-list-item *ngFor="let item of plainpersonlist.data | keyvalue" (click)="ChoosePersonDetails(item.value.PersonID)">
+            <button mat-list-item *ngFor="let item of plainpersonlist.data | keyvalue" (click)="sendMessage(item.value.PersonID)">
                 {{item.value.Name}} =>
             </button>
         </mat-action-list>

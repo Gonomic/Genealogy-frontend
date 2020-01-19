@@ -1,36 +1,45 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { DataSprocsService } from '../datasprocs.service';
 import { PlainPersonListMember } from '../Plainpersonlistmember';
-import { Subject } from 'rxjs/Subject';
-import { EventBridgeService } from '../eventbridge.service';
-import { EventEmitter } from 'protractor';
+// import { Subject } from 'rxjs/Subject';
+import { MessageService } from '../eventhub.service';
 
 
 @Component({
   selector: 'app-search-hub',
   templateUrl: './searchhub.component.html',
-  styleUrls: ['./searchhub.component.css'],
-  providers: [EventBridgeService]
+  styleUrls: ['./searchhub.component.css']
+  // providers: [MessageService]
 })
+
 export class SearchHubComponent implements OnInit {
-  @Output() onChoosePersonDetails = new EventEmitter();
   private plainpersonlist: object;
   private namesToLookForFromScreen: string;
-  private onPersonChosenEndSource = new Subject();
-  public onPersonChosenEnd$ = this.onPersonChosenEndSource.asObservable();
+  person: number;
+  // private onPersonChosenEndSource = new Subject();
+  // public onPersonChosenEnd$ = this.onPersonChosenEndSource.asObservable();
 
   constructor(
     private dataSprocsService: DataSprocsService,
-    public eventB: EventBridgeService
+    private messageService: MessageService
   ) {}
 
-  ngOnInit() {
+
+  // ngOnInit() {}
+
+  sendMessage(PersonIn): void {
+    console.log('SearchHubComponent / sendMessage, PersonIn= ' + PersonIn);
+    this.messageService.sendMessage('Test message from SearchHub Component: ' + PersonIn);
   }
 
-private ChoosePersonDetails(PersonIDFromScreen): void {
-  this.eventB.SendTheMessage(PersonIDFromScreen);
-  console.log('Message emitted from ChoosePersonDetails with onPersonChosenEndSource, PersonIDFromScreen= ' + PersonIDFromScreen);
-}
+  clearMessage(): void {
+    this.messageService.clearMessage();
+  }
+
+  private ChoosePersonDetails(PersonIDFromScreen): void {
+    this.messageService.sendMessage(PersonIDFromScreen);
+    console.log('In SearchHub. Message emitted from SearchHub to eventHubService, PersonIDFromScreen= ' + PersonIDFromScreen);
+  }
 
   private getPlainListOfPersons(namesToLookForFromScreen): void {
     console.log('getPlainListOfPersons aangeklikt. namesToLookFor= ' + namesToLookForFromScreen);
@@ -40,4 +49,4 @@ private ChoosePersonDetails(PersonIDFromScreen): void {
         console.log(JSON.stringify(this.plainpersonlist));
       });
   }
-}
+} 

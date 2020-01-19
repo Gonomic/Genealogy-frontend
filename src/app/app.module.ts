@@ -13,6 +13,7 @@ import { PersonScreenComponent} from './personscreen/personscreen.component';
 import { RelationScreenComponent } from './relationscreen/relationscreen.component';
 import { InfoScreenComponent} from './infoscreen/infoscreen.component';
 import { DataSprocsService } from './datasprocs.service';
+import { MessageService } from './eventhub.service';
 
 const appRoutes: Routes = [
     { path: '', outlet: 'primary', redirectTo: 'personscreen', pathMatch: 'full' },
@@ -44,7 +45,8 @@ const appRoutes: Routes = [
     )
   ],
   providers: [
-    DataSprocsService
+    DataSprocsService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

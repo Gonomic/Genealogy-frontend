@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EventbridgeService } from './eventbridge.service';
+import { EventHubService } from './eventhub.service';
 
-describe('EventbridgeService', () => {
+describe('EventHubService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: EventbridgeService = TestBed.get(EventbridgeService);
+    const service: EventHubService = TestBed.get(EventHubService);
     expect(service).toBeTruthy();
   });
 });

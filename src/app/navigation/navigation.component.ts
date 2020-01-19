@@ -12,6 +12,8 @@ declare var mina: any;
 
 export class NavigationComponent implements OnInit {
 
+  public PersonWeAreWorkingWith: number;
+  
   constructor(
    ) {}
 
