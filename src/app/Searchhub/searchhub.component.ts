@@ -1,16 +1,13 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { DataSprocsService } from '../datasprocs.service';
-import { PlainPersonListMember } from '../Plainpersonlistmember';
-import { Subject, Observable, Subscription, of } from 'rxjs';
+// Kan weg? import { PlainPersonListMember } from '../Plainpersonlistmember';
+// Kan weg? import { Subject, Observable, Subscription, of } from 'rxjs';
 import { MessageService } from '../eventhub.service';
-// import { Subscription, of } from 'rxjs';
-
 
 @Component({
   selector: 'app-search-hub',
   templateUrl: './searchhub.component.html',
   styleUrls: ['./searchhub.component.css']
-  // providers: [MessageService]
 })
 
 export class SearchHubComponent implements OnInit {
