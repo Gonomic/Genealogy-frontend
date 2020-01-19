@@ -3,6 +3,10 @@
     height: 80px;
 }
 
+.mat-nav-list {
+    margin-left: 250px;
+}
+
 .mat-sidenav-container {
     height: 100%;
 }
