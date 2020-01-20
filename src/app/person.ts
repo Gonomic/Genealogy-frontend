@@ -1,13 +1,18 @@
 export class Person {
     PersonId: number;
-    Name: string;
-    DateOfBirth: Date;
-    DateOfDeath: Date;
-    PartnerId: number;
-    PartnerName: string;
-    FatherId: number;
-    FatherName: string;
-    MotherId: number;
+    PersonGivvenName: string;
+    PersonFamilyName: string;
+    PersonDateOfBirth: Date;
+    PersonPlaceOfBirth: string;
+    PersonDateOfDeath: Date;
+    PersonPlaceOfDeath: string;
+    PersonIsMale: boolean;
+    MotherID: number;
     MotherName: string;
-    FatherAndMotherArePartners: boolean;
+    FatherID: number;
+    FatherName: string;
+    PartnerID: number;
+    PartnerName: string;
+    Timestamp: Date;
+    FatherAndMotherArePartners?: boolean;
 }

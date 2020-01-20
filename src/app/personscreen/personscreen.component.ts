@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../eventhub.service';
 
 
+
 @Component({
   selector: 'app-person-screen',
   templateUrl: './personscreen.component.html',
@@ -18,6 +19,7 @@ import { MessageService } from '../eventhub.service';
 export class PersonScreenComponent implements OnDestroy {
   private persons: Person[];
   private person: Person;
+  private IntermPers: any;
   // private familytree: FamilytreeMember[];
   // private plainpersonlist: PlainPersonListMember[];
   private namesToLookFor: string;
@@ -47,11 +49,11 @@ export class PersonScreenComponent implements OnDestroy {
 
   private getPersonDetails(PersonId): void {
     console.log('getPersonDetails gestart vanuit event met Person= ' + JSON.stringify(PersonId));
-    this.dataSprocsService.getPersonDetails(PersonId).
-      subscribe(person => {
-        this.person = person;
-        console.log(JSON.stringify(this.person));
-      });
+    this.dataSprocsService.getPersonDetails(PersonId)
+    .subscribe(person => {
+      this.IntermPers = person;
+      this.person = this.IntermPers.data;
+    });
   }
 
 
