@@ -24,7 +24,7 @@ export class SearchHubComponent implements OnInit {
   ngOnInit() {}
 
   sendMessage(PersonIn): void {
-    this.messageService.sendMessage('Test message from SearchHub Component: ' + PersonIn);
+    this.messageService.sendMessage(PersonIn);
   }
 
   clearMessage(): void {

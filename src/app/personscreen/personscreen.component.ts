@@ -17,6 +17,7 @@ import { MessageService } from '../eventhub.service';
 
 export class PersonScreenComponent implements OnDestroy {
   private persons: Person[];
+  private person: Person;
   // private familytree: FamilytreeMember[];
   // private plainpersonlist: PlainPersonListMember[];
   private namesToLookFor: string;
@@ -25,11 +26,11 @@ export class PersonScreenComponent implements OnDestroy {
   subscription: Subscription;
 
   constructor(
-    // private dataSprocsService: DataSprocsService,
+    private dataSprocsService: DataSprocsService,
     private messageService: MessageService
   ) {
-      this.message = 'Test';
-      this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
+      // this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
+      this.subscription = this.messageService.getMessage().subscribe(message => { this.getPersonDetails(message); });
   }
 
   ngOnDestroy() {
@@ -44,14 +45,14 @@ export class PersonScreenComponent implements OnDestroy {
   //   console.log('Persoon gekozen in SearchHub, via Observable / Observer doorgekomen in PersoonScreenComponent. Person= ' + PersonIdIn);
   // }
 
-  // private getFather(PersonIdFromScreen): void {
-  //   console.log('getFamily aangeklikt met Person= ' + PersonIdFromScreen);
-  //   this.dataSprocsService.getFather(PersonIdFromScreen).
-  //     subscribe(persons => {
-  //       this.persons = persons;
-  //       console.log(JSON.stringify(this.persons));
-  //     });
-  // }
+  private getPersonDetails(PersonId): void {
+    console.log('getPersonDetails gestart vanuit event met Person= ' + JSON.stringify(PersonId));
+    this.dataSprocsService.getPersonDetails(PersonId).
+      subscribe(person => {
+        this.person = person;
+        console.log(JSON.stringify(this.person));
+      });
+  }
 
 
 }
