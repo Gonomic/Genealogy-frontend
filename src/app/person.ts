@@ -1,4 +1,5 @@
 export class Person {
+    constructor(){}
     PersonId: number;
     PersonGivvenName: string;
     PersonFamilyName: string;

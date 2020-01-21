@@ -14,6 +14,7 @@ export class SearchHubComponent implements OnInit {
   private plainpersonlist: object;
   private namesToLookForFromScreen: string;
   person: number;
+  theMessageObject: object;
 
   constructor(
     private dataSprocsService: DataSprocsService,
@@ -23,17 +24,24 @@ export class SearchHubComponent implements OnInit {
 
   ngOnInit() {}
 
-  sendMessage(PersonIn): void {
-    this.messageService.sendMessage(PersonIn);
+  sendMessage(PersonIdIn): void {
+    this.theMessageObject = { 'action': 'getExistingPerson', 'name': null, 'Id': PersonIdIn };
+    this.messageService.sendMessage(this.theMessageObject);
   }
 
   clearMessage(): void {
     this.messageService.clearMessage();
   }
 
-  private ChoosePersonDetails(PersonIDFromScreen): void {
-    this.messageService.sendMessage(PersonIDFromScreen);
+  // private ChoosePersonDetails(PersonIDFromScreen): void {
+  //   this.messageService.sendMessage({ 'action': 'getExistingPerson', 'name': null, 'Id': PersonIDFromScreen });
+  // }
+
+  private AddPerson(PersonNameIn) {
+    this.theMessageObject = { 'action': 'addNewPerson', 'name': PersonNameIn, 'Id': null }
+    this.messageService.sendMessage(this.theMessageObject);
   }
+
 
   private getPlainListOfPersons(namesToLookForFromScreen): void {
     this.dataSprocsService.getPlainListOfPersons(namesToLookForFromScreen).

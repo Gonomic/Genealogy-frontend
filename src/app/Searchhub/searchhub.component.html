@@ -1,16 +1,8 @@
-<!-- <mat-toolbar>
-    <mat-toolbar-row>
-        <label>Voer naam persoon in:</label>
-    </mat-toolbar-row>
-    <mat-toolbar-row>
-        <input (keyup)='getPlainListOfPersons(namesToLookForFromScreen.value)' #namesToLookForFromScreen>
-    </mat-toolbar-row>
-</mat-toolbar> -->
-
 <div fxLayout="column">
     <div>
         <label>Voer naam persoon in:</label>
         <input (keyup)='getPlainListOfPersons(namesToLookForFromScreen.value)' #namesToLookForFromScreen>
+        <button (click)='AddPerson(namesToLookForFromScreen.value)'>+</button>
     </div>
 
     <div>

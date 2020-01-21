@@ -9,7 +9,7 @@ export class MessageService {
 
   private subject = new Subject<any>();
 
-  sendMessage(message: number) {
+  sendMessage(message: object) {
     this.subject.next(message);
   }
 
