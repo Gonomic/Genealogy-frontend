@@ -49,23 +49,23 @@ export class PersonScreenComponent implements OnDestroy {
     }
 
 
-  ResetPersonRecord(PersonNameIn: string) {
-    this.person.PersonId = null;
-    this.person.PersonGivvenName = null;
+  private ResetPersonRecord(PersonNameIn: string) {
+    this.person.PersonId = 0;
+    this.person.PersonGivvenName = '';
     this.person.PersonFamilyName = PersonNameIn;
     this.person.PersonDateOfBirth = null;
-    this.person.PersonPlaceOfBirth = null;
+    this.person.PersonPlaceOfBirth = '';
     this.person.PersonDateOfDeath = null;
-    this.person.PersonPlaceOfDeath = null;
-    this.person.PersonIsMale = null;
-    this.person.MotherID = null;
-    this.person.MotherName = null;
-    this.person.FatherID = null;
-    this.person.FatherName = null;
-    this.person.PartnerID = null;
-    this.person.PartnerName = null;
+    this.person.PersonPlaceOfDeath = '';
+    this.person.PersonIsMale = true;
+    this.person.MotherID = 0;
+    this.person.MotherName = '';
+    this.person.FatherID = 0;
+    this.person.FatherName = '';
+    this.person.PartnerID = 0;
+    this.person.PartnerName = '';
     this.person.Timestamp = null;
-    this.person.FatherAndMotherArePartners = null;
+    this.person.FatherAndMotherArePartners = false;
   }  
 
   ngOnDestroy() {
