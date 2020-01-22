@@ -43,10 +43,12 @@ export class SearchHubComponent implements OnInit {
   }
 
 
-  private getPlainListOfPersons(namesToLookForFromScreen): void {
-    this.dataSprocsService.getPlainListOfPersons(namesToLookForFromScreen).
-      subscribe(plainListofPersons => {
-        this.plainpersonlist = plainListofPersons;
-      });
+  private getPlainListOfPersons(namesToLookForFromScreen: string): void {
+    if (!(namesToLookForFromScreen.length === 0 || !namesToLookForFromScreen.trim())) {
+      this.dataSprocsService.getPlainListOfPersons(namesToLookForFromScreen).
+        subscribe(plainListofPersons => {
+          this.plainpersonlist = plainListofPersons;
+        });
+    }
   }
-} 
+}
