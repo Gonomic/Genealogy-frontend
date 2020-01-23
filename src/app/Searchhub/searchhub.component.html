@@ -1,7 +1,8 @@
 <div fxLayout="column">
     <div>
         <label>Voer naam persoon in:</label>
-        <input (keyup)='getPlainListOfPersons(namesToLookForFromScreen.value)' #namesToLookForFromScreen>
+        <input [(ngModel)]="nameToLookForFromScreen" type="text" name="nameToLookForFromScreen" id="namesToLookForFromScreen" (ngModelChange)='this.nameToLookForFromScreenUpdate.next($event)'>
+        <!-- <input (keyup)='getPlainListOfPersons(namesToLookForFromScreen.value)' #namesToLookForFromScreen> -->
         <button (click)='AddPerson(namesToLookForFromScreen.value)'>+</button>
     </div>
 

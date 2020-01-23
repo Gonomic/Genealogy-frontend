@@ -37,12 +37,9 @@ export class PersonScreenComponent implements OnDestroy {
         .subscribe(message => {
           console.log('In PersonScreenComponent. Message= ' + JSON.stringify(message));
           if (message.action === 'addNewPerson') {
-            console.log('In Personscreencomponent, branche= addNewPerson');
-            console.log('In PersonScreenComponent, person= ' + JSON.stringify(this.person));
             this.ResetPersonRecord(message.name);
-            console.log('In PersonScreenComponent, person= ' + JSON.stringify(this.person));
           } else {
-            console.log('In PersonScreenComponent, branche= else');
+
             this.getPersonDetails(message.Id);
           }
         });
