@@ -1,6 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { DataSprocsService } from '../datasprocs.service';
-// Kan weg? import { PlainPersonListMember } from '../Plainpersonlistmember';
 import { Subject, Observable, Subscription, of } from 'rxjs';
 import { MessageService } from '../eventhub.service';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -12,7 +11,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 })
 
 export class SearchHubComponent implements OnInit {
-  private plainpersonlist: object;
+  private plainpersonlist: object = {};
   public nameToLookForFromScreen: string;
   person: number;
   theMessageObject: object;
@@ -43,10 +42,6 @@ export class SearchHubComponent implements OnInit {
     this.messageService.clearMessage();
   }
 
-  // private ChoosePersonDetails(PersonIDFromScreen): void {
-  //   this.messageService.sendMessage({ 'action': 'getExistingPerson', 'name': null, 'Id': PersonIDFromScreen });
-  // }
-
   private AddPerson(PersonNameIn) {
     this.theMessageObject = { 'action': 'addNewPerson', 'name': PersonNameIn, 'Id': null }
     this.messageService.sendMessage(this.theMessageObject);
@@ -57,8 +52,8 @@ export class SearchHubComponent implements OnInit {
     if (nameIn.length === 0 || !nameIn.trim()) {
         this.plainpersonlist = {};
     } else {
-        this.dataSprocsService.getPlainListOfPersons(nameIn).
-            subscribe(plainListofPersons => {
+        this.dataSprocsService.getPlainListOfPersons(nameIn)
+          .subscribe(plainListofPersons => {
               if (plainListofPersons) {
                 this.plainpersonlist = plainListofPersons;
               } else {

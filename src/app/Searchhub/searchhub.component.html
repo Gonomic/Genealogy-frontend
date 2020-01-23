@@ -2,8 +2,7 @@
     <div>
         <label>Voer naam persoon in:</label>
         <input [(ngModel)]="nameToLookForFromScreen" type="text" name="nameToLookForFromScreen" id="namesToLookForFromScreen" (ngModelChange)='this.nameToLookForFromScreenUpdate.next($event)'>
-        <!-- <input (keyup)='getPlainListOfPersons(namesToLookForFromScreen.value)' #namesToLookForFromScreen> -->
-        <button (click)='AddPerson(namesToLookForFromScreen.value)'>+</button>
+        <button (click)='AddPerson(nameToLookForFromScreen)'>+</button>
     </div>
 
     <div>

@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy, Output } from '@angular/core';
 import { DataSprocsService } from '../datasprocs.service';
 import { Person } from '../person';
-// import {FamilytreeMember} from '../familytreemember';
-// import { PlainPersonListMember } from '../Plainpersonlistmember';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../eventhub.service';
 
@@ -12,16 +10,12 @@ import { MessageService } from '../eventhub.service';
   selector: 'app-person-screen',
   templateUrl: './personscreen.component.html',
   styleUrls: ['./personscreen.component.css'],
-  // providers: [MessageService, DataSprocsService]
-
 })
 
 export class PersonScreenComponent implements OnDestroy {
   private persons: Person[];
-  private person: Person;
+  private person: Person = new Person;
   private IntermPers: any;
-  // private familytree: FamilytreeMember[];
-  // private plainpersonlist: PlainPersonListMember[];
   private namesToLookFor: string;
   private indexOfPerson: number;
   message: any;
@@ -35,9 +29,8 @@ export class PersonScreenComponent implements OnDestroy {
       this.subscription = this.messageService
         .getMessage()
         .subscribe(message => {
-          console.log('In PersonScreenComponent. Message= ' + JSON.stringify(message));
           if (message.action === 'addNewPerson') {
-            this.ResetPersonRecord(message.name);
+            this.resetPersonRecord(message.name);
           } else {
 
             this.getPersonDetails(message.Id);
@@ -46,7 +39,7 @@ export class PersonScreenComponent implements OnDestroy {
     }
 
 
-  private ResetPersonRecord(PersonNameIn: string) {
+  private resetPersonRecord(PersonNameIn: string): void {
     this.person.PersonId = 0;
     this.person.PersonGivvenName = '';
     this.person.PersonFamilyName = PersonNameIn;
@@ -70,21 +63,11 @@ export class PersonScreenComponent implements OnDestroy {
   }
 
 
-
-  // private getPerson(PersonIdIn): void {
-  //   this.indexOfPerson = PersonIdIn;
-  //   // this.person = PersonIdIn;
-  //   console.log('Persoon gekozen in SearchHub, via Observable / Observer doorgekomen in PersoonScreenComponent. Person= ' + PersonIdIn);
-  // }
-
-  private getPersonDetails(PersonId): void {
-    console.log('getPersonDetails gestart vanuit event met Person= ' + JSON.stringify(PersonId));
+  private getPersonDetails(PersonId: number): void {
     this.dataSprocsService.getPersonDetails(PersonId)
     .subscribe(person => {
       this.IntermPers = person;
       this.person = this.IntermPers.data;
     });
   }
-
-
 }
