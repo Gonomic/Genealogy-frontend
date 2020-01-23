@@ -1,66 +1,82 @@
-<div>
-    <h1>Persoon</h1>
-    <form #personForm="ngForm">
-        <!-- <mat-form-field> -->
+<form #personForm="ngForm">
+
+    <!-- <mat-grid-list cols="2"> -->
+
+    <!-- <mat-grid-tile> -->
+    <div>
+        <h1>Persoon</h1>
+    </div>
+
+    <div>
+        <mat-form-field class="form-group">
+            <input matInput class="form-control" [(ngModel)]="person.PersonGivvenName" placeholder="Voornaam" name='Voornaam'>
+        </mat-form-field>
+    </div>
 
 
+    <div>
+        <mat-form-field class="form-group">
+            <input matInput class="form-control" [(ngModel)]="person.PersonFamilyName" placeholder="Achternaam" name='Achternaam'>
+        </mat-form-field>
+    </div>
 
-        <div class="form-group">
-            <label for="person.PersonGivvenname">Voornaam</label>
-            <input type="text" class="form-control" id="person.PersonGivvenName" required [(ngModel)]="person.PersonGivvenName" name="Voornaam">
-        </div>
+    <div>
+        <mat-form-field class="form-group">
+            <input matInput class="form-control" [(ngModel)]="person.PersonDateOfBirth" placeholder="Geboortedatum" name="Geboortedatum">
+        </mat-form-field>
+    </div>
 
-        <div class="form-group">
-            <label for="person.PersonFamilyName">Achternaam</label>
-            <input type="text" class="form-control" id="person.PersonFamilyName" required [(ngModel)]="person.PersonFamilyName" name="Achternaam">
-        </div>
+    <div>
+        <mat-form-field class="form-group">
+            <input matInput class="form-control" [(ngModel)]="person.PersonPlaceOfBirth" placeholder="Geboorteplaats" name="Geboorteplaats">
+        </mat-form-field>
+    </div>
 
-        <div class="form-group">
-            <label for="person.PersonDateOfBirth">Geboortedatum</label>
-            <input type="text" class="form-control" id="person.PersonDateOfBirth" required [(ngModel)]="person.PersonDateOfBirth" name="Geboortedatum">
-        </div>
+    <div>
+        <mat-form-field class="form-group">
+            <input matInput class="form-control" [(ngModel)]="person.PersonDateOfDeath" placeholder="Overlijdensdatum" name="Overlijdensdatum">
+        </mat-form-field>
+    </div>
 
-        <div class="form-group">
-            <label for="person.PersonPlaceOfBirth">Geboorteplaats</label>
-            <input type="text" class="form-control" id="person.PersonPlaceOfBirth" required [(ngModel)]="person.PersonPlaceOfBirth" name="Geboorteplaats">
-        </div>
+    <div>
+        <mat-form-field class="form-group">
+            <input matInput class="form-control" [(ngModel)]="person.PersonPlaceOfDeath" placeholder="Overlijdensplaats" name="Overlijdensplaats">
+        </mat-form-field>
+    </div>
 
-        <div class="form-group">
-            <label for="person.PersonDateOfDeath">Overlijdensdatum</label>
-            <input type="text" class="form-control" id="person.PersonDateOfDeath" [(ngModel)]="person.PersonDateOfDeath" name="Overlijdensdatum">
-        </div>
+    <div>
+        <mat-form-field class="form-group">
+            <input matInput class="form-control" [(ngModel)]="person.PersonIsMale" placeholder="Geslacht" name="Geslacht">
+        </mat-form-field>
+    </div>
 
-        <div class="form-group">
-            <label for="person.PersonPlaceOfDeath">Overlijdensplaats</label>
-            <input type="text" class="form-control" id="person.PersonPlaceOfDeath" [(ngModel)]="person.PersonPlaceOfDeath" name="Overlijdensplaats">
-        </div>
+    <div>
+        <mat-form-field class="form-group">
+            <input matInput class="form-control" [(ngModel)]="person.MotherName" placeholder="Moeder" name="Moeder">
+        </mat-form-field>
+    </div>
 
+    <div>
+        <mat-form-field class="form-group">
+            <input matInput class="form-control" [(ngModel)]="person.FatherName" placeholder="Vader" name="Vader">
+        </mat-form-field>
+    </div>
 
+    <div>
+        <mat-form-field class="form-group">
+            <input matInput class="form-control" [(ngModel)]="person.PartnerName" placeholder="Partner" name="Partner">
+        </mat-form-field>
+    </div>
 
-        <div class="form-group">
-            <label for="person.PersonIsMale">Geslacht</label>
-            <input type="text" class="form-control" id="person.PersonIsMale" required [(ngModel)]="person.PersonIsMale" name="Geslacht">
-        </div>
+    <button mat-button type="submit" class="btn btn-success">Opslaan</button>
 
-        <div class="form-group">
-            <label for="person.MotherName">Moeder</label>
-            <input type="text" class="form-control" id="person.MotherName" [(ngModel)]="person.MotherName" name="Moeder">
-        </div>
+    <!-- </mat-grid-tile> -->
 
-        <div class="form-group">
-            <label for="person.FatherName">Vader</label>
-            <input type="text" class="form-control" id="person.FatherName" [(ngModel)]="person.FatherName" name="Vader">
-        </div>
+    <!-- <mat-grid-tile> -->
+    <!-- <div> -->
+    <!-- <h1>Kinderen</h1> -->
+    <!-- </div> -->
+    <!-- </mat-grid-tile> -->
 
-        <div class="form-group">
-            <label for="person.PartnerName">Partner</label>
-            <input type="text" class="form-control" id="person.PartnerName" [(ngModel)]="person.PartnerName" name="Partner">
-        </div>
-
-
-        <button type="submit" class="btn btn-success">Opslaan</button>
-
-        <!-- </mat-form-field> -->
-
-    </form>
-</div>
+    <!-- </mat-grid-list> -->
+</form>

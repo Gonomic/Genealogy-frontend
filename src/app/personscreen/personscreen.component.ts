@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../eventhub.service';
 
 
-
 @Component({
   selector: 'app-person-screen',
   templateUrl: './personscreen.component.html',
