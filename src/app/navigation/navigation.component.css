@@ -21,6 +21,8 @@
 .mat-sidenav-content {
     background-color: white;
     padding: 15px;
+    /* display: flex; */
+    /* display flex added */
 }
 
 .active-list-item {
@@ -34,4 +36,23 @@
 .logo-img {
     height: 80px;
     width: 200px;
+}
+
+.content-left {
+    display: flex;
+    flex: 1;
+}
+
+.content-right {
+    display: flex;
+    flex: 1;
+}
+
+.right-upper-cell {
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
+
+.right-lower-cell {
+    margin-left: 15px;
 }

@@ -23,7 +23,22 @@
     <mat-sidenav #sidenav mode="side" opened disableClose role="content">
         <router-outlet name="sidenavNavigatie"></router-outlet>
     </mat-sidenav>
-    <mat-sidenav-content role="main">
-        <router-outlet></router-outlet>
+    <mat-sidenav-content role="main" fxLayout="row">
+
+        <div class="content-left">
+            <router-outlet></router-outlet>
+        </div>
+
+        <div class="content-right" fxLayout="column">
+            <div class="right-upper-cell">
+                <router-outlet name="children"></router-outlet>
+                -----! Hier komen de kinderen !-----
+            </div>
+            <div class="right-lower-cell">
+                <router-outlet name="documents"></router-outlet>
+                -----! Hier komen de documenten !-----
+            </div>
+        </div>
+
     </mat-sidenav-content>
 </mat-sidenav-container>
