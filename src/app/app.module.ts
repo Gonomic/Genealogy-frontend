@@ -17,7 +17,7 @@ import { DataSprocsService } from './datasprocs.service';
 import { MessageService } from './eventhub.service';
 
 const appRoutes: Routes = [
-    { path: '', outlet: 'primary', redirectTo: 'personscreen', pathMatch: 'full' },
+    { path: '', outlet: 'primary', redirectTo: '/personscreen(sidenavNavigatie:searchhub)', pathMatch: 'full' },
     { path: 'personscreen', outlet: 'primary', component: PersonScreenComponent},
     { path: 'relationscreen', outlet: 'primary', component: RelationScreenComponent},
     { path: 'infoscreen', outlet: 'primary', component: InfoScreenComponent},
