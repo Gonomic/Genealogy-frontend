@@ -41,6 +41,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import { Person } from './person';
+import { Child } from './children';
 import { FamilytreeMember } from './familytreemember';
 import { PlainPersonListMember } from './Plainpersonlistmember';
 
@@ -100,6 +101,14 @@ export class DataSprocsService {
     return this.http.get<Person>(url).pipe(
       tap(_ => console.log('Fetched person with Id= ' + PersonId)),
       catchError(this.handleError<Person>('getPersonDetails PersonId=${PersonId}'))
+    );
+  }
+
+  getChildList(PersonId: number): Observable<Child> {
+    const url = 'http://localhost:1337/getChildList?person=' + PersonId;
+    return this.http.get<Child>(url).pipe(
+      tap(_ => console.log('Fetched children for person with Id= ' + PersonId)),
+      catchError(this.handleError<Child>('getChildList PersonId=${PersonId}'))
     );
   }
 
