@@ -41,7 +41,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import { Person } from './person';
-import { Child } from './children';
+import { Child } from './child';
 import { FamilytreeMember } from './familytreemember';
 import { PlainPersonListMember } from './Plainpersonlistmember';
 

@@ -14,8 +14,7 @@ import { MessageService } from '../eventhub.service';
 export class ChildrenScreenComponent implements OnDestroy {
   private children: Child[];
   private child: Child = new Child;
-  private IntermChildList = Child[];
-  private IntermPers: any;
+  // private IntermPers: any;
   // private namesToLookFor: string;
   // private indexOfPerson: number;
   message: any;
@@ -47,10 +46,10 @@ export class ChildrenScreenComponent implements OnDestroy {
   }
 
 
-  private getChildList(ParentIdId: number): void {
-    this.dataSprocsService.getChildList(PersonId)
+  private getChildList(ParentId: number): void {
+    this.dataSprocsService.getChildList(ParentId)
     .subscribe(children => {
-      this.children = children.data;
+      // this.children = children;
     });
   }
 }

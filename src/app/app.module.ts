@@ -18,11 +18,12 @@ import { DataSprocsService } from './datasprocs.service';
 import { MessageService } from './eventhub.service';
 
 const appRoutes: Routes = [
-    { path: '', outlet: 'primary', redirectTo: '/personscreen(sidenavNavigatie:searchhub)', pathMatch: 'full' },
+    { path: '', outlet: 'primary', redirectTo: '/personscreen(sidenavNavigatie:searchhub//childscreen:children)', pathMatch: 'full' },
     { path: 'personscreen', outlet: 'primary', component: PersonScreenComponent},
     { path: 'relationscreen', outlet: 'primary', component: RelationScreenComponent},
     { path: 'infoscreen', outlet: 'primary', component: InfoScreenComponent},
-    { path: 'searchhub', outlet: 'sidenavNavigatie', component: SearchHubComponent}
+    { path: 'searchhub', outlet: 'sidenavNavigatie', component: SearchHubComponent},
+    { path: 'childscreen', outlet: 'children', component: ChildrenScreenComponent}
   ];
 
 @NgModule({
