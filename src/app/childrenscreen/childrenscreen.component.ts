@@ -12,7 +12,8 @@ import { MessageService } from '../eventhub.service';
 })
 
 export class ChildrenScreenComponent implements OnDestroy {
-  private children: Child[];
+  private children: object = {};
+  // private children: Child[];
   private child: Child = new Child;
   // private IntermPers: any;
   // private namesToLookFor: string;
@@ -36,20 +37,19 @@ export class ChildrenScreenComponent implements OnDestroy {
         });
     }
 
-
-  private resetChildList(): void {
-    this.children = [];
-  }  
-
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
+  private resetChildList(): void {
+    this.children = [];
+  }
 
   private getChildList(ParentId: number): void {
     this.dataSprocsService.getChildList(ParentId)
     .subscribe(children => {
-      // this.children = children;
+      this.children = children;
     });
   }
+
 }

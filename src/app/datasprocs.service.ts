@@ -105,7 +105,7 @@ export class DataSprocsService {
   }
 
   getChildList(PersonId: number): Observable<Child> {
-    const url = 'http://localhost:1337/getChildList?person=' + PersonId;
+    const url = 'http://localhost:1337/getAllChildrenWithPartnerFromOneParent?ParentIn=' + PersonId;
     return this.http.get<Child>(url).pipe(
       tap(_ => console.log('Fetched children for person with Id= ' + PersonId)),
       catchError(this.handleError<Child>('getChildList PersonId=${PersonId}'))

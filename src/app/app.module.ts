@@ -13,12 +13,12 @@ import { SearchHubComponent } from './Searchhub/searchhub.component';
 import { PersonScreenComponent} from './personscreen/personscreen.component';
 import { RelationScreenComponent } from './relationscreen/relationscreen.component';
 import { InfoScreenComponent} from './infoscreen/infoscreen.component';
-import { ChildrenScreenComponent } from './childrenscreen/childrenscreen.component'
+import { ChildrenScreenComponent } from './childrenscreen/childrenscreen.component';
 import { DataSprocsService } from './datasprocs.service';
 import { MessageService } from './eventhub.service';
 
 const appRoutes: Routes = [
-    { path: '', outlet: 'primary', redirectTo: '/personscreen(sidenavNavigatie:searchhub//childscreen:children)', pathMatch: 'full' },
+    { path: '', outlet: 'primary', redirectTo: '/personscreen(sidenavNavigatie:searchhub//children:childrenscreen)', pathMatch: 'full' },
     { path: 'personscreen', outlet: 'primary', component: PersonScreenComponent},
     { path: 'relationscreen', outlet: 'primary', component: RelationScreenComponent},
     { path: 'infoscreen', outlet: 'primary', component: InfoScreenComponent},
