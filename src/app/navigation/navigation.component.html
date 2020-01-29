@@ -2,7 +2,7 @@
     <mat-nav-list fxFlex fxLayout='row'>
         <mat-list-item fxLayoutAlign="center">
             <mat-icon>directions_walk</mat-icon>&nbsp;
-            <a [routerLink]="[{ outlets: { primary: ['personscreen'], sidenavNavigatie: ['searchhub'], children: ['childrenscreen'] } } ]" routerLinkActive="active-list-item">Personen</a>
+            <a [routerLink]="[{ outlets: { primary: ['personscreen'], sidenavNavigatie: ['searchhub'], personsChildren: ['childrenscreen'] } } ]" routerLinkActive="active-list-item">Personen</a>
         </mat-list-item>
         <mat-list-item fxLayoutAlign="center">
             <mat-icon>supervisor_account</mat-icon>&nbsp;
@@ -31,11 +31,11 @@
 
         <div class="content-right" fxLayout="column">
             <div class="right-upper-cell">
-                <router-outlet name="children"></router-outlet>
+                <router-outlet name="personsChildren"></router-outlet>
 
             </div>
             <div class="right-lower-cell">
-                <router-outlet name="documents"></router-outlet>
+                <router-outlet name="personsDocuments"></router-outlet>
                 <!-- -----! Hier komen de documenten !----- -->
             </div>
         </div>
