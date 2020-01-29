@@ -14,15 +14,37 @@
 
 
     <div>
-        <mat-list-item *ngFor="let child of children.data | keyvalue">
-            {{child.value.Kind}} met partner {{child.value.Partner}}
-            <button mat-icon-button (click)="removeAsChild(child.KindId)">
-                <mat-icon>person_add_disabled</mat-icon>
-            </button>
-            <button mat-icon-button (click)="removeAsPerson(child.KindId)">
-                <mat-icon>delete_forever</mat-icon>
-            </button>
-        </mat-list-item>
+
+        <!-- <mat-form-field> -->
+        <!-- <label>Kies toe te voegen kind</label>
+        <select matNativeControl>
+                <option *ngFor="let child of possibleChildrenList.data | keyvalue" value = {{child.value.KindId}}>
+                    {{child.value.Kind}}
+                </option>
+            </select>
+        </mat-form-field> -->
+
+        <div>
+            <label>Voer de naam in van een eventueel toe te voegen kind:</label>
+        </div>
+        <div>
+            <input class="child-input-field" [(ngModel)]="childToLookForFromScreen" type="text" name="childToLookForFromScreen" id="childToLookForFromScreen" (ngModelChange)='this.nameToLookForFromScreenUpdate.next($event)'>
+            <button (click)='AddChild(childToLookForFromScreen)'>+</button>
+        </div>
+
+        <div>
+            <mat-list-item *ngFor="let child of children.data | keyvalue">
+                {{child.value.Kind}} met partner {{child.value.Partner}}
+                <button mat-icon-button (click)="removeAsChild(child.KindId)">
+                    <mat-icon>person_add_disabled</mat-icon>
+                </button>
+
+                <button mat-icon-button (click)="removeAsPerson(child.KindId) ">
+                    <mat-icon>delete_forever</mat-icon>
+                </button>
+
+            </mat-list-item>
+        </div>
     </div>
 
 

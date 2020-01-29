@@ -11,3 +11,7 @@
 .right-column {
     flex: 2
 }
+
+.child-input-field {
+    width: 360px;
+}
