@@ -112,4 +112,12 @@ export class DataSprocsService {
     );
   }
 
+  getPossibleChildrenList(PersonId: number): Observable<Child> {
+    const url = 'http://localhost:1337/getPossibleChildren?ParentId=' + PersonId;
+    return this.http.get<Child>(url).pipe(
+      tap(_ => console.log('Fetched possible children for person with Id= ' + PersonId)),
+      catchError(this.handleError<Child>('getPossibleChildrenList PersonId=${PersonId}'))
+    );
+  }
+
 }

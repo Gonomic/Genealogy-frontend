@@ -4,47 +4,28 @@
         <h1>Kinderen</h1>
     </div>
 
-    <!-- <div>
-        <mat-action-list>
-            <button mat-list-item *ngFor="let child of children.data | keyvalue" (click)="sendMessage(child.Kind)">
-                {{child.value.Kind}}  met partner {{child.value.Partner}}=>
-            </button>
-        </mat-action-list>
-    </div> -->
+    <mat-form-field>
+        <mat-label>Kies toe te voegen kind</mat-label>
+        <mat-select (selectionChange)="onPossibleChildAddition($event)">
+            <!-- <mat-select> -->
+            <mat-option *ngFor="let child of possibleChildrenList.data" [value]="child.PossibleChildID">
+                {{child.PossibleChild}} ({{child.BirthDate}})
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 
 
     <div>
-
-        <!-- <mat-form-field> -->
-        <!-- <label>Kies toe te voegen kind</label>
-        <select matNativeControl>
-                <option *ngFor="let child of possibleChildrenList.data | keyvalue" value = {{child.value.KindId}}>
-                    {{child.value.Kind}}
-                </option>
-            </select>
-        </mat-form-field> -->
-
-        <div>
-            <label>Voer de naam in van een eventueel toe te voegen kind:</label>
-        </div>
-        <div>
-            <input class="child-input-field" [(ngModel)]="childToLookForFromScreen" type="text" name="childToLookForFromScreen" id="childToLookForFromScreen" (ngModelChange)='this.nameToLookForFromScreenUpdate.next($event)'>
-            <button (click)='AddChild(childToLookForFromScreen)'>+</button>
-        </div>
-
-        <div>
-            <mat-list-item *ngFor="let child of children.data | keyvalue">
-                {{child.value.Kind}} met partner {{child.value.Partner}}
-                <button mat-icon-button (click)="removeAsChild(child.KindId)">
+        <mat-list-item *ngFor="let child of children.data | keyvalue">
+            {{child.value.Kind}} met partner {{child.value.Partner}}
+            <button mat-icon-button (click)="removeAsChild(child.KindId)">
                     <mat-icon>person_add_disabled</mat-icon>
                 </button>
 
-                <button mat-icon-button (click)="removeAsPerson(child.KindId) ">
+            <button mat-icon-button (click)="removeAsPerson(child.KindId) ">
                     <mat-icon>delete_forever</mat-icon>
                 </button>
-
-            </mat-list-item>
-        </div>
+        </mat-list-item>
     </div>
 
 

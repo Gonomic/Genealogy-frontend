@@ -13,11 +13,10 @@ import { MessageService } from '../eventhub.service';
 
 export class ChildrenScreenComponent implements OnDestroy {
   private children: object = {};
-  // private children: Child[];
+  private possibleChildrenList = {};
   private child: Child = new Child;
-  // private IntermPers: any;
-  // private namesToLookFor: string;
-  // private indexOfPerson: number;
+  private PersonIdInPersonScreen: number;
+
   message: any;
   subscription: Subscription;
 
@@ -30,9 +29,11 @@ export class ChildrenScreenComponent implements OnDestroy {
         .subscribe(message => {
           if (message.action === 'addNewPerson') {
             this.resetChildList();
+            this.resetpossibleChildrenList();
           } else {
-
+            this.PersonIdInPersonScreen = message.Id;
             this.getChildList(message.Id);
+            this.getPossibleChildrenList(message.Id);
           }
         });
     }
@@ -41,8 +42,23 @@ export class ChildrenScreenComponent implements OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  private onPossibleChildAddition(eventObject): void {
+    console.log('Add child: ' + eventObject.value + ' to person: ' + this.PersonIdInPersonScreen);
+  }
+
+  private resetpossibleChildrenList(): void {
+    this.possibleChildrenList = [];
+  }
+
   private resetChildList(): void {
     this.children = [];
+  }
+
+  private getPossibleChildrenList(ParentId: number): void {
+    this.dataSprocsService.getPossibleChildrenList(ParentId)
+    .subscribe(possiblechildrenlist => {
+      this.possibleChildrenList = possiblechildrenlist;
+    });
   }
 
   private getChildList(ParentId: number): void {
