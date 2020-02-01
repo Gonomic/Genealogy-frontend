@@ -120,4 +120,14 @@ export class DataSprocsService {
     );
   }
 
+  AddChildToParent(Child: number, Parent: number): Observable<Child> {
+    const url = 'http://localhost:1337/addChildToParent?ChildId=' + Child + '&ParentId=' + Parent;
+    return this.http.get<Child>(url).pipe(
+      tap(_ => console.log('Added Child: ' + Child + ' to Parent ' + Parent)),
+      catchError(this.handleError<Child>('AddChildToParent Child=${Child} and parent=$(Parent)'))
+    );
+  }
+
+
+
 }

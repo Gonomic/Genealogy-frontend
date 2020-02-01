@@ -44,6 +44,9 @@ export class ChildrenScreenComponent implements OnDestroy {
 
   private onPossibleChildAddition(eventObject): void {
     console.log('Add child: ' + eventObject.value + ' to person: ' + this.PersonIdInPersonScreen);
+    this.dataSprocsService.AddChildToParent(eventObject.value, this.PersonIdInPersonScreen);
+    this.getChildList(this.PersonIdInPersonScreen);
+    this.getPossibleChildrenList(this.PersonIdInPersonScreen);
   }
 
   private resetpossibleChildrenList(): void {
