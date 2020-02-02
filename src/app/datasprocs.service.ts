@@ -42,6 +42,8 @@ import { Observable, of } from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import { Person } from './person';
 import { Child } from './child';
+import { ActionResult } from './ActionResult';
+import { AddChildToParent } from './AddChildToParent';
 import { FamilytreeMember } from './familytreemember';
 import { PlainPersonListMember } from './Plainpersonlistmember';
 
@@ -120,11 +122,17 @@ export class DataSprocsService {
     );
   }
 
-  AddChildToParent(Child: number, Parent: number): Observable<Child> {
-    const url = 'http://localhost:1337/addChildToParent?ChildId=' + Child + '&ParentId=' + Parent;
-    return this.http.get<Child>(url).pipe(
-      tap(_ => console.log('Added Child: ' + Child + ' to Parent ' + Parent)),
-      catchError(this.handleError<Child>('AddChildToParent Child=${Child} and parent=$(Parent)'))
+  AddChildToParent(AddChildToParentObj: AddChildToParent ): Observable<any> {
+    const url = 'http://localhost:1337/postAddChildToParent';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post<any>(url, AddChildToParentObj, httpOptions)
+    .pipe(
+      tap(_ => console.log('Added Child: ' + AddChildToParentObj.ChildId + ' to parent ' + AddChildToParentObj.ParentId)),
+      catchError(this.handleError<AddChildToParent>('AddChildToParent Child=${AddChildToParentObj.ChildId} and parent=$(AddChildToParentObj.ParentId)'))
     );
   }
 

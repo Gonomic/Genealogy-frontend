@@ -24,7 +24,6 @@ export class PersonScreenComponent implements OnDestroy {
     private dataSprocsService: DataSprocsService,
     private messageService: MessageService
   ) {
-      // this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
       this.subscription = this.messageService
         .getMessage()
         .subscribe(message => {
