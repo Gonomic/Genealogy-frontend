@@ -29,6 +29,11 @@ p {
     overflow-y: auto;
 }
 
+
+/* .mat-list-item {
+    background: blue !important;
+} */
+
 .active-list-item {
     color: blue !important;
 }

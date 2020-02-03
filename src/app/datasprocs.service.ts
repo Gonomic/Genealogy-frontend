@@ -122,17 +122,17 @@ export class DataSprocsService {
     );
   }
 
-  AddChildToParent(AddChildToParentObj: AddChildToParent ): Observable<any> {
+  AddChildToParent(AddChildToParentObj: AddChildToParent ): Observable<AddChildToParent> {
     const url = 'http://localhost:1337/postAddChildToParent';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<any>(url, AddChildToParentObj, httpOptions)
+    return this.http.post<AddChildToParent>(url, AddChildToParentObj, httpOptions)
     .pipe(
-      tap(_ => console.log('Added Child: ' + AddChildToParentObj.ChildId + ' to parent ' + AddChildToParentObj.ParentId)),
-      catchError(this.handleError<AddChildToParent>('AddChildToParent Child=${AddChildToParentObj.ChildId} and parent=$(AddChildToParentObj.ParentId)'))
+      tap(_ => console.log('Added Child: ' + AddChildToParentObj.childId + ' to parent ' + AddChildToParentObj.parentId)),
+      catchError(this.handleError<AddChildToParent>('AddChildToParent Child=${AddChildToParentObj.childId} and parent=$(AddChildToParentObj.parentId)'))
     );
   }
 
