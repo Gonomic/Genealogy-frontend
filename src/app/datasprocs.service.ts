@@ -122,20 +122,30 @@ export class DataSprocsService {
     );
   }
 
-  AddChildToParent(AddChildToParentObj: AddChildToParent ): Observable<AddChildToParent> {
+  // AddChildToParent(AddChildToParentObj: AddChildToParent ): Observable<AddChildToParent> {
+  //   const url = 'http://localhost:1337/postAddChildToParent';
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/json'
+  //     })
+  //   };
+  //   return this.http.post<AddChildToParent>(url, AddChildToParentObj, httpOptions)
+  //   .pipe(
+  //     tap(_ => console.log('Added Child: ' + AddChildToParentObj.childId + ' to parent ' + AddChildToParentObj.parentId)),
+  //     catchError(this.handleError<AddChildToParent>('AddChildToParent Child=${AddChildToParentObj.childId} and parent=$(AddChildToParentObj.parentId)'))
+  //   );
+
+  AddChildToParent(AddChildToParentObj: AddChildToParent ) {
     const url = 'http://localhost:1337/postAddChildToParent';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<AddChildToParent>(url, AddChildToParentObj, httpOptions)
-    .pipe(
-      tap(_ => console.log('Added Child: ' + AddChildToParentObj.childId + ' to parent ' + AddChildToParentObj.parentId)),
-      catchError(this.handleError<AddChildToParent>('AddChildToParent Child=${AddChildToParentObj.childId} and parent=$(AddChildToParentObj.parentId)'))
+    return this.http.post(url, AddChildToParentObj, httpOptions)
+      .subscribe( (response) => console.log(response),
+      (error) => console.log(error)
     );
   }
-
-
 
 }
