@@ -17,14 +17,14 @@
 
     <div>
         <mat-list-item *ngFor="let child of children.data | keyvalue">
-            {{child.value.Kind}} met partner {{child.value.Partner}}
-            <button mat-icon-button (click)="removeAsChild(child.KindId)">
+            {{child.value.Kind}} met partner: {{child.value.Partner}}
+            <button mat-icon-button (click)="removeAsChild(child.KindId, child.ParentId)">
                     <mat-icon>person_add_disabled</mat-icon>
                 </button>
 
-            <button mat-icon-button (click)="removeAsPerson(child.KindId) ">
+            <!-- <button mat-icon-button (click)="removeAsPerson(child.KindId) ">
                     <mat-icon>delete_forever</mat-icon>
-                </button>
+            </button> -->
         </mat-list-item>
     </div>
 

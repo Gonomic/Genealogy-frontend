@@ -44,6 +44,7 @@ import { Person } from './person';
 import { Child } from './child';
 import { ActionResult } from './ActionResult';
 import { AddChildToParent } from './AddChildToParent';
+import { RemoveChildFromParent } from './RemoveChildFromParent';
 import { FamilytreeMember } from './familytreemember';
 import { PlainPersonListMember } from './Plainpersonlistmember';
 
@@ -106,11 +107,11 @@ export class DataSprocsService {
     );
   }
 
-  getChildList(PersonId: number): Observable<Child> {
+  getChildList(PersonId: number): Observable<any> {
     const url = 'http://localhost:1337/getAllChildrenWithPartnerFromOneParent?ParentIn=' + PersonId;
-    return this.http.get<Child>(url).pipe(
+    return this.http.get<any>(url).pipe(
       tap(_ => console.log('Fetched children for person with Id= ' + PersonId)),
-      catchError(this.handleError<Child>('getChildList PersonId=${PersonId}'))
+      catchError(this.handleError<any>('getChildList PersonId=${PersonId}'))
     );
   }
 
@@ -122,19 +123,6 @@ export class DataSprocsService {
     );
   }
 
-  // AddChildToParent(AddChildToParentObj: AddChildToParent ): Observable<AddChildToParent> {
-  //   const url = 'http://localhost:1337/postAddChildToParent';
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/json'
-  //     })
-  //   };
-  //   return this.http.post<AddChildToParent>(url, AddChildToParentObj, httpOptions)
-  //   .pipe(
-  //     tap(_ => console.log('Added Child: ' + AddChildToParentObj.childId + ' to parent ' + AddChildToParentObj.parentId)),
-  //     catchError(this.handleError<AddChildToParent>('AddChildToParent Child=${AddChildToParentObj.childId} and parent=$(AddChildToParentObj.parentId)'))
-  //   );
-
   AddChildToParent(AddChildToParentObj: AddChildToParent ) {
     const url = 'http://localhost:1337/postAddChildToParent';
     const httpOptions = {
@@ -142,10 +130,13 @@ export class DataSprocsService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post(url, AddChildToParentObj, httpOptions)
-      .subscribe( (response) => console.log(response),
-      (error) => console.log(error)
-    );
+    return this.http.post<any>(url, AddChildToParentObj, httpOptions);
   }
+
+  removeChildFromParent(RemoveChildFromParentObj: RemoveChildFromParent) {
+    const url = 'http://localhost:1337/deleteChildFromParent';
+      return this.http.delete<any>(url, RemoveChildFromParentObj);
+  }
+
 
 }

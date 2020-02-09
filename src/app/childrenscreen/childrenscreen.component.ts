@@ -1,7 +1,10 @@
 import { Component, OnInit, OnDestroy, Output } from '@angular/core';
 import { DataSprocsService } from '../datasprocs.service';
+import {catchError, map, mergeMap, tap, subscribeOn} from 'rxjs/operators';
+import { pipe } from 'rxjs';
 import { Child } from '../child';
 import { AddChildToParent } from '../AddChildToParent';
+import { RemoveChildFromParent } from '../RemoveChildFromParent';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../eventhub.service';
 
@@ -13,11 +16,13 @@ import { MessageService } from '../eventhub.service';
 })
 
 export class ChildrenScreenComponent implements OnDestroy {
-  private children: object = {};
+  private children = {};
   private possibleChildrenList = {};
   private child: Child = new Child;
   private addChildToParrent: AddChildToParent;
+  private removeChildFromParent: RemoveChildFromParent;
   private PersonIdInPersonScreen: number;
+  private tranResult = {};
 
   message: any;
   subscription: Subscription;
@@ -45,11 +50,25 @@ export class ChildrenScreenComponent implements OnDestroy {
   }
 
   private onPossibleChildAddition(eventObject): void {
-    this.addChildToParrent = new AddChildToParent(this.PersonIdInPersonScreen, 1, eventObject.value);
+    this.addChildToParrent = new AddChildToParent(eventObject.value, this.PersonIdInPersonScreen);
     console.log('Add child: ' + eventObject.value + ' to person: ' + this.PersonIdInPersonScreen);
-    this.dataSprocsService.AddChildToParent(this.addChildToParrent);
-    this.getChildList(this.PersonIdInPersonScreen);
-    this.getPossibleChildrenList(this.PersonIdInPersonScreen);
+    this.dataSprocsService.AddChildToParent(this.addChildToParrent).
+    subscribe (
+      (data0) => {
+        this.dataSprocsService.getChildList(this.PersonIdInPersonScreen).
+        subscribe (
+          (children) => {
+            this.children = children;
+            this.dataSprocsService.getPossibleChildrenList(this.PersonIdInPersonScreen).
+            subscribe(
+              (possiblechildrenlist) => {
+                this.possibleChildrenList = possiblechildrenlist;
+              }
+            );
+          }
+        );
+      }
+    );
   }
 
   private resetpossibleChildrenList(): void {
@@ -80,6 +99,28 @@ export class ChildrenScreenComponent implements OnDestroy {
       this.children = children;
       }
     });
+  }
+
+  private removeAsChild(ChildId: number, ParentId: number): void {
+    this.removeChildFromParent = new RemoveChildFromParent(ChildId, ParentId);
+    this.dataSprocsService.removeChildFromParent(this.removeChildFromParent).
+    subscribe (
+      (returnedResult) => {
+        this.dataSprocsService.getChildList(ParentId).
+        subscribe (
+          (children) => {
+            this.children = children;
+            this.dataSprocsService.getPossibleChildrenList(ParentId).
+            subscribe(
+              (possiblechildrenlist) => {
+                this.possibleChildrenList = possiblechildrenlist;
+              }
+            );
+          }
+        );
+      }
+    );
+
   }
 
 }

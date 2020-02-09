@@ -1,4 +1,4 @@
-export class AddChildToParent {
+export class RemoveChildFromParent {
     childId: number;
     parentId: number;
     constructor(childid: number, parentid: number ) {
