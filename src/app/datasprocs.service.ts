@@ -135,7 +135,7 @@ export class DataSprocsService {
 
   removeChildFromParent(RemoveChildFromParentObj: RemoveChildFromParent) {
     const url = 'http://localhost:1337/deleteChildFromParent';
-      return this.http.delete<any>(url, RemoveChildFromParentObj);
+      return this.http.delete<any>(url);
   }
 
 
