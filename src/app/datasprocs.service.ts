@@ -133,9 +133,25 @@ export class DataSprocsService {
     return this.http.post<any>(url, AddChildToParentObj, httpOptions);
   }
 
+  // removeChildFromParent(RemoveChildFromParentObj: RemoveChildFromParent) {
+  //   const url = 'http://localhost:1337/deleteChildFromParent';
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/json'
+  //     })
+  //   };
+  //   return this.http.delete<any>(url, RemoveChildFromParent, httpOptions);
+  // }
+
   removeChildFromParent(RemoveChildFromParentObj: RemoveChildFromParent) {
     const url = 'http://localhost:1337/deleteChildFromParent';
-      return this.http.delete<any>(url);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Data': RemoveChildFromParentObj
+      })
+    };
+    return this.http.delete<any>(url, RemoveChildFromParent, httpOptions);
   }
 
 
