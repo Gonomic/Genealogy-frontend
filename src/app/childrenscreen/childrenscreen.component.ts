@@ -102,8 +102,8 @@ export class ChildrenScreenComponent implements OnDestroy {
   }
 
   private removeAsChild(ChildId: number, ParentId: number): void {
-    this.removeChildFromParent = new RemoveChildFromParent(ChildId, ParentId);
-    this.dataSprocsService.removeChildFromParent(this.removeChildFromParent).
+    // this.removeChildFromParent = new RemoveChildFromParent(ChildId, ParentId);
+    this.dataSprocsService.removeChildFromParent(ChildId, ParentId).
     subscribe (
       (returnedResult) => {
         this.dataSprocsService.getChildList(ParentId).

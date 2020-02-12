@@ -18,7 +18,7 @@
     <div>
         <mat-list-item *ngFor="let child of children.data | keyvalue">
             {{child.value.Kind}} met partner: {{child.value.Partner}}
-            <button mat-icon-button (click)="removeAsChild(child.KindId, child.ParentId)">
+            <button mat-icon-button (click)="removeAsChild(child.value.KindId, child.value.Parent)">
                     <mat-icon>person_add_disabled</mat-icon>
                 </button>
 
