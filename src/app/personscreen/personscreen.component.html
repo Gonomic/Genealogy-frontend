@@ -10,14 +10,12 @@
     <div>
         <mat-form-field class="form-group ">
             <label>Voornaam</label>
-            <input matInput class="form-control " [(ngModel)]="person.PersonGivvenName " placeholder="Voer voornaam in" name='Voornaam'>
+            <input matInput class="form-control " [(ngModel)]="person.PersonGivvenName " name='Voornaam'>
         </mat-form-field>
-
-
 
         <mat-form-field class="form-group ">
             <label>Achternaam</label>
-            <input matInput class="form-control " [(ngModel)]="person.PersonFamilyName " placeholder="Voer achternaam in" name='Achternaam'>
+            <input matInput class="form-control " [(ngModel)]="person.PersonFamilyName " name='Achternaam'>
         </mat-form-field>
     </div>
 
@@ -25,23 +23,23 @@
     <div>
         <mat-form-field class="form-group ">
             <label>Geboortedatum</label>
-            <input matInput class="form-control " [(ngModel)]="person.PersonDateOfBirth " placeholder="Voer geboortedatum in" name="Geboortedatum " (change)=DateChanged(person.PersonDateOfBirth)>
+            <input matInput class="form-control " [(ngModel)]="person.PersonDateOfBirth " name="Geboortedatum " (change)=DateChanged(person.PersonDateOfBirth)>
         </mat-form-field>
 
         <mat-form-field class="form-group ">
             <label>Geboorteplaats</label>
-            <input matInput class="form-control " [(ngModel)]="person.PersonPlaceOfBirth " placeholder="Voer geboorteplaats in" name="Geboorteplaats ">
+            <input matInput class="form-control " [(ngModel)]="person.PersonPlaceOfBirth " name="Geboorteplaats ">
         </mat-form-field>
     </div>
 
     <div>
         <mat-form-field class="form-group ">
-            <label>Overlijdensdatum</label>
+            <!-- <label>Overlijdensdatum</label> -->
             <input matInput class="form-control " [(ngModel)]="person.PersonDateOfDeath " placeholder="Voer overlijdensdatum in" name="Overlijdensdatum ">
         </mat-form-field>
 
         <mat-form-field class="form-group ">
-            <label>Overlijdenslaats</label>
+            <!-- <label>Overlijdenslaats</label> -->
             <input matInput class="form-control " [(ngModel)]="person.PersonPlaceOfDeath " placeholder="Voer overlijdensplaats in" name="Overlijdensplaats ">
         </mat-form-field>
     </div>
@@ -49,14 +47,14 @@
     <div>
         <mat-form-field class="form-group ">
             <label>Geslacht</label>
-            <input matInput class="form-control " [(ngModel)]="person.PersonIsMale " placeholder="Voer geslacht in" name="Geslacht">
+            <input matInput class="form-control " [(ngModel)]="person.PersonIsMale " name="Geslacht">
         </mat-form-field>
     </div>
 
     <div>
         <mat-form-field class="form-group">
             <label>Moeder</label>
-            <input matInput class="form-control " [(ngModel)]="person.MotherName " placeholder="Voer moeder in" name="Moeder ">
+            <input matInput class="form-control " [(ngModel)]="person.MotherName " name="Moeder ">
             <mat-select (selectionChange)="onPossibleMotherAddition($event)">
                 <mat-option *ngFor="let mother of possibleMotherList.data" [value]="mother.PossibleMotherID">
                     {{mother.PossibleMother}} ({{mother.BirthDate}})
@@ -68,7 +66,7 @@
 
     <div>
         <mat-form-field class="form-group">
-            <label>Vader</label>
+            <!-- <label>Vader</label> -->
             <input matInput class="form-control " [(ngModel)]="person.FatherName " placeholder="Voer vader in" name="Vader ">
             <mat-select (selectionChange)="onPossibleFatherAddition($event)">
                 <mat-option *ngFor="let father of possibleFatherList.data" [value]="father.PossibleFatherID">
@@ -83,11 +81,13 @@
         <mat-form-field class="form-group">
             <Label>Partner</Label>
             <input matInput class="form-control " [(ngModel)]="person.PartnerName " placeholder="Voer partner in" name="Partner ">
-            <mat-select (selectionChange)="onPossiblePartnerAddition($event)">
-                <mat-option *ngFor="let partner of possiblePartnerList.data" [value]="partner.PossiblePartnerID">
-                    {{partner.PossiblePartner}} ({{partner.BirthDate}})
-                </mat-option>
-            </mat-select>
+            <div>
+                <mat-select (selectionChange)="onPossiblePartnerAddition($event)">
+                    <mat-option *ngFor="let partner of possiblePartnerList.data" [value]="partner.PossiblePartnerID">
+                        {{partner.PossiblePartner}} ({{partner.BirthDate}})
+                    </mat-option>
+                </mat-select>
+            </div>
         </mat-form-field>
     </div>
 
