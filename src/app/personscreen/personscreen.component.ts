@@ -17,6 +17,9 @@ export class PersonScreenComponent implements OnDestroy {
   private IntermPers: any;
   private namesToLookFor: string;
   private indexOfPerson: number;
+  private possibleFatherList = {};
+  private possibleMotherList = {};
+  private possiblePartnerList = {};
   message: any;
   subscription: Subscription;
 
@@ -36,7 +39,22 @@ export class PersonScreenComponent implements OnDestroy {
         });
     }
 
+  private DateChanged(DateIn){
+    console.log('Date changed, date now: ' + DateIn);
+  }
 
+  private onPossibleMotherAddition(eventObject): void {
+    console.log('Add or change mother to: ' + eventObject.value);
+  }
+
+  private onPossibleFatherAddition(eventObject): void {
+    console.log('Add or change father to: ' + eventObject.value);
+  }
+
+  private onPossiblePartnerAddition(eventObject): void {
+    console.log('Add or change partner to: ' + eventObject.value);
+  }
+    
   private resetPersonRecord(PersonNameIn: string): void {
     this.person.PersonId = 0;
     this.person.PersonGivvenName = '';
