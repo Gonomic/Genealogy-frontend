@@ -36,6 +36,7 @@ export class ChildrenScreenComponent implements OnDestroy {
         .subscribe(message => {
           if (message.action === 'addNewPerson') {
             this.resetChildList();
+            
             this.resetpossibleChildrenList();
           } else {
             this.PersonIdInPersonScreen = message.Id;
@@ -82,7 +83,7 @@ export class ChildrenScreenComponent implements OnDestroy {
   private getPossibleChildrenList(ParentId: number): void {
     this.dataSprocsService.getPossibleChildrenList(ParentId)
     .subscribe(possiblechildrenlist => {
-      if (possiblechildrenlist == null){
+      if (possiblechildrenlist == null) {
         this.possibleChildrenList = [];
       } else {
       this.possibleChildrenList = possiblechildrenlist;

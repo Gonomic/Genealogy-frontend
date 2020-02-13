@@ -33,8 +33,8 @@ export class SearchHubComponent implements OnInit {
 
   ngOnInit() {}
 
-  sendMessage(PersonIdIn): void {
-    this.theMessageObject = { 'action': 'getExistingPerson', 'name': null, 'Id': PersonIdIn };
+  sendMessage(PersonIdIn: number, BirthDateIn: Date): void {
+    this.theMessageObject = { 'action': 'getExistingPerson', 'name': null, 'Id': PersonIdIn, 'Birth': BirthDateIn };
     this.messageService.sendMessage(this.theMessageObject);
   }
 

@@ -23,7 +23,9 @@
     <div>
         <mat-form-field class="form-group ">
             <label>Geboortedatum</label>
-            <input matInput class="form-control " [(ngModel)]="person.PersonDateOfBirth " name="Geboortedatum " (change)=DateChanged(person.PersonDateOfBirth)>
+            <input matInput class="form-control " [matDatepicker]="picker1" [(ngModel)]="person.PersonDateOfBirth " name="Geboortedatum " (change)=DateChanged(person.PersonDateOfBirth)>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field class="form-group ">
@@ -35,7 +37,9 @@
     <div>
         <mat-form-field class="form-group ">
             <label>Overlijdensdatum</label>
-            <input matInput class="form-control " [(ngModel)]="person.PersonDateOfDeath " name="Overlijdensdatum ">
+            <input matInput class="form-control " [matDatepicker]="picker2" [(ngModel)]="person.PersonDateOfDeath " name="Overlijdensdatum ">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field class="form-group ">
@@ -45,10 +49,15 @@
     </div>
 
     <div>
-        <mat-form-field class="form-group ">
-            <label>Geslacht</label>
-            <input matInput class="form-control " [(ngModel)]="person.PersonIsMale " name="Geslacht">
-        </mat-form-field>
+        <label class="right-20">Geslacht</label>
+        <mat-button-toggle-group [(ngModel)]="person.PersonIsMale " name="Geslacht">
+            <mat-button-toggle [value]=1>
+                Man
+            </mat-button-toggle>
+            <mat-button-toggle [value]=0>
+                Vrouw
+            </mat-button-toggle>
+        </mat-button-toggle-group>
     </div>
 
     <div>
@@ -83,7 +92,7 @@
         </mat-form-field>
 
         <mat-form-field class="form-group">
-            <label>Kies een (andere) vader</label>
+            <label class="grey-font">Kies een (andere) vader</label>
             <mat-select class="form-control" (selectionChange)="onPossibleFatherAddition($event)">
                 <mat-option *ngFor="let father of possibleFatherList.data" [value]="father.PossibleFatherID">
                     {{father.PossibleFather}} ({{father.BirthDate}})
@@ -101,7 +110,7 @@
         </mat-form-field>
 
         <mat-form-field class="form-group">
-            <Label>Kies een (andere) partner</Label>
+            <Label class="grey-font">Kies een (andere) partner</Label>
             <mat-select class="form-control" (selectionChange)="onPossiblePartnerAddition($event)">
                 <mat-option *ngFor="let partner of possiblePartnerList.data" [value]="partner.PossiblePartnerID">
                     {{partner.PossiblePartner}} ({{partner.BirthDate}})

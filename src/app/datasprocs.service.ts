@@ -111,5 +111,28 @@ export class DataSprocsService {
     return this.httpClient.delete<any>(url, httpOptions);
   }
 
+  getPossibleMotherList(PersonId, BirthDate: Date): Observable<any> {
+    const url = 'http://localhost:1337/getPossibleMothers?Birthdate=' + BirthDate;
+    return this.httpClient.get<any>(url).pipe(
+      tap(_ => console.log('Fetched possible mothers for person with Id= ' + PersonId)),
+      catchError(this.handleError<any>('getPossibleMotherList PersonId=${PersonId}'))
+    );
+  }
+
+  getPossibleFatherList(PersonId, BirthDate: Date): Observable<any> {
+    const url = 'http://localhost:1337/getPossibleFathers?Birthdate=' + BirthDate;
+    return this.httpClient.get<any>(url).pipe(
+      tap(_ => console.log('Fetched possible fathers for person with Id= ' + PersonId)),
+      catchError(this.handleError<any>('getPossibleFatherList PersonId=${PersonId}'))
+    );
+  }
+
+  GetPossiblePartnerList(PersonId, BirthDate: Date): Observable<any> {
+    const url = 'http://localhost:1337/getPossiblePartners?PersonId=' + PersonId + 'Birthdate=' + BirthDate;
+    return this.httpClient.get<any>(url).pipe(
+      tap(_ => console.log('Fetched possible partners for person with Id= ' + PersonId)),
+      catchError(this.handleError<any>('getPossiblePartnerList PersonId=${PersonId}'))
+    );
+  }
 
 }
