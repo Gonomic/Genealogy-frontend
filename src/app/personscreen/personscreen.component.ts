@@ -17,9 +17,9 @@ export class PersonScreenComponent implements OnDestroy {
   private IntermPers: any;
   private namesToLookFor: string;
   private indexOfPerson: number;
-  private possibleFatherList = {};
-  private possibleMotherList = {};
-  private possiblePartnerList = {};
+  private possibleFathersList = {};
+  private possibleMothersList = {};
+  private possiblePartnersList = {};
   message: any;
   subscription: Subscription;
 
@@ -35,18 +35,26 @@ export class PersonScreenComponent implements OnDestroy {
             this.resetPossibeFatherList();
             this.resetPossibeMotherList();
             this.resetPossiblePartnerList();
-
           } else {
-            this.getPersonDetails(message.Id, message.Birth);
+            this.getPersonDetails(message.Id);
+            this.getPossibleFathers(message.Id);
+            this.getPossibleMothers(message.Id);
+            this.getPossiblePartners(message.Id);
           }
         });
     }
 
-  private DateChanged(DateIn){
-    console.log('Date changed, date now: ' + DateIn);
+  private DateChanged(DateIn: Date){
+    this.getPossibleFathersBasedOnDate(DateIn);
+    this.getPossibleMothersBasedOnDate(DateIn);
+    this.getPossiblePartnersBasedOnDate(DateIn);
+    console.log('Date changed, date now: ' + DateIn + '. Requested new listss of possible fathers, mothers and partners.');
+
+
   }
 
   private onPossibleMotherAdditionOrChange(eventObject): void {
+    
     console.log('Add or change mother to: ' + eventObject.value);
   }
 
@@ -78,15 +86,15 @@ export class PersonScreenComponent implements OnDestroy {
   }
 
   private resetPossibeFatherList(): void {
-    this.possibleFatherList = {};
+    this.possibleFathersList = {};
   }
 
   private resetPossibeMotherList(): void {
-    this.possibleMotherList = {};
+    this.possibleMothersList = {};
   }
 
   private resetPossiblePartnerList(): void {
-    this.possiblePartnerList = {};
+    this.possiblePartnersList = {};
   }
 
   ngOnDestroy() {
@@ -94,59 +102,69 @@ export class PersonScreenComponent implements OnDestroy {
   }
 
 
-  private getPersonDetails(PersonId: number, BirthDate: Date): void {
+  private getPersonDetails(PersonId: number): void {
     this.dataSprocsService.getPersonDetails(PersonId).
     subscribe (
       (person) => {
         this.IntermPers = person;
         this.person = this.IntermPers.data;
-        this.dataSprocsService.getPossibleMotherList(PersonId, BirthDate).
-        subscribe (
-          (PossibeMotherList) => {
-            this.possibleMotherList = this.possibleMotherList;
-            this.dataSprocsService.getPossibleFatherList(PersonId, BirthDate).
-            subscribe (
-              (PossibleFatherList) => {
-                this.possibleFatherList = PossibleFatherList;
-                this.dataSprocsService.GetPossiblePartnerList(PersonId, BirthDate).
-                subscribe (
-                  (PossibePartnerList) => {
-                    this.possiblePartnerList = PossibePartnerList;
-                  }
-                );
-              }
-            );
-          }
-        );
       }
     );
   }
 
+  private getPossibleMothers(PersonId): void {
+    this.dataSprocsService.getPossibleMothersList(PersonId).
+      subscribe (
+        (PossibleMothersList) => {
+          this.possibleMothersList = PossibleMothersList;
+        }
+      );
+    }
+
+    private getPossibleFathers(PersonId): void {
+    this.dataSprocsService.getPossibleFathersList(PersonId).
+      subscribe (
+        (PossibleFathersList) => {
+          this.possibleFathersList = PossibleFathersList;
+        }
+      );
+    }
+
+    private getPossiblePartners(PersonId): void {
+    this.dataSprocsService.GetPossiblePartnersList(PersonId).
+      subscribe (
+        (PossibePartnersList) => {
+          this.possiblePartnersList = PossibePartnersList;
+        });
+    }
 
 
-  // private getPersonDetails(PersonId: number, BirthDate: Date): void {
-  //   this.dataSprocsService.getPersonDetails(PersonId)
-  //   .subscribe(person => {
-  //     this.IntermPers = person;
-  //     this.person = this.IntermPers.data;
-  //   });
-  // }
+    private getPossibleMothersBasedOnDate(DateIn: Date): void {
+      this.dataSprocsService.getPossibleMothersListBasedOnDate(DateIn).
+        subscribe (
+          (PossibleMothersList) => {
+            this.possibleMothersList = PossibleMothersList;
+          }
+        );
+      }
+  
+      private getPossibleFathersBasedOnDate(DateIn: Date): void {
+      this.dataSprocsService.getPossibleFathersListBasedOnDate(DateIn).
+        subscribe (
+          (PossibleFathersList) => {
+            this.possibleFathersList = PossibleFathersList;
+          }
+        );
+      }
+  
+      private getPossiblePartnersBasedOnDate(DateIn): void {
+      this.dataSprocsService.GetPossiblePartnersList(DateIn).
+        subscribe (
+          (PossibePartnersList) => {
+            this.possiblePartnersList = PossibePartnersList;
+          });
+      }
 
-  // this.dataSprocsService.AddChildToParent(this.addChildToParrent).
-  // subscribe (
-  //   (data0) => {
-  //     this.dataSprocsService.getChildList(this.PersonIdInPersonScreen).
-  //     subscribe (
-  //       (children) => {
-  //         this.children = children;
-  //         this.dataSprocsService.getPossibleChildrenList(this.PersonIdInPersonScreen).
-  //         subscribe(
-  //           (possiblechildrenlist) => {
-  //             this.possibleChildrenList = possiblechildrenlist;
-  //           }
-  //         );
-  //       }
-  //     );
-  //   }
-  // );
+
+
 }

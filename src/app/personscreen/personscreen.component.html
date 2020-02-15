@@ -77,7 +77,7 @@
             <label class="grey-font">Kies een (andere) moeder</label>
             <!-- <input matInput class="form-control"> -->
             <mat-select class="form-control" (selectionChange)="onPossibleMotherAddition($event)">
-                <mat-option *ngFor="let mother of possibleMotherList.data" [value]="mother.PossibleMotherID">
+                <mat-option *ngFor="let mother of possibleMothersList.data" [value]="mother.PossibleMotherID">
                     {{mother.PossibleMother}} ({{mother.BirthDate}})
                 </mat-option>
             </mat-select>
@@ -94,7 +94,7 @@
         <mat-form-field class="form-group">
             <label class="grey-font">Kies een (andere) vader</label>
             <mat-select class="form-control" (selectionChange)="onPossibleFatherAddition($event)">
-                <mat-option *ngFor="let father of possibleFatherList.data" [value]="father.PossibleFatherID">
+                <mat-option *ngFor="let father of possibleFathersList.data" [value]="father.PossibleFatherID">
                     {{father.PossibleFather}} ({{father.BirthDate}})
                 </mat-option>
             </mat-select>
@@ -112,7 +112,7 @@
         <mat-form-field class="form-group">
             <Label class="grey-font">Kies een (andere) partner</Label>
             <mat-select class="form-control" (selectionChange)="onPossiblePartnerAddition($event)">
-                <mat-option *ngFor="let partner of possiblePartnerList.data" [value]="partner.PossiblePartnerID">
+                <mat-option *ngFor="let partner of possiblePartnersList.data" [value]="partner.PossiblePartnerID">
                     {{partner.PossiblePartner}} ({{partner.BirthDate}})
                 </mat-option>
             </mat-select>

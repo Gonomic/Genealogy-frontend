@@ -111,28 +111,58 @@ export class DataSprocsService {
     return this.httpClient.delete<any>(url, httpOptions);
   }
 
-  getPossibleMotherList(PersonId, BirthDate: Date): Observable<any> {
-    const url = 'http://localhost:1337/getPossibleMothers?Birthdate=' + BirthDate;
+  getPossibleMothersList(PersonId: number): Observable<any> {
+    const url = 'http://localhost:1337/getPossibleMothers?PersonId=' + PersonId;
     return this.httpClient.get<any>(url).pipe(
       tap(_ => console.log('Fetched possible mothers for person with Id= ' + PersonId)),
       catchError(this.handleError<any>('getPossibleMotherList PersonId=${PersonId}'))
     );
   }
 
-  getPossibleFatherList(PersonId, BirthDate: Date): Observable<any> {
-    const url = 'http://localhost:1337/getPossibleFathers?Birthdate=' + BirthDate;
+  getPossibleFathersList(PersonId: number): Observable<any> {
+    const url = 'http://localhost:1337/getPossibleFathers?PersonId=' + PersonId;
     return this.httpClient.get<any>(url).pipe(
       tap(_ => console.log('Fetched possible fathers for person with Id= ' + PersonId)),
       catchError(this.handleError<any>('getPossibleFatherList PersonId=${PersonId}'))
     );
   }
 
-  GetPossiblePartnerList(PersonId, BirthDate: Date): Observable<any> {
-    const url = 'http://localhost:1337/getPossiblePartners?PersonId=' + PersonId + 'Birthdate=' + BirthDate;
+  GetPossiblePartnersList(PersonId: number): Observable<any> {
+    const url = 'http://localhost:1337/getPossiblePartners?PersonId=' + PersonId;
     return this.httpClient.get<any>(url).pipe(
       tap(_ => console.log('Fetched possible partners for person with Id= ' + PersonId)),
       catchError(this.handleError<any>('getPossiblePartnerList PersonId=${PersonId}'))
     );
   }
+
+
+
+  getPossibleMothersListBasedOnDate(DateIn: Date): Observable<any> {
+    const url = 'http://localhost:1337/getPossibleMothersBasedOnDate?Date=' + DateIn;
+    return this.httpClient.get<any>(url).pipe(
+      tap(_ => console.log('Fetched possible mothers based on date= ' + DateIn)),
+      catchError(this.handleError<any>('getPossibleMotherListBadedOnDate Date=${DateIn}'))
+    );
+  }
+
+  getPossibleFathersListBasedOnDate(DateIn: Date): Observable<any> {
+    const url = 'http://localhost:1337/getPossibleFathersBasedOnDate?Date=' + DateIn;
+    return this.httpClient.get<any>(url).pipe(
+      tap(_ => console.log('Fetched possible fathers based on date= ' + DateIn)),
+      catchError(this.handleError<any>('getPossibleFatherListBasedOnDate Date=${DateIn}'))
+    );
+  }
+
+  GetPossiblePartnersListBasedOnDate(DateIn: Date): Observable<any> {
+    const url = 'http://localhost:1337/getPossiblePartnersBasedOnDate=' + DateIn;
+    return this.httpClient.get<any>(url).pipe(
+      tap(_ => console.log('Fetched possible partners for person with Id= ' + PersonId)),
+      catchError(this.handleError<any>('getPossiblePartnersListBasedOnDate= Date=${DateIn}'))
+    );
+  }
+
+
+
+
 
 }
