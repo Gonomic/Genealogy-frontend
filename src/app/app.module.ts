@@ -16,6 +16,7 @@ import { InfoScreenComponent} from './infoscreen/infoscreen.component';
 import { ChildrenScreenComponent } from './childrenscreen/childrenscreen.component';
 import { DataSprocsService } from './datasprocs.service';
 import { MessageService } from './eventhub.service';
+import { DatePipe } from '@angular/common';
 
 const appRoutes: Routes = [
     { path: '', outlet: 'primary', redirectTo: '/personscreen(sidenavNavigatie:searchhub//personsChildren:childrenscreen)', pathMatch: 'full' },
@@ -51,7 +52,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     DataSprocsService,
-    MessageService
+    MessageService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

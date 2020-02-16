@@ -116,26 +116,39 @@ export class PersonScreenComponent implements OnDestroy {
     this.dataSprocsService.getPossibleMothersList(PersonId).
       subscribe (
         (PossibleMothersList) => {
+          if (PossibleMothersList == null) {
+            this.possibleMothersList = [];
+        } else {
           this.possibleMothersList = PossibleMothersList;
         }
-      );
-    }
+      }
+    );
+  }
 
-    private getPossibleFathers(PersonId): void {
+  private getPossibleFathers(PersonId): void {
     this.dataSprocsService.getPossibleFathersList(PersonId).
       subscribe (
         (PossibleFathersList) => {
-          this.possibleFathersList = PossibleFathersList;
+          if (PossibleFathersList == null) {
+            this.possibleFathersList = [];
+          } else {
+            this.possibleFathersList = PossibleFathersList;
+          }
         }
       );
-    }
+  }
 
     private getPossiblePartners(PersonId): void {
     this.dataSprocsService.GetPossiblePartnersList(PersonId).
       subscribe (
         (PossibePartnersList) => {
-          this.possiblePartnersList = PossibePartnersList;
-        });
+          if (PossibePartnersList == null) {
+            this.possiblePartnersList = [];
+          } else {
+            this.possiblePartnersList = PossibePartnersList;
+          }
+        }
+      );
     }
 
 
@@ -143,28 +156,38 @@ export class PersonScreenComponent implements OnDestroy {
       this.dataSprocsService.getPossibleMothersListBasedOnDate(DateIn).
         subscribe (
           (PossibleMothersList) => {
-            this.possibleMothersList = PossibleMothersList;
+            if (PossibleMothersList == null) {
+              this.possibleMothersList = [];
+            } else {
+              this.possibleMothersList = PossibleMothersList;
+            }
           }
         );
       }
-  
+
       private getPossibleFathersBasedOnDate(DateIn: Date): void {
       this.dataSprocsService.getPossibleFathersListBasedOnDate(DateIn).
         subscribe (
           (PossibleFathersList) => {
-            this.possibleFathersList = PossibleFathersList;
+            if (PossibleFathersList == null) {
+              this.possibleFathersList = [];
+            } else {
+              this.possibleFathersList = PossibleFathersList;
+            }
           }
         );
       }
-  
+
       private getPossiblePartnersBasedOnDate(DateIn): void {
-      this.dataSprocsService.GetPossiblePartnersList(DateIn).
+      this.dataSprocsService.GetPossiblePartnersListBasedOnDate(DateIn).
         subscribe (
           (PossibePartnersList) => {
-            this.possiblePartnersList = PossibePartnersList;
-          });
+            if (PossibePartnersList == null) {
+              this.possiblePartnersList = [];
+            } else {
+              this.possiblePartnersList = PossibePartnersList;
+            }
+          }
+        );
       }
-
-
-
 }
