@@ -20,6 +20,9 @@ export class PersonScreenComponent implements OnDestroy {
   private possibleFathersList = {};
   private possibleMothersList = {};
   private possiblePartnersList = {};
+  private selectedMother = '' ;
+  private selectedFather = '' ;
+  private selectedPartner = '';
   message: any;
   subscription: Subscription;
 
@@ -54,16 +57,21 @@ export class PersonScreenComponent implements OnDestroy {
   }
 
   private onPossibleMotherAdditionOrChange(eventObject): void {
-    
-    console.log('Add or change mother to: ' + eventObject.value);
+    this.person.MotherID = eventObject.value.MotherId;
+    this.person.MotherName = eventObject.value.motherName;
+    this.selectedMother = undefined;
   }
 
   private onPossibleFatherAdditionOrChange(eventObject): void {
-    console.log('Add or change father to: ' + eventObject.value);
+    this.person.FatherID = eventObject.value.FatherId;
+    this.person.FatherName = eventObject.value.fatherName;
+    this.selectedFather = undefined;
   }
 
   private onPossiblePartnerAdditionOrChange(eventObject): void {
-    console.log('Add or change partner to: ' + eventObject.value);
+    this.person.PartnerID = eventObject.value.PartnerId;
+    this.person.PartnerName = eventObject.value.partnerName;
+    this.selectedPartner = undefined;
   }
     
   private resetPersonRecord(PersonNameIn: string): void {
