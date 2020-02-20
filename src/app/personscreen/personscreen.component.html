@@ -112,8 +112,11 @@
     </div>
 
     <div class="button-row">
-        <button mat-raised-button>Gegevens persoon opslaan</button>
-        <button mat-raised-button>Gegevens persoon verwijderen</button>
+
+        openSavePersonDialog()
+
+        <button mat-raised-button (click)=openSavePersonDialog()>Gegevens persoon opslaan</button>
+        <button mat-raised-button (click)=openDeletePersonRecord()>Gegevens persoon verwijderen</button>
         <!-- <button mat-button type="submit " class="btn btn-success ">Gegevens persoon opslaan</button>
         <button mat-button class="btn btn-success ">Gegevens persoon verwijderen</button> -->
     </div>

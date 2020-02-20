@@ -3,19 +3,20 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule, MatNativeDateModule, MatIconModule,
          MatSidenavModule, MatListModule, MatToolbarModule, 
          MatFormFieldModule, MatInputModule, MatGridListModule,
-         MatSelectModule, MatDatepickerModule, MatButtonToggleModule} from '@angular/material';
+         MatSelectModule, MatDatepickerModule, MatButtonToggleModule,
+         MatDialogModule} from '@angular/material';
 
 @NgModule({
   imports: [CommonModule, MatButtonModule, MatNativeDateModule,
             MatIconModule, MatSidenavModule, MatListModule,
             MatToolbarModule, MatFormFieldModule, MatInputModule,
             MatGridListModule, MatSelectModule, MatDatepickerModule,
-            MatButtonToggleModule],
+            MatButtonToggleModule, MatDialogModule],
 
   exports: [CommonModule, MatButtonModule, MatNativeDateModule,
             MatIconModule, MatSidenavModule, MatListModule,
             MatToolbarModule, MatFormFieldModule, MatInputModule,
             MatGridListModule, MatSelectModule, MatDatepickerModule,
-            MatButtonToggleModule],
+            MatButtonToggleModule, MatDialogModule],
 })
 export class CustomMaterialModule { }

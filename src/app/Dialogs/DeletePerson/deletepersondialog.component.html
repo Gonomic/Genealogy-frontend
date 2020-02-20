@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Gegevens persoon {{data.name}} verwijderen?</h1>
+
+<mat-dialog-content [formGroup]="form">
+
+    <mat-form-field>
+
+        <!-- <input matInput [(ngModel)]="data.YesNo" formControlName="description"> -->
+
+        <input matInput formControlName="description">
+
+    </mat-form-field>
+
+</mat-dialog-content>
+
+
+
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Persoon NIET verwijderen</button>
+    <button class="mat-raised-button mat-primary" (click)="save()">Persoon verwijderen</button>
+</mat-dialog-actions>

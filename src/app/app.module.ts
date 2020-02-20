@@ -2,12 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule} from '@angular/common/http';
-import { MatIconModule, MatSidenavContent } from '@angular/material';
+import { MatIconModule, MatSidenavContent, MatDialogModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule, Routes} from '@angular/router';
 import { CustomMaterialModule } from './core/material.module';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigationComponent } from './navigation/navigation.component';
 import { SearchHubComponent } from './Searchhub/searchhub.component';
 import { PersonScreenComponent} from './personscreen/personscreen.component';
@@ -17,6 +17,8 @@ import { ChildrenScreenComponent } from './childrenscreen/childrenscreen.compone
 import { DataSprocsService } from './datasprocs.service';
 import { MessageService } from './eventhub.service';
 import { DatePipe } from '@angular/common';
+import { SavePersonDialogComponent } from './Dialogs/SavePerson/savePersonDialog.component';
+import { DeletePersonDialogComponent } from './Dialogs/DeletePerson/deletePersonDialog.component';
 
 const appRoutes: Routes = [
     { path: '', outlet: 'primary', redirectTo: '/personscreen(sidenavNavigatie:searchhub//personsChildren:childrenscreen)', pathMatch: 'full' },
@@ -35,14 +37,18 @@ const appRoutes: Routes = [
     PersonScreenComponent,
     RelationScreenComponent,
     InfoScreenComponent,
-    ChildrenScreenComponent
+    ChildrenScreenComponent,
+    SavePersonDialogComponent,
+    DeletePersonDialogComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     FlexLayoutModule,
     MatIconModule,
+    MatDialogModule,
     CustomMaterialModule,
     HttpClientModule,
     RouterModule.forRoot(
@@ -55,6 +61,7 @@ const appRoutes: Routes = [
     MessageService,
     DatePipe
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [SavePersonDialogComponent, DeletePersonDialogComponent]
 })
 export class AppModule { }

@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { DataSprocsService } from '../datasprocs.service';
 import { Person } from '../person';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../eventhub.service';
-
+import { SavePersonDialogComponent } from '../Dialogs/SavePerson/savePersonDialog.component';
+import { DeletePersonDialogComponent } from '../Dialogs/DeletePerson/deletePersonDialog.component';
 
 @Component({
   selector: 'app-person-screen',
@@ -28,7 +30,9 @@ export class PersonScreenComponent implements OnDestroy {
 
   constructor(
     private dataSprocsService: DataSprocsService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private saveDialog: MatDialog,
+    private deleteDialog: MatDialog
   ) {
       this.subscription = this.messageService
         .getMessage()
@@ -119,6 +123,33 @@ export class PersonScreenComponent implements OnDestroy {
       }
     );
   }
+
+  private openSavePersonDialog(): void {
+    console.log('In openSavePersonDialog');
+    const dialogSavePersonConfig = new MatDialogConfig();
+    dialogSavePersonConfig.disableClose = true;
+    dialogSavePersonConfig.autoFocus = true;
+    dialogSavePersonConfig.data = {
+      PersonName: this.person.PersonGivvenName + ' ' + this.person.PersonFamilyName
+    }
+    this.saveDialog.open(SavePersonDialogComponent, dialogSavePersonConfig);
+    const dialogRef = this.saveDialog.open(SavePersonDialogComponent, dialogSavePersonConfig);
+    dialogRef.afterClosed().subscribe(
+      data => console.log('Dialog ouput: ', data)
+    );
+  }
+
+  private openDeletePersonDialog(): void {
+    const dialogDeletePersonConfig = new MatDialogConfig();
+    dialogDeletePersonConfig.disableClose = true;
+    dialogDeletePersonConfig.autoFocus = true;
+    dialogDeletePersonConfig.data = {
+      PersonName: this.person.PersonGivvenName + ' ' + this.person.PersonFamilyName
+    }
+    this.deleteDialog.open(DeletePersonDialogComponent, dialogDeletePersonConfig);
+
+  }
+
 
   private getPossibleMothers(PersonId): void {
     this.dataSprocsService.getPossibleMothersList(PersonId).

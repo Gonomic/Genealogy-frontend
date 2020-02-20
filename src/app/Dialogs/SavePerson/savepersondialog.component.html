@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Gegevens persoon {{description}} bewaren?</h1>
+
+<mat-dialog-content [formGroup]="form">
+
+    <mat-form-field>
+
+        <input matInput formControlName="description">
+
+    </mat-form-field>
+
+</mat-dialog-content>
+
+
+
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Persoon NIET opslaan</button>
+    <button class="mat-raised-button mat-primary" (click)="save()">Persoon opslaan</button>
+</mat-dialog-actions>
