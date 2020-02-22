@@ -1,4 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { DataSprocsService } from '../datasprocs.service';
 import { Subject, Observable, Subscription, of } from 'rxjs';
 import { MessageService } from '../eventhub.service';
@@ -12,26 +13,40 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 export class SearchHubComponent implements OnInit {
   private plainpersonlist: object = {};
-  public nameToLookForFromScreen: string;
+  // public nameToLookForFromScreen = new FormControl('');
   person: number;
   theMessageObject: object;
-  nameToLookForFromScreenUpdate = new Subject<string>();
+  // nameToLookForFromScreenUpdate = new Subject<string>();
+  searchForm = new FormGroup({
+    nameToLookForFromScreen: new FormControl('')
+  })
+
+
 
   constructor(
     private dataSprocsService: DataSprocsService,
     private messageService: MessageService
-  ) {
-      this.nameToLookForFromScreenUpdate.pipe(
-        debounceTime(500),
-        distinctUntilChanged())
-        .subscribe(value => {
-          console.log(value);
-          this.getPlainListOfPersons(value);
+    ){
+      // this.nameToLookForFromScreenUpdate.pipe(
+      //   debounceTime(500),
+      //   distinctUntilChanged())
+      //   .subscribe(value => {
+      //     console.log(value);
+      //     this.getPlainListOfPersons(value);
+      // });
+
+      this.searchForm.get('nameToLookForFromScreen').valueChanges.pipe(
+          debounceTime(500),
+          distinctUntilChanged())
+          .subscribe(value => {
+            console.log(value);
+            this.getPlainListOfPersons(value);
         });
   }
 
 
   ngOnInit() {}
+
 
   sendMessage(PersonIdIn: number, BirthDateIn: Date): void {
     this.theMessageObject = { 'action': 'getExistingPerson', 'name': null, 'Id': PersonIdIn, 'Birth': BirthDateIn };
@@ -62,4 +77,5 @@ export class SearchHubComponent implements OnInit {
             });
     }
   }
+
 }

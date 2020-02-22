@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, Output, Inject } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { DataSprocsService } from '../datasprocs.service';
 import { Person } from '../person';
@@ -25,8 +26,27 @@ export class PersonScreenComponent implements OnDestroy {
   private selectedMother = '' ;
   private selectedFather = '' ;
   private selectedPartner = '';
-  message: any;
-  subscription: Subscription;
+  personForm = new FormGroup({
+    PersonId: new FormControl(0),
+    PersonGivenName: new FormControl('', Validators.required),
+    PersonFamilyName: new FormControl('', Validators.required),
+    PersonDateOfBirth: new FormControl(new Date('0000-00-00'), Validators.required),
+    PersonPlaceOfBirth: new FormControl(''),
+    PersonDateOfDeath: new FormControl(new Date('0000-00-00')),
+    PersonPlaceOfDeath: new FormControl(''),
+    PersonIsMale: new FormControl(true),
+    MotherID: new FormControl(0),
+    MotherName: new FormControl(''),
+    FatherID: new FormControl(0),
+    FatherName: new FormControl(''),
+    PartnerID: new FormControl(0),
+    PartnerName: new FormControl(''),
+    Timestamp: new FormControl(null),
+    FatherAndMotherArePartners: new FormControl(true),
+  });
+    message: any;
+    subscription: Subscription;
+
 
   constructor(
     private dataSprocsService: DataSprocsService,
@@ -77,24 +97,26 @@ export class PersonScreenComponent implements OnDestroy {
     this.person.PartnerName = eventObject.value.partnerName;
     this.selectedPartner = undefined;
   }
-    
+
   private resetPersonRecord(PersonNameIn: string): void {
-    this.person.PersonId = 0;
-    this.person.PersonGivvenName = '';
-    this.person.PersonFamilyName = PersonNameIn;
-    this.person.PersonDateOfBirth = null;
-    this.person.PersonPlaceOfBirth = '';
-    this.person.PersonDateOfDeath = null;
-    this.person.PersonPlaceOfDeath = '';
-    this.person.PersonIsMale = true;
-    this.person.MotherID = 0;
-    this.person.MotherName = '';
-    this.person.FatherID = 0;
-    this.person.FatherName = '';
-    this.person.PartnerID = 0;
-    this.person.PartnerName = '';
-    this.person.Timestamp = null;
-    this.person.FatherAndMotherArePartners = false;
+    // this.person.PersonId = 0;
+    this.personForm.reset();
+    // this.PersonId.reset();
+    // this.PersonGivvenName.reset();
+    this.personForm.setValue({PersonFamilyName: PersonNameIn});
+    // this.PersonDateOfBirth.reset();
+    // this.PersonPlaceOfBirth.reset();
+    // this.PersonDateOfDeath.reset();
+    // this.PersonPlaceOfDeath.reset();
+    // this.PersonIsMale.reset();
+    // this.MotherID.reset();
+    // this.MotherName.reset();
+    // this.FatherID.reset();
+    // this.FatherName.reset();
+    // this.PartnerID.reset();
+    // this.PartnerName.reset();
+    // this.Timestamp.reset();
+    // this.FatherAndMotherArePartners.reset();
   }
 
   private resetPossibeFatherList(): void {
@@ -118,8 +140,25 @@ export class PersonScreenComponent implements OnDestroy {
     this.dataSprocsService.getPersonDetails(PersonId).
     subscribe (
       (person) => {
+        
         this.IntermPers = person;
         this.person = this.IntermPers.data;
+        this.person.PersonId = person.PersonId;
+        this.person.PersonGivvenName = person.PersonGivvenName;
+        this.person.PersonFamilyName = person.PersonFamilyName;
+        // this.PersonDateOfBirth.reset();
+        // this.PersonPlaceOfBirth.reset();
+        // this.PersonDateOfDeath.reset();
+        // this.PersonPlaceOfDeath.reset();
+        // this.PersonIsMale.reset();
+        // this.MotherID.reset();
+        // this.MotherName.reset();
+        // this.FatherID.reset();
+        // this.FatherName.reset();
+        // this.PartnerID.reset();
+        // this.PartnerName.reset();
+        // this.Timestamp.reset();
+        // this.FatherAndMotherArePartners.reset();
       }
     );
   }
@@ -228,5 +267,10 @@ export class PersonScreenComponent implements OnDestroy {
             }
           }
         );
+      }
+
+      private onSubmit() {
+        // TODO: Gebriuk EventEmitter with form value to save data to backend (?)
+        console.log('Waarde van onSubmit= ' + this.personForm.value);
       }
 }

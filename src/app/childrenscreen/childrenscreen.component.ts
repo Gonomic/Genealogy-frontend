@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, Output } from '@angular/core';
 import { DataSprocsService } from '../datasprocs.service';
+import { FormGroup, FormControl } from '@angular/forms';
 import {catchError, map, mergeMap, tap, subscribeOn} from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { Child } from '../child';
@@ -27,6 +28,10 @@ export class ChildrenScreenComponent implements OnDestroy {
   message: any;
   subscription: Subscription;
 
+  childrenForm = new FormGroup({
+    ChildToAdd: new FormControl(0)
+  });
+
   constructor(
     private dataSprocsService: DataSprocsService,
     private messageService: MessageService
@@ -36,7 +41,6 @@ export class ChildrenScreenComponent implements OnDestroy {
         .subscribe(message => {
           if (message.action === 'addNewPerson') {
             this.resetChildList();
-            
             this.resetpossibleChildrenList();
           } else {
             this.PersonIdInPersonScreen = message.Id;

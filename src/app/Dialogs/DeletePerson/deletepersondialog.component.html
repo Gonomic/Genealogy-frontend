@@ -1,12 +1,14 @@
+<form [formGroup]='deletePersonDialog'></form>
+
 <h1 mat-dialog-title>Gegevens persoon {{data.name}} verwijderen?</h1>
 
-<mat-dialog-content [formGroup]="form">
+<mat-dialog-content>
 
     <mat-form-field>
 
         <!-- <input matInput [(ngModel)]="data.YesNo" formControlName="description"> -->
 
-        <input matInput formControlName="description">
+        <input matInput formControlName="NameOfPerson">
 
     </mat-form-field>
 
