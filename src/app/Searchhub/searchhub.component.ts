@@ -19,7 +19,7 @@ export class SearchHubComponent implements OnInit {
   // nameToLookForFromScreenUpdate = new Subject<string>();
   searchForm = new FormGroup({
     nameToLookForFromScreen: new FormControl('')
-  })
+  });
 
 
 
@@ -57,8 +57,8 @@ export class SearchHubComponent implements OnInit {
     this.messageService.clearMessage();
   }
 
-  private AddPerson(PersonNameIn) {
-    this.theMessageObject = { 'action': 'addNewPerson', 'name': PersonNameIn, 'Id': null }
+  private AddPerson() {
+    this.theMessageObject = { 'action': 'addNewPerson', 'name': this.searchForm.get('nameToLookForFromScreen').value, 'Id': null };
     this.messageService.sendMessage(this.theMessageObject);
   }
 

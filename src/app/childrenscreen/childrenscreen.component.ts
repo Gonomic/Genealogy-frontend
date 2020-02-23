@@ -28,7 +28,7 @@ export class ChildrenScreenComponent implements OnDestroy {
   message: any;
   subscription: Subscription;
 
-  childrenForm = new FormGroup({
+  childrensForm = new FormGroup({
     ChildToAdd: new FormControl(0)
   });
 

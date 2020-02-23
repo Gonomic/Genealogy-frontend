@@ -1,22 +1,24 @@
-<form [formGroup]='deletePersonDialog'></form>
+<form [formGroup]='deletePersonDialog'>
 
-<h1 mat-dialog-title>Gegevens persoon {{data.name}} verwijderen?</h1>
+    <h1 mat-dialog-title>Gegevens persoon {{data.name}} verwijderen?</h1>
 
-<mat-dialog-content>
+    <mat-dialog-content>
 
-    <mat-form-field>
+        <mat-form-field>
 
-        <!-- <input matInput [(ngModel)]="data.YesNo" formControlName="description"> -->
+            <!-- <input matInput [(ngModel)]="data.YesNo" formControlName="description"> -->
 
-        <input matInput formControlName="NameOfPerson">
+            <input matInput formControlName="NameOfPerson">
 
-    </mat-form-field>
+        </mat-form-field>
 
-</mat-dialog-content>
+    </mat-dialog-content>
 
 
 
-<mat-dialog-actions>
-    <button class="mat-raised-button" (click)="close()">Persoon NIET verwijderen</button>
-    <button class="mat-raised-button mat-primary" (click)="save()">Persoon verwijderen</button>
-</mat-dialog-actions>
+    <mat-dialog-actions>
+        <button class="mat-raised-button" (click)="close()">Persoon NIET verwijderen</button>
+        <button class="mat-raised-button mat-primary" (click)="save()">Persoon verwijderen</button>
+    </mat-dialog-actions>
+
+</form>

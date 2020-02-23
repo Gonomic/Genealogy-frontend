@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Output, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { DataSprocsService } from '../datasprocs.service';
-import { Person } from '../person';
+// import { Person } from '../person';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../eventhub.service';
 import { SavePersonDialogComponent } from '../Dialogs/SavePerson/savePersonDialog.component';
@@ -15,8 +15,8 @@ import { DeletePersonDialogComponent } from '../Dialogs/DeletePerson/deletePerso
 })
 
 export class PersonScreenComponent implements OnDestroy {
-  private persons: Person[];
-  private person: Person = new Person;
+  // private persons: Person[];
+  // private person: Person = new Person;
   private IntermPers: any;
   private namesToLookFor: string;
   private indexOfPerson: number;
@@ -27,7 +27,7 @@ export class PersonScreenComponent implements OnDestroy {
   private selectedFather = '' ;
   private selectedPartner = '';
   personForm = new FormGroup({
-    PersonId: new FormControl(0),
+    PersonID: new FormControl(0),
     PersonGivenName: new FormControl('', Validators.required),
     PersonFamilyName: new FormControl('', Validators.required),
     PersonDateOfBirth: new FormControl(new Date('0000-00-00'), Validators.required),
@@ -42,10 +42,13 @@ export class PersonScreenComponent implements OnDestroy {
     PartnerID: new FormControl(0),
     PartnerName: new FormControl(''),
     Timestamp: new FormControl(null),
-    FatherAndMotherArePartners: new FormControl(true),
+    // FatherAndMotherArePartners: new FormControl(true),
+    selectedMother: new FormControl(0),
+    selectedFather: new FormControl(0),
+    selectedPartner: new FormControl(0)
   });
-    message: any;
-    subscription: Subscription;
+  message: any;
+  subscription: Subscription;
 
 
   constructor(
@@ -76,47 +79,61 @@ export class PersonScreenComponent implements OnDestroy {
     this.getPossibleMothersBasedOnDate(DateIn);
     this.getPossiblePartnersBasedOnDate(DateIn);
     console.log('Date changed, date now: ' + DateIn + '. Requested new listss of possible fathers, mothers and partners.');
-
-
   }
 
   private onPossibleMotherAdditionOrChange(eventObject): void {
-    this.person.MotherID = eventObject.value.MotherId;
-    this.person.MotherName = eventObject.value.motherName;
-    this.selectedMother = undefined;
+    this.personForm.setValue({
+      MotherID: eventObject.value.MotherId,
+      MotherName: eventObject.value.motherName,
+      selectedMother: undefined
+    });
   }
 
   private onPossibleFatherAdditionOrChange(eventObject): void {
-    this.person.FatherID = eventObject.value.FatherId;
-    this.person.FatherName = eventObject.value.fatherName;
-    this.selectedFather = undefined;
+    this.personForm.setValue({
+      FatherID: eventObject.value.FatherId,
+      FatherName: eventObject.value.fatherName,
+      selectedFather: undefined
+    });
   }
 
   private onPossiblePartnerAdditionOrChange(eventObject): void {
-    this.person.PartnerID = eventObject.value.PartnerId;
-    this.person.PartnerName = eventObject.value.partnerName;
-    this.selectedPartner = undefined;
+    this.personForm.setValue ({
+      PartnerID: eventObject.value.PartnerId,
+      PartnerName: eventObject.value.partnerName,
+      selectedPartner: undefined
+    });
   }
 
   private resetPersonRecord(PersonNameIn: string): void {
-    // this.person.PersonId = 0;
-    this.personForm.reset();
-    // this.PersonId.reset();
-    // this.PersonGivvenName.reset();
-    this.personForm.setValue({PersonFamilyName: PersonNameIn});
-    // this.PersonDateOfBirth.reset();
-    // this.PersonPlaceOfBirth.reset();
-    // this.PersonDateOfDeath.reset();
-    // this.PersonPlaceOfDeath.reset();
-    // this.PersonIsMale.reset();
-    // this.MotherID.reset();
-    // this.MotherName.reset();
-    // this.FatherID.reset();
-    // this.FatherName.reset();
-    // this.PartnerID.reset();
-    // this.PartnerName.reset();
-    // this.Timestamp.reset();
-    // this.FatherAndMotherArePartners.reset();
+    this.personForm.reset({
+      PersonID: 0,
+      PersonGivenName: '',
+      PersonFamilyName: PersonNameIn,
+      PersonDateOfBirth: new Date('1/1/2000'),
+      PersonPlaceOfBirth: '',
+      PersonDateOfDeath: new Date('1/1/2000'),
+      PersonPlaceOfDeath: '',
+      PersonIsMale: false,
+      MotherID: 0,
+      MotherName: '',
+      FatherID: 0,
+      FatherName: '',
+      PartnerID: 0,
+      PartnerName: '',
+      Timestamp: null,
+      // FatherAndMotherArePartners: person.data.FatherAndMotherArePartners
+      selectedMother: 0,
+      selectedFather: 0,
+      selectedPartner: 0
+    });
+    // this.personForm.reset();
+    // this.personForm.setValue({
+    //   PersonID: 0,
+    //   PersonGivenName: '',
+    //   PersonFamilyName: PersonNameIn,
+    //   PersonDateOfBirth: new Date('0000-00-00')
+    // });
   }
 
   private resetPossibeFatherList(): void {
@@ -136,29 +153,31 @@ export class PersonScreenComponent implements OnDestroy {
   }
 
 
-  private getPersonDetails(PersonId: number): void {
-    this.dataSprocsService.getPersonDetails(PersonId).
+  private getPersonDetails(PersonIdIn: number): void {
+    this.dataSprocsService.getPersonDetails(PersonIdIn).
     subscribe (
       (person) => {
-        
-        this.IntermPers = person;
-        this.person = this.IntermPers.data;
-        this.person.PersonId = person.PersonId;
-        this.person.PersonGivvenName = person.PersonGivvenName;
-        this.person.PersonFamilyName = person.PersonFamilyName;
-        // this.PersonDateOfBirth.reset();
-        // this.PersonPlaceOfBirth.reset();
-        // this.PersonDateOfDeath.reset();
-        // this.PersonPlaceOfDeath.reset();
-        // this.PersonIsMale.reset();
-        // this.MotherID.reset();
-        // this.MotherName.reset();
-        // this.FatherID.reset();
-        // this.FatherName.reset();
-        // this.PartnerID.reset();
-        // this.PartnerName.reset();
-        // this.Timestamp.reset();
-        // this.FatherAndMotherArePartners.reset();
+        this.personForm.setValue({
+          PersonID: person.data.PersonID,
+          PersonGivenName: person.data.PersonGivvenName,
+          PersonFamilyName: person.data.PersonFamilyName,
+          PersonDateOfBirth: person.data.PersonDateOfBirth,
+          PersonPlaceOfBirth: person.data.PersonPlaceOfBirth,
+          PersonDateOfDeath: person.data.PersonDateOfDeath,
+          PersonPlaceOfDeath: person.data.PersonPlaceOfDeath,
+          PersonIsMale: person.data.PersonIsMale,
+          MotherID: person.data.MotherID || 0,
+          MotherName: person.data.MotherName || '',
+          FatherID: person.data.PartnerID || 0,
+          FatherName: person.data.PartnerName || '',
+          PartnerID: person.data.PartnerID || 0,
+          PartnerName: person.data.PartnerName || '',
+          Timestamp: person.data.Timestamp,
+          // FatherAndMotherArePartners: person.data.FatherAndMotherArePartners
+          selectedMother: null,
+          selectedFather: null,
+          selectedPartner: null
+        });
       }
     );
   }
@@ -169,7 +188,7 @@ export class PersonScreenComponent implements OnDestroy {
     dialogSavePersonConfig.disableClose = true;
     dialogSavePersonConfig.autoFocus = true;
     dialogSavePersonConfig.data = {
-      PersonName: this.person.PersonGivvenName + ' ' + this.person.PersonFamilyName
+      PersonName: this.personForm.get('PersonGivenName').value  +  this.personForm.get('PersonFamilyName').value
     }
     this.saveDialog.open(SavePersonDialogComponent, dialogSavePersonConfig);
     const dialogRef = this.saveDialog.open(SavePersonDialogComponent, dialogSavePersonConfig);
@@ -183,7 +202,7 @@ export class PersonScreenComponent implements OnDestroy {
     dialogDeletePersonConfig.disableClose = true;
     dialogDeletePersonConfig.autoFocus = true;
     dialogDeletePersonConfig.data = {
-      PersonName: this.person.PersonGivvenName + ' ' + this.person.PersonFamilyName
+      PersonName: this.personForm.get('PersonGivenName').value + this.personForm.get('PersonFamilyName').value
     }
     this.deleteDialog.open(DeletePersonDialogComponent, dialogDeletePersonConfig);
 
@@ -203,7 +222,7 @@ export class PersonScreenComponent implements OnDestroy {
     );
   }
 
-  private getPossibleFathers(PersonId): void {
+  private getPossibleFathers(PersonId: number): void {
     this.dataSprocsService.getPossibleFathersList(PersonId).
       subscribe (
         (PossibleFathersList) => {
@@ -216,7 +235,7 @@ export class PersonScreenComponent implements OnDestroy {
       );
   }
 
-    private getPossiblePartners(PersonId): void {
+    private getPossiblePartners(PersonId: number): void {
     this.dataSprocsService.GetPossiblePartnersList(PersonId).
       subscribe (
         (PossibePartnersList) => {
@@ -256,7 +275,7 @@ export class PersonScreenComponent implements OnDestroy {
         );
       }
 
-      private getPossiblePartnersBasedOnDate(DateIn): void {
+      private getPossiblePartnersBasedOnDate(DateIn: Date): void {
       this.dataSprocsService.GetPossiblePartnersListBasedOnDate(DateIn).
         subscribe (
           (PossibePartnersList) => {
