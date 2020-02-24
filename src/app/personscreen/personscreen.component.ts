@@ -14,7 +14,7 @@ import { DeletePersonDialogComponent } from '../Dialogs/DeletePerson/deletePerso
   styleUrls: ['./personscreen.component.css'],
 })
 
-export class PersonScreenComponent implements OnDestroy {
+export class PersonScreenComponent implements OnDestroy, OnInit {
   // private persons: Person[];
   // private person: Person = new Person;
   private IntermPers: any;
@@ -26,27 +26,7 @@ export class PersonScreenComponent implements OnDestroy {
   private selectedMother = '' ;
   private selectedFather = '' ;
   private selectedPartner = '';
-  personForm = new FormGroup({
-    PersonID: new FormControl(0),
-    PersonGivenName: new FormControl('', Validators.required),
-    PersonFamilyName: new FormControl('', Validators.required),
-    PersonDateOfBirth: new FormControl(new Date('0000-00-00'), Validators.required),
-    PersonPlaceOfBirth: new FormControl(''),
-    PersonDateOfDeath: new FormControl(new Date('0000-00-00')),
-    PersonPlaceOfDeath: new FormControl(''),
-    PersonIsMale: new FormControl(true),
-    MotherID: new FormControl(0),
-    MotherName: new FormControl(''),
-    FatherID: new FormControl(0),
-    FatherName: new FormControl(''),
-    PartnerID: new FormControl(0),
-    PartnerName: new FormControl(''),
-    Timestamp: new FormControl(null),
-    // FatherAndMotherArePartners: new FormControl(true),
-    selectedMother: new FormControl(0),
-    selectedFather: new FormControl(0),
-    selectedPartner: new FormControl(0)
-  });
+  personForm: FormGroup;
   message: any;
   subscription: Subscription;
 
@@ -74,36 +54,90 @@ export class PersonScreenComponent implements OnDestroy {
         });
     }
 
-  private DateChanged(DateIn: Date){
+ngOnInit() {
+  this.personForm = new FormGroup({
+    PersonID: new FormControl(0),
+    PersonGivenName: new FormControl('', Validators.required),
+    PersonFamilyName: new FormControl('', Validators.required),
+    PersonDateOfBirth: new FormControl(new Date('0000-00-00'), Validators.required),
+    PersonPlaceOfBirth: new FormControl(''),
+    PersonDateOfDeath: new FormControl(new Date('0000-00-00')),
+    PersonPlaceOfDeath: new FormControl(''),
+    PersonIsMale: new FormControl(true),
+    MotherID: new FormControl(0),
+    MotherName: new FormControl(''),
+    FatherID: new FormControl(0),
+    FatherName: new FormControl(''),
+    PartnerID: new FormControl(0),
+    PartnerName: new FormControl(''),
+    Timestamp: new FormControl(null),
+    // FatherAndMotherArePartners: new FormControl(true),
+    selectedMother: new FormControl(0),
+    selectedFather: new FormControl(0),
+    selectedPartner: new FormControl(0)
+  });
+
+  this.personForm.get('selectedMother').valueChanges.subscribe(
+    value => {
+      console.log('Value=' + value);
+      this.personForm.setValue({
+        MotherID: value.MotherId,
+        MotherName: value.MotherName
+      });
+    }
+  );
+
+  this.personForm.get('selectedFather').valueChanges.subscribe(
+    value => {
+      console.log('Value=' + value);
+      this.personForm.setValue({
+        FatherID: value.FatherId,
+        FatherName: value.FatherName
+      });
+    }
+  );
+
+  this.personForm.get('selectedPartner').valueChanges.subscribe(
+    value => {
+      console.log('Value=' + value);
+      this.personForm.setValue({
+        PartnerID: value.PartnerId,
+        PartnerName: value.PartnerName
+      });
+    }
+  );
+}
+
+  private DateChanged(DateIn: Date) {
     this.getPossibleFathersBasedOnDate(DateIn);
     this.getPossibleMothersBasedOnDate(DateIn);
     this.getPossiblePartnersBasedOnDate(DateIn);
     console.log('Date changed, date now: ' + DateIn + '. Requested new listss of possible fathers, mothers and partners.');
   }
 
-  private onPossibleMotherAdditionOrChange(eventObject): void {
-    this.personForm.setValue({
-      MotherID: eventObject.value.MotherId,
-      MotherName: eventObject.value.motherName,
-      selectedMother: undefined
-    });
-  }
+  // private onPossibleMotherAdditionOrChange(eventObject): void {
+  //   this.personForm.setValue({
+  //     MotherID: eventObject.value.MotherId,
+  //     MotherName: eventObject.value.motherName,
+  //     selectedMother: undefined
+  //   });
+  // }
 
-  private onPossibleFatherAdditionOrChange(eventObject): void {
-    this.personForm.setValue({
-      FatherID: eventObject.value.FatherId,
-      FatherName: eventObject.value.fatherName,
-      selectedFather: undefined
-    });
-  }
+  // private onPossibleFatherAdditionOrChange(eventObject): void {
+  //   this.personForm.setValue({
+  //     FatherID: eventObject.value.FatherId,
+  //     FatherName: eventObject.value.fatherName,
+  //     selectedFather: undefined
+  //   });
+  // }
 
-  private onPossiblePartnerAdditionOrChange(eventObject): void {
-    this.personForm.setValue ({
-      PartnerID: eventObject.value.PartnerId,
-      PartnerName: eventObject.value.partnerName,
-      selectedPartner: undefined
-    });
-  }
+  // private onPossiblePartnerAdditionOrChange(eventObject): void {
+  //   this.personForm.setValue ({
+  //     PartnerID: eventObject.value.PartnerId,
+  //     PartnerName: eventObject.value.partnerName,
+  //     selectedPartner: undefined
+  //   });
+  // }
 
   private resetPersonRecord(PersonNameIn: string): void {
     this.personForm.reset({
@@ -152,6 +186,11 @@ export class PersonScreenComponent implements OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  // this.personForm.get("").valueChange.subscribe(
+  //   value => {
+  //     console.log('Value=' + value)
+  //   }
+  // )
 
   private getPersonDetails(PersonIdIn: number): void {
     this.dataSprocsService.getPersonDetails(PersonIdIn).

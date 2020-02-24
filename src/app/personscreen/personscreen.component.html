@@ -70,7 +70,8 @@
         <mat-form-field class="form-group">
             <label class="grey-font">Kies een (andere) moeder</label>
             <!-- <mat-select class="form-control" formControlName="selectedMother" [ngModelOptions]="{standalone: true}" (selectionChange)="onPossibleMotherAdditionOrChange($event)"> -->
-            <mat-select class="form-control" (selectionChange)="onPossibleMotherAdditionOrChange($event)">
+            <!-- <mat-select class="form-control" (selectionChange)="onPossibleMotherAdditionOrChange($event)"></mat-select>             -->
+            <mat-select class="form-control">
                 <mat-option *ngFor="let mother of possibleMothersList.data" [value]='{"motherId": mother.PersonID, "motherName": mother.PossibleMother}'>
                     {{mother.PossibleMother}} ({{mother.BirthDate}})
                 </mat-option>
