@@ -24,7 +24,8 @@
     <div>
         <mat-form-field class="form-group ">
             <label>Geboortedatum</label>
-            <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum " (change)=DateChanged(person.PersonDateOfBirth) required>
+            <!-- <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum " (change)=DateChanged(person.PersonDateOfBirth) required> -->
+            <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum" required>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>

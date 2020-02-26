@@ -28,7 +28,9 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
   private selectedPartner = '';
   personForm: FormGroup;
   message: any;
-  subscription: Subscription;
+  incomingMessage: Subscription;
+  // subscription: Subscription;
+  motherChanged: Subscription;
 
 
   constructor(
@@ -37,7 +39,8 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
     private saveDialog: MatDialog,
     private deleteDialog: MatDialog
   ) {
-      this.subscription = this.messageService
+      this.incomingMessage = this.messageService
+    // this.subscription = this.messageService
         .getMessage()
         .subscribe(message => {
           if (message.action === 'addNewPerson') {
@@ -75,45 +78,96 @@ ngOnInit() {
     selectedMother: new FormControl(0),
     selectedFather: new FormControl(0),
     selectedPartner: new FormControl(0)
-  });
+  },
+    { updateOn: 'blur'}
+  );
+
+
+  // this.motherChanged = this.personForm.get('selectedMother').valueChanges.subscribe(
+  //   value => {
+  //     console.log('Value=' + value);
+  //     this.personForm.setValue({
+  //       MotherID: value.MotherId,
+  //       MotherName: value.MotherName
+  //     });
+  //   }
+  // );
 
   this.personForm.get('selectedMother').valueChanges.subscribe(
     value => {
-      console.log('Value=' + value);
-      this.personForm.setValue({
-        MotherID: value.MotherId,
-        MotherName: value.MotherName
-      });
+      console.log('Value changes of selectedMother, PersonID= ' + this.personForm.get('PersonID').value + ', selectedMother= ' + JSON.stringify(value));
+      if (! this.personForm.get('selectedMother').pristine) {
+        console.log('In selectedMother changed, selectedMother NOT pristine, so actions taken!');
+        this.personForm.setValue({
+          MotherID: value.MotherId,
+          MotherName: value.MotherName
+        });
+      } else {
+        console.log('In selectedMother changed, selectedMother pristine, so NO actions taken!');
+      }
     }
   );
 
   this.personForm.get('selectedFather').valueChanges.subscribe(
     value => {
-      console.log('Value=' + value);
-      this.personForm.setValue({
-        FatherID: value.FatherId,
-        FatherName: value.FatherName
-      });
+      console.log('Value changes of selectedFather, PersonID= ' + this.personForm.get('PersonID').value + ', selectedFather= ' + JSON.stringify(value));
+      if (! this.personForm.get('selectedFather').pristine) {
+        console.log('In selectedFather changed, selectedFather NOT pristine, so actions taken!');
+        this.personForm.setValue({
+          FatherID: value.FatherId,
+          FatherName: value.FatherName
+        });
+      } else {
+        console.log('In selectedFather changed, selectedFather pristine, so NO actions taken!');
+      }
     }
   );
 
   this.personForm.get('selectedPartner').valueChanges.subscribe(
     value => {
-      console.log('Value=' + value);
-      this.personForm.setValue({
-        PartnerID: value.PartnerId,
-        PartnerName: value.PartnerName
-      });
+      console.log('Value changes of selectedPartner, PersonID= ' + this.personForm.get('PersonID').value + ', selectedPartner= ' + JSON.stringify(value));
+      if (! this.personForm.get('selectedPartner').pristine) {
+        console.log('In selectedPartner, selectedPartner NOT pristine, so actions taken!');
+        this.personForm.setValue({
+          PartnerID: value.PartnerId,
+          PartnerName: value.PartnerName
+        });
+      } else {
+        console.log('In selectedPartner changed, selectedPartner pristine, so NO actions taken!');
+      }
     }
   );
+
+  this.personForm.get('PersonDateOfBirth').valueChanges.subscribe(
+    DateIn => {
+    console.log('Value changes of PersonDateOfBirth, PersonID= ' + this.personForm.get('PersonID').value + 'DateIn= ' + DateIn );
+    if (! this.personForm.get('PersonDateOfBirth').pristine) {
+      console.log('In PersonDateOfBirth changed, PersonDateOfBirth NOT pristine, so actions taken!');
+        if  (this.personForm.get('PersonID').value === 0) {
+          console.log('PersonID===0, so new record, so actions taken based on birthdatedate, date= ' + DateIn);
+          this.getPossibleFathersBasedOnDate(DateIn);
+          this.getPossibleMothersBasedOnDate(DateIn);
+          this.getPossiblePartnersBasedOnDate(DateIn);
+        } else {
+          console.log('PersonID <> 0, so existing record, so actions taken based on PersonID, id= ' + this.personForm.get('PersonID').value);
+          this.getPossibleFathers(this.personForm.get('PersonID').value);
+          this.getPossibleMothers(this.personForm.get('PersonID').value);
+          this.getPossiblePartners(this.personForm.get('PersonID').value);
+        }
+      } else {
+        console.log('In PersonDateOfBirth changed, PersonDateOfBirth pristine, so NO actions taken!');
+      }
+    }
+  );
+
 }
 
-  private DateChanged(DateIn: Date) {
-    this.getPossibleFathersBasedOnDate(DateIn);
-    this.getPossibleMothersBasedOnDate(DateIn);
-    this.getPossiblePartnersBasedOnDate(DateIn);
-    console.log('Date changed, date now: ' + DateIn + '. Requested new listss of possible fathers, mothers and partners.');
-  }
+  // private DateChanged(DateIn: Date) {
+  //   this.getPossibleFathersBasedOnDate(DateIn);
+  //   this.getPossibleMothersBasedOnDate(DateIn);
+  //   this.getPossiblePartnersBasedOnDate(DateIn);
+  //   console.log('Date changed, date now: ' + DateIn + '. Requested new listss of possible fathers, mothers and partners.');
+  // }
 
   // private onPossibleMotherAdditionOrChange(eventObject): void {
   //   this.personForm.setValue({
@@ -183,14 +237,8 @@ ngOnInit() {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.incomingMessage.unsubscribe();
   }
-
-  // this.personForm.get("").valueChange.subscribe(
-  //   value => {
-  //     console.log('Value=' + value)
-  //   }
-  // )
 
   private getPersonDetails(PersonIdIn: number): void {
     this.dataSprocsService.getPersonDetails(PersonIdIn).
@@ -274,61 +322,61 @@ ngOnInit() {
       );
   }
 
-    private getPossiblePartners(PersonId: number): void {
-    this.dataSprocsService.GetPossiblePartnersList(PersonId).
+  private getPossiblePartners(PersonId: number): void {
+  this.dataSprocsService.GetPossiblePartnersList(PersonId).
+    subscribe (
+      (PossibePartnersList) => {
+        if (PossibePartnersList == null) {
+          this.possiblePartnersList = [];
+        } else {
+          this.possiblePartnersList = PossibePartnersList;
+        }
+      }
+    );
+  }
+
+
+  private getPossibleMothersBasedOnDate(DateIn: Date): void {
+    this.dataSprocsService.getPossibleMothersListBasedOnDate(DateIn).
       subscribe (
-        (PossibePartnersList) => {
-          if (PossibePartnersList == null) {
-            this.possiblePartnersList = [];
+        (PossibleMothersList) => {
+          if (PossibleMothersList == null) {
+            this.possibleMothersList = [];
           } else {
-            this.possiblePartnersList = PossibePartnersList;
+            this.possibleMothersList = PossibleMothersList;
           }
         }
       );
     }
 
-
-    private getPossibleMothersBasedOnDate(DateIn: Date): void {
-      this.dataSprocsService.getPossibleMothersListBasedOnDate(DateIn).
-        subscribe (
-          (PossibleMothersList) => {
-            if (PossibleMothersList == null) {
-              this.possibleMothersList = [];
-            } else {
-              this.possibleMothersList = PossibleMothersList;
-            }
-          }
-        );
+  private getPossibleFathersBasedOnDate(DateIn: Date): void {
+  this.dataSprocsService.getPossibleFathersListBasedOnDate(DateIn).
+    subscribe (
+      (PossibleFathersList) => {
+        if (PossibleFathersList == null) {
+          this.possibleFathersList = [];
+        } else {
+          this.possibleFathersList = PossibleFathersList;
+        }
       }
+    );
+  }
 
-      private getPossibleFathersBasedOnDate(DateIn: Date): void {
-      this.dataSprocsService.getPossibleFathersListBasedOnDate(DateIn).
-        subscribe (
-          (PossibleFathersList) => {
-            if (PossibleFathersList == null) {
-              this.possibleFathersList = [];
-            } else {
-              this.possibleFathersList = PossibleFathersList;
-            }
-          }
-        );
+  private getPossiblePartnersBasedOnDate(DateIn: Date): void {
+  this.dataSprocsService.GetPossiblePartnersListBasedOnDate(DateIn).
+    subscribe (
+      (PossibePartnersList) => {
+        if (PossibePartnersList == null) {
+          this.possiblePartnersList = [];
+        } else {
+          this.possiblePartnersList = PossibePartnersList;
+        }
       }
+    );
+  }
 
-      private getPossiblePartnersBasedOnDate(DateIn: Date): void {
-      this.dataSprocsService.GetPossiblePartnersListBasedOnDate(DateIn).
-        subscribe (
-          (PossibePartnersList) => {
-            if (PossibePartnersList == null) {
-              this.possiblePartnersList = [];
-            } else {
-              this.possiblePartnersList = PossibePartnersList;
-            }
-          }
-        );
-      }
-
-      private onSubmit() {
-        // TODO: Gebriuk EventEmitter with form value to save data to backend (?)
-        console.log('Waarde van onSubmit= ' + this.personForm.value);
-      }
+  private onSubmit() {
+    // TODO: Gebriuk EventEmitter with form value to save data to backend (?)
+    console.log('Waarde van onSubmit= ' + JSON.stringify(this.personForm.value));
+  }
 }
