@@ -7,7 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule, Routes} from '@angular/router';
 import { CustomMaterialModule } from './core/material.module';
 import { AppComponent } from './app.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NavigationComponent } from './navigation/navigation.component';
 import { SearchHubComponent } from './Searchhub/searchhub.component';
 import { PersonScreenComponent} from './personscreen/personscreen.component';
@@ -44,7 +44,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    // FormsModule,
+    FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
     MatIconModule,

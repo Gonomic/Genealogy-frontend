@@ -11,12 +11,12 @@
         <mat-form-field class="form-group ">
             <label>Voornaam</label>
             <!-- <input matInput class="form-control " [(ngModel)]="person.PersonGivvenName " name='Voornaam'>     -->
-            <input matInput class="form-control " name='Voornaam' formControlName='PersonGivenName' required>
+            <input matInput class="form-control " name='Voornaam' formControlName='PersonGivenName'>
         </mat-form-field>
 
         <mat-form-field class="form-group ">
             <label>Achternaam</label>
-            <input matInput class="form-control " formControlName="PersonFamilyName" name='Achternaam' required>
+            <input matInput class="form-control " formControlName="PersonFamilyName" name='Achternaam'>
         </mat-form-field>
     </div>
 
@@ -25,7 +25,7 @@
         <mat-form-field class="form-group ">
             <label>Geboortedatum</label>
             <!-- <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum " (change)=DateChanged(person.PersonDateOfBirth) required> -->
-            <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum" required>
+            <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
@@ -70,10 +70,8 @@
 
         <mat-form-field class="form-group">
             <label class="grey-font">Kies een (andere) moeder</label>
-            <!-- <mat-select class="form-control" formControlName="selectedMother" [ngModelOptions]="{standalone: true}" (selectionChange)="onPossibleMotherAdditionOrChange($event)"> -->
-            <!-- <mat-select class="form-control" (selectionChange)="onPossibleMotherAdditionOrChange($event)"></mat-select>             -->
-            <mat-select class="form-control">
-                <mat-option *ngFor="let mother of possibleMothersList.data" [value]='{"motherId": mother.PersonID, "motherName": mother.PossibleMother}'>
+            <mat-select class="form-control" formControlName='selectedMother' name='Kies een (andere) moeder'>
+                <mat-option *ngFor="let mother of possibleMothersList.data" [value]='{"PersonID": mother.PersonID, "PossibleMother": mother.PossibleMother}'>
                     {{mother.PossibleMother}} ({{mother.BirthDate}})
                 </mat-option>
             </mat-select>
@@ -88,9 +86,8 @@
 
         <mat-form-field class="form-group">
             <label class="grey-font">Kies een (andere) vader</label>
-            <!-- <mat-select class="form-control" formControlName="selectedFather" (selectionChange)="onPossibleFatherAdditionOrChange($event)"></mat-select>             -->
-            <mat-select class="form-control" (selectionChange)="onPossibleFatherAdditionOrChange($event)">
-                <mat-option *ngFor="let father of possibleFathersList.data" [value]='{"fatherId": father.FatherID, "fatherName": father.PossibleFather}'>
+            <mat-select class="form-control" formControlName='selectedFather' name='Kies een (andere) vader'>
+                <mat-option *ngFor="let father of possibleFathersList.data" [value]='{"PersonID": father.PersonID, "PossibleFather": father.PossibleFather}'>
                     {{father.PossibleFather}} ({{father.BirthDate}})
                 </mat-option>
             </mat-select>
@@ -107,8 +104,8 @@
 
         <mat-form-field class="form-group">
             <Label class="grey-font">Kies een (andere) partner</Label>
-            <mat-select class="form-control" (selectionChange)="onPossiblePartnerAdditionOrChange($event)">
-                <mat-option *ngFor="let partner of possiblePartnersList.data" [value]='{"partnerID": partner.PartnerID, "partnerName": partner.PossiblePartner}'>
+            <mat-select class="form-control" formControlName='selectedPartner' name='Kies een (andere) partner'>
+                <mat-option *ngFor="let partner of possiblePartnersList.data" [value]='{"partnerID": partner.PersonID, "PossiblePartner": partner.PossiblePartner}'>
                     {{partner.PossiblePartner}} ({{partner.BirthDate}})
                 </mat-option>
             </mat-select>

@@ -67,7 +67,11 @@ export class ChildrenScreenComponent implements OnDestroy {
             this.dataSprocsService.getPossibleChildrenList(this.PersonIdInPersonScreen).
             subscribe(
               (possiblechildrenlist) => {
-                this.possibleChildrenList = possiblechildrenlist;
+                if (possiblechildrenlist === undefined ) {
+                  this.possibleChildrenList = [];
+                } else {
+                  this.possibleChildrenList = possiblechildrenlist;
+                }
               }
             );
           }
@@ -87,10 +91,10 @@ export class ChildrenScreenComponent implements OnDestroy {
   private getPossibleChildrenList(ParentId: number): void {
     this.dataSprocsService.getPossibleChildrenList(ParentId)
     .subscribe(possiblechildrenlist => {
-      if (possiblechildrenlist == null) {
+      if (possiblechildrenlist === undefined) {
         this.possibleChildrenList = [];
       } else {
-      this.possibleChildrenList = possiblechildrenlist;
+        this.possibleChildrenList = possiblechildrenlist;
       }
     });
   }
@@ -101,7 +105,7 @@ export class ChildrenScreenComponent implements OnDestroy {
       if (children == null) {
         this.children = [];
       } else {
-      this.children = children;
+        this.children = children;
       }
     });
   }
@@ -118,7 +122,11 @@ export class ChildrenScreenComponent implements OnDestroy {
             this.dataSprocsService.getPossibleChildrenList(ParentId).
             subscribe(
               (possiblechildrenlist) => {
-                this.possibleChildrenList = possiblechildrenlist;
+                if (possiblechildrenlist === undefined) {
+                  this.possibleChildrenList = [];
+                } else {
+                  this.possibleChildrenList = possiblechildrenlist;
+                }
               }
             );
           }

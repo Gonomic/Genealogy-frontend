@@ -23,9 +23,9 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
   private possibleFathersList = {};
   private possibleMothersList = {};
   private possiblePartnersList = {};
-  private selectedMother = '' ;
-  private selectedFather = '' ;
-  private selectedPartner = '';
+  // private selectedMother = '' ;
+  // private selectedFather = '' ;
+  // private selectedPartner = '';
   personForm: FormGroup;
   message: any;
   incomingMessage: Subscription;
@@ -60,27 +60,25 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
 ngOnInit() {
   this.personForm = new FormGroup({
     PersonID: new FormControl(0),
-    PersonGivenName: new FormControl('', Validators.required),
-    PersonFamilyName: new FormControl('', Validators.required),
-    PersonDateOfBirth: new FormControl(new Date('0000-00-00'), Validators.required),
-    PersonPlaceOfBirth: new FormControl(''),
-    PersonDateOfDeath: new FormControl(new Date('0000-00-00')),
-    PersonPlaceOfDeath: new FormControl(''),
-    PersonIsMale: new FormControl(true),
-    MotherID: new FormControl(0),
-    MotherName: new FormControl(''),
-    FatherID: new FormControl(0),
-    FatherName: new FormControl(''),
-    PartnerID: new FormControl(0),
-    PartnerName: new FormControl(''),
+    PersonGivenName: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
+    PersonFamilyName: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
+    PersonDateOfBirth: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
+    PersonPlaceOfBirth: new FormControl(null),
+    PersonDateOfDeath: new FormControl(null),
+    PersonPlaceOfDeath: new FormControl(null),
+    PersonIsMale: new FormControl(null, { validators: Validators.required, updateOn: 'blur'} ),
+    MotherID: new FormControl(null),
+    MotherName: new FormControl(null),
+    FatherID: new FormControl(null),
+    FatherName: new FormControl(null),
+    PartnerID: new FormControl(null),
+    PartnerName: new FormControl(null),
     Timestamp: new FormControl(null),
     // FatherAndMotherArePartners: new FormControl(true),
-    selectedMother: new FormControl(0),
-    selectedFather: new FormControl(0),
-    selectedPartner: new FormControl(0)
-  },
-    { updateOn: 'blur'}
-  );
+    selectedMother: new FormControl(null, { updateOn: 'blur'}),
+    selectedFather: new FormControl(null, { updateOn: 'blur'}),
+    selectedPartner: new FormControl(null, { updateOn: 'blur'})
+  });
 
 
   // this.motherChanged = this.personForm.get('selectedMother').valueChanges.subscribe(
@@ -95,13 +93,16 @@ ngOnInit() {
 
   this.personForm.get('selectedMother').valueChanges.subscribe(
     value => {
-      console.log('Value changes of selectedMother, PersonID= ' + this.personForm.get('PersonID').value + ', selectedMother= ' + JSON.stringify(value));
+      console.log('!!=-> Value changes of selectedMother, value= ' + JSON.stringify(value));
       if (! this.personForm.get('selectedMother').pristine) {
         console.log('In selectedMother changed, selectedMother NOT pristine, so actions taken!');
-        this.personForm.setValue({
-          MotherID: value.MotherId,
-          MotherName: value.MotherName
-        });
+        if (this.personForm.get('selectedMother').value != null) {
+          this.personForm.patchValue({
+            MotherID: value.PersonID,
+            MotherName: value.PossibleMother,
+            selectedMother: null
+          });
+        }
       } else {
         console.log('In selectedMother changed, selectedMother pristine, so NO actions taken!');
       }
@@ -110,13 +111,16 @@ ngOnInit() {
 
   this.personForm.get('selectedFather').valueChanges.subscribe(
     value => {
-      console.log('Value changes of selectedFather, PersonID= ' + this.personForm.get('PersonID').value + ', selectedFather= ' + JSON.stringify(value));
+      console.log('!!=-> Value changes of selectedFather, value= ' + JSON.stringify(value));
       if (! this.personForm.get('selectedFather').pristine) {
         console.log('In selectedFather changed, selectedFather NOT pristine, so actions taken!');
-        this.personForm.setValue({
-          FatherID: value.FatherId,
-          FatherName: value.FatherName
-        });
+        if (this.personForm.get('selectedFather').value != null) {
+          this.personForm.patchValue({
+            FatherID: value.PersonID,
+            FatherName: value.PossibleFather,
+            selectedFather: null
+          });
+        }
       } else {
         console.log('In selectedFather changed, selectedFather pristine, so NO actions taken!');
       }
@@ -125,13 +129,16 @@ ngOnInit() {
 
   this.personForm.get('selectedPartner').valueChanges.subscribe(
     value => {
-      console.log('Value changes of selectedPartner, PersonID= ' + this.personForm.get('PersonID').value + ', selectedPartner= ' + JSON.stringify(value));
+      console.log('Value changes of selectedPartner, value= ' + JSON.stringify(value));
       if (! this.personForm.get('selectedPartner').pristine) {
         console.log('In selectedPartner, selectedPartner NOT pristine, so actions taken!');
-        this.personForm.setValue({
-          PartnerID: value.PartnerId,
-          PartnerName: value.PartnerName
-        });
+        if (this.personForm.get('selectedPartner').value != null) {
+          this.personForm.patchValue({
+            PartnerID: value.PersonID,
+            PartnerName: value.PossiblePartner,
+            selectedPartner: null
+          });
+        }
       } else {
         console.log('In selectedPartner changed, selectedPartner pristine, so NO actions taken!');
       }
@@ -143,13 +150,13 @@ ngOnInit() {
     console.log('Value changes of PersonDateOfBirth, PersonID= ' + this.personForm.get('PersonID').value + 'DateIn= ' + DateIn );
     if (! this.personForm.get('PersonDateOfBirth').pristine) {
       console.log('In PersonDateOfBirth changed, PersonDateOfBirth NOT pristine, so actions taken!');
-        if  (this.personForm.get('PersonID').value === 0) {
-          console.log('PersonID===0, so new record, so actions taken based on birthdatedate, date= ' + DateIn);
+        if  (this.personForm.get('PersonID').value === null) {
+          console.log('PersonID===null, so new record, so actions taken based on birthdatedate, date= ' + DateIn);
           this.getPossibleFathersBasedOnDate(DateIn);
           this.getPossibleMothersBasedOnDate(DateIn);
           this.getPossiblePartnersBasedOnDate(DateIn);
         } else {
-          console.log('PersonID <> 0, so existing record, so actions taken based on PersonID, id= ' + this.personForm.get('PersonID').value);
+          console.log('PersonID <> null, so existing record, so actions taken based on PersonID, id= ' + this.personForm.get('PersonID').value);
           this.getPossibleFathers(this.personForm.get('PersonID').value);
           this.getPossibleMothers(this.personForm.get('PersonID').value);
           this.getPossiblePartners(this.personForm.get('PersonID').value);
@@ -170,10 +177,10 @@ ngOnInit() {
   // }
 
   // private onPossibleMotherAdditionOrChange(eventObject): void {
-  //   this.personForm.setValue({
-  //     MotherID: eventObject.value.MotherId,
+  //   this.personForm.patchValue({
+  //     MotherID: eventObject.value.motherId,
   //     MotherName: eventObject.value.motherName,
-  //     selectedMother: undefined
+  //     selectedMother: 0
   //   });
   // }
 
@@ -195,33 +202,26 @@ ngOnInit() {
 
   private resetPersonRecord(PersonNameIn: string): void {
     this.personForm.reset({
-      PersonID: 0,
-      PersonGivenName: '',
+      PersonID: null,
+      PersonGivenName: null,
       PersonFamilyName: PersonNameIn,
-      PersonDateOfBirth: new Date('1/1/2000'),
-      PersonPlaceOfBirth: '',
-      PersonDateOfDeath: new Date('1/1/2000'),
-      PersonPlaceOfDeath: '',
-      PersonIsMale: false,
-      MotherID: 0,
-      MotherName: '',
-      FatherID: 0,
-      FatherName: '',
-      PartnerID: 0,
-      PartnerName: '',
+      PersonDateOfBirth: null,
+      PersonPlaceOfBirth: null,
+      PersonDateOfDeath: null,
+      PersonPlaceOfDeath: null,
+      PersonIsMale: null,
+      MotherID: null,
+      MotherName: null,
+      FatherID: null,
+      FatherName: null,
+      PartnerID: null,
+      PartnerName: null,
       Timestamp: null,
       // FatherAndMotherArePartners: person.data.FatherAndMotherArePartners
-      selectedMother: 0,
-      selectedFather: 0,
-      selectedPartner: 0
+      selectedMother: null,
+      selectedFather: null,
+      selectedPartner: null
     });
-    // this.personForm.reset();
-    // this.personForm.setValue({
-    //   PersonID: 0,
-    //   PersonGivenName: '',
-    //   PersonFamilyName: PersonNameIn,
-    //   PersonDateOfBirth: new Date('0000-00-00')
-    // });
   }
 
   private resetPossibeFatherList(): void {
@@ -244,7 +244,7 @@ ngOnInit() {
     this.dataSprocsService.getPersonDetails(PersonIdIn).
     subscribe (
       (person) => {
-        this.personForm.setValue({
+        this.personForm.reset({
           PersonID: person.data.PersonID,
           PersonGivenName: person.data.PersonGivvenName,
           PersonFamilyName: person.data.PersonFamilyName,
@@ -253,12 +253,12 @@ ngOnInit() {
           PersonDateOfDeath: person.data.PersonDateOfDeath,
           PersonPlaceOfDeath: person.data.PersonPlaceOfDeath,
           PersonIsMale: person.data.PersonIsMale,
-          MotherID: person.data.MotherID || 0,
-          MotherName: person.data.MotherName || '',
-          FatherID: person.data.PartnerID || 0,
-          FatherName: person.data.PartnerName || '',
-          PartnerID: person.data.PartnerID || 0,
-          PartnerName: person.data.PartnerName || '',
+          MotherID: person.data.MotherID || null,
+          MotherName: person.data.MotherName || null,
+          FatherID: person.data.FatherID || null,
+          FatherName: person.data.FatherName || null,
+          PartnerID: person.data.PartnerID || null,
+          PartnerName: person.data.PartnerName || null,
           Timestamp: person.data.Timestamp,
           // FatherAndMotherArePartners: person.data.FatherAndMotherArePartners
           selectedMother: null,
@@ -300,7 +300,8 @@ ngOnInit() {
     this.dataSprocsService.getPossibleMothersList(PersonId).
       subscribe (
         (PossibleMothersList) => {
-          if (PossibleMothersList == null) {
+          console.log('=> this.PossibleMotherList.data= ' + JSON.stringify(PossibleMothersList.data));
+          if (PossibleMothersList === undefined) {
             this.possibleMothersList = [];
         } else {
           this.possibleMothersList = PossibleMothersList;
@@ -313,7 +314,8 @@ ngOnInit() {
     this.dataSprocsService.getPossibleFathersList(PersonId).
       subscribe (
         (PossibleFathersList) => {
-          if (PossibleFathersList == null) {
+          console.log('=> this.PossibleFatherList.data= ' + JSON.stringify(PossibleFathersList.data));
+          if (PossibleFathersList === undefined) {
             this.possibleFathersList = [];
           } else {
             this.possibleFathersList = PossibleFathersList;
@@ -326,7 +328,8 @@ ngOnInit() {
   this.dataSprocsService.GetPossiblePartnersList(PersonId).
     subscribe (
       (PossibePartnersList) => {
-        if (PossibePartnersList == null) {
+        console.log('=> this.PossiblePartnerList.data= ' + JSON.stringify(PossibePartnersList.data));
+        if (PossibePartnersList === undefined) {
           this.possiblePartnersList = [];
         } else {
           this.possiblePartnersList = PossibePartnersList;
@@ -340,7 +343,7 @@ ngOnInit() {
     this.dataSprocsService.getPossibleMothersListBasedOnDate(DateIn).
       subscribe (
         (PossibleMothersList) => {
-          if (PossibleMothersList == null) {
+          if (PossibleMothersList === undefined) {
             this.possibleMothersList = [];
           } else {
             this.possibleMothersList = PossibleMothersList;
@@ -353,7 +356,7 @@ ngOnInit() {
   this.dataSprocsService.getPossibleFathersListBasedOnDate(DateIn).
     subscribe (
       (PossibleFathersList) => {
-        if (PossibleFathersList == null) {
+        if (PossibleFathersList === undefined) {
           this.possibleFathersList = [];
         } else {
           this.possibleFathersList = PossibleFathersList;
@@ -366,7 +369,7 @@ ngOnInit() {
   this.dataSprocsService.GetPossiblePartnersListBasedOnDate(DateIn).
     subscribe (
       (PossibePartnersList) => {
-        if (PossibePartnersList == null) {
+        if (PossibePartnersList === undefined) {
           this.possiblePartnersList = [];
         } else {
           this.possiblePartnersList = PossibePartnersList;
