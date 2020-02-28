@@ -1,12 +1,13 @@
-<form #childrenForm="ngForm">
+<form [formGroup]='childrensForm'>
+    <!-- <form #childrenForm="ngForm"> -->
 
     <div>
         <h1>Kinderen</h1>
     </div>
 
     <mat-form-field>
-        <mat-label>Kies toe te voegen kind</mat-label>
-        <mat-select (selectionChange)="onPossibleChildAddition($event)">
+        <mat-label>Kies een toe te voegen kind</mat-label>
+        <mat-select formControlName="ChildToAdd" name="Toe te voegen kind" (selectionChange)="onPossibleChildAddition($event)">
             <!-- <mat-select> -->
             <mat-option *ngFor="let child of possibleChildrenList.data" [value]="child.PossibleChildID">
                 {{child.PossibleChild}} ({{child.BirthDate}})
@@ -21,10 +22,6 @@
             <button mat-icon-button (click)="removeAsChild(child.value.KindId, child.value.Parent)">
                     <mat-icon>person_add_disabled</mat-icon>
                 </button>
-
-            <!-- <button mat-icon-button (click)="removeAsPerson(child.KindId) ">
-                    <mat-icon>delete_forever</mat-icon>
-            </button> -->
         </mat-list-item>
     </div>
 

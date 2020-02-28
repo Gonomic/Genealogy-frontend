@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormBuilder, FormGroup } from '@angular/forms';
+
 
 export interface DialogData {
   name: string;
@@ -14,8 +15,10 @@ export interface DialogData {
 
 export class DeletePersonDialogComponent {
 
-    form: FormGroup;
     title: string;
+    deletePersonDialog = new FormGroup({
+      NameOfPerson: new FormControl('')
+    });
 
     constructor(
         private fb: FormBuilder,
@@ -24,17 +27,11 @@ export class DeletePersonDialogComponent {
             this.title = data.title;
         }
 
-    // ngOnInit() {
-    //     this.form = this.fb.group({
-    //         description: [description, []],
-    //     });
-    // }
-
-    save(){
-        this.dialogRef.close(this.form.value);
+    save() {
+        this.dialogRef.close(this.deletePersonDialog.value);
     }
 
-    close(){
+    close() {
         this.dialogRef.close();
     }
 

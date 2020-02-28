@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, Output } from '@angular/core';
 import { DataSprocsService } from '../datasprocs.service';
+import { FormGroup, FormControl } from '@angular/forms';
 import {catchError, map, mergeMap, tap, subscribeOn} from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { Child } from '../child';
@@ -27,6 +28,10 @@ export class ChildrenScreenComponent implements OnDestroy {
   message: any;
   subscription: Subscription;
 
+  childrensForm = new FormGroup({
+    ChildToAdd: new FormControl(0)
+  });
+
   constructor(
     private dataSprocsService: DataSprocsService,
     private messageService: MessageService
@@ -36,7 +41,6 @@ export class ChildrenScreenComponent implements OnDestroy {
         .subscribe(message => {
           if (message.action === 'addNewPerson') {
             this.resetChildList();
-            
             this.resetpossibleChildrenList();
           } else {
             this.PersonIdInPersonScreen = message.Id;
@@ -63,7 +67,11 @@ export class ChildrenScreenComponent implements OnDestroy {
             this.dataSprocsService.getPossibleChildrenList(this.PersonIdInPersonScreen).
             subscribe(
               (possiblechildrenlist) => {
-                this.possibleChildrenList = possiblechildrenlist;
+                if (possiblechildrenlist === undefined ) {
+                  this.possibleChildrenList = [];
+                } else {
+                  this.possibleChildrenList = possiblechildrenlist;
+                }
               }
             );
           }
@@ -83,10 +91,10 @@ export class ChildrenScreenComponent implements OnDestroy {
   private getPossibleChildrenList(ParentId: number): void {
     this.dataSprocsService.getPossibleChildrenList(ParentId)
     .subscribe(possiblechildrenlist => {
-      if (possiblechildrenlist == null) {
+      if (possiblechildrenlist === undefined) {
         this.possibleChildrenList = [];
       } else {
-      this.possibleChildrenList = possiblechildrenlist;
+        this.possibleChildrenList = possiblechildrenlist;
       }
     });
   }
@@ -97,7 +105,7 @@ export class ChildrenScreenComponent implements OnDestroy {
       if (children == null) {
         this.children = [];
       } else {
-      this.children = children;
+        this.children = children;
       }
     });
   }
@@ -114,7 +122,11 @@ export class ChildrenScreenComponent implements OnDestroy {
             this.dataSprocsService.getPossibleChildrenList(ParentId).
             subscribe(
               (possiblechildrenlist) => {
-                this.possibleChildrenList = possiblechildrenlist;
+                if (possiblechildrenlist === undefined) {
+                  this.possibleChildrenList = [];
+                } else {
+                  this.possibleChildrenList = possiblechildrenlist;
+                }
               }
             );
           }

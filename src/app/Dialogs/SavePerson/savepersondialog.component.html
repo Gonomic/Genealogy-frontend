@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="center-text">
     <h1 class="inline:display" mat-dialog-title>Gegevens van persoon: {{description}} bewaren?</h1>
 
@@ -14,17 +15,35 @@
         gaan toevoegen aan de rechterzijde van het scherm.
     </div>
         <!-- <mat-form-field>
+=======
+<form [formGroup]='savePersonDialog'>
+>>>>>>> def38be23a5f25a2858e4636cbfe1a813f637395
 
-            <input matInput formControlName="description">
+    <h1 mat-dialog-title>Gegevens persoon {{data.name}} verwijderen?</h1>
 
-        </mat-form-field> -->
+    <div class="center-text">
+        <h1 class="inline:display" mat-dialog-title>Gegevens van persoon: {{description}} bewaren?</h1>
 
-    </mat-dialog-content>
+        <mat-dialog-content>
+            <div>
+                Als je op "Gegevens opslaan" klikt, worden de gegevens van deze persoon bewaard. Als je op "Gevens NIET opslaan" klikt, worden de gegevens niet bewaard en verschijnen de 'oude' gegevens in het scherm zoals deze waren voordat je deze begon te bewerken.
+            </div>
+            <div>----------</div>
+            <div>
+                Als dit niet de gegevens van een bestaande persoon zijn, maar van een persoon die je nieuw wilt toevoegen, kan je nadat je op "Gegevens opslaan" geklikt hebt ook kinderen gaan toevoegen aan de rechterzijde van het scherm.
+            </div>
+            <!-- <mat-form-field>
+
+                <input matInput formControlName="description">
+
+            </mat-form-field> -->
+
+        </mat-dialog-content>
     </div>
 
+    <mat-dialog-actions>
+        <button class="mat-raised-button" (click)="close()">Gegevens NIET opslaan</button>
+        <button class="mat-raised-button mat-primary" (click)="save()">Gegevens opslaan</button>
+    </mat-dialog-actions>
 
-
-<mat-dialog-actions>
-    <button class="mat-raised-button" (click)="close()">Gegevens NIET opslaan</button>
-    <button class="mat-raised-button mat-primary" (click)="save()">Gegevens opslaan</button>
-</mat-dialog-actions>
+</form>

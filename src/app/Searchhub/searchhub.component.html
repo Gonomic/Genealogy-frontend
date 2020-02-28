@@ -1,15 +1,20 @@
-<div fxLayout="column">
-    <div>
-        <label>Voer naam persoon in:</label>
-        <input [(ngModel)]="nameToLookForFromScreen" type="text" name="nameToLookForFromScreen" id="namesToLookForFromScreen" (ngModelChange)='this.nameToLookForFromScreenUpdate.next($event)'>
-        <button (click)='AddPerson(nameToLookForFromScreen)'>+</button>
+<form [formGroup]='searchForm'>
+
+    <div fxLayout="column">
+        <div>
+            <label>Voer naam persoon in:</label>
+            <!-- <input formControlName="nameToLookForFromScreen" type="text" name="nameToLookForFromScreen" id="namesToLookForFromScreen" (ngModelChange)='this.nameToLookForFromScreenUpdate.next($event)'> -->
+            <input formControlName="nameToLookForFromScreen" type="text" name="nameToLookForFromScreen" id="namesToLookForFromScreen">
+            <button (click)='AddPerson()'>+</button>
+        </div>
+
+        <div>
+            <mat-action-list>
+                <button mat-list-item *ngFor="let item of plainpersonlist.data | keyvalue" (click)="sendMessage(item.value.PersonID, item.value.Birth)">
+                {{item.value.Name}} =>
+                </button>
+            </mat-action-list>
+        </div>
     </div>
 
-    <div>
-        <mat-action-list>
-            <button mat-list-item *ngFor="let item of plainpersonlist.data | keyvalue" (click)="sendMessage(item.value.PersonID, item.value.Birth)">
-            {{item.value.Name}} =>
-            </button>
-        </mat-action-list>
-    </div>
-</div>
+</form>

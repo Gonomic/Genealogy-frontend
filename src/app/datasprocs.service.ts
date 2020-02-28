@@ -65,9 +65,9 @@ export class DataSprocsService {
     );
   }
 
-  getPersonDetails(PersonId: number): Observable<Person> {
+  getPersonDetails(PersonId: number): Observable<any> {
     const url = 'http://localhost:1337/getPersonDetails?person=' + PersonId;
-    return this.httpClient.get<Person>(url).pipe(
+    return this.httpClient.get<any>(url).pipe(
       tap(_ => console.log('Fetched person with Id= ' + PersonId)),
       catchError(this.handleError<Person>('getPersonDetails PersonId=${PersonId}'))
     );

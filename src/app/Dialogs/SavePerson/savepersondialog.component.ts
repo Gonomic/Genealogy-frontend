@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
 export interface DialogData {
   name: string;
@@ -14,25 +14,27 @@ export interface DialogData {
 
 export class SavePersonDialogComponent implements OnInit {
 
-    form: FormGroup;
     title: string;
+    savePersonDialog = new FormGroup({
+        NameOfPerson: new FormControl('')
+      });
     description: string;
 
     constructor(
         private fb: FormBuilder,
         public dialogRef: MatDialogRef<SavePersonDialogComponent>,
         @Inject(MAT_DIALOG_DATA) data) {
-            this.description = data.PersonName;
+            this.title = data.PersonName;
         }
 
     ngOnInit() {
-        this.form = this.fb.group({
+        this.savePersonDialog = this.fb.group({
             description: [this.description, []],
         });
     }
 
     save(){
-        this.dialogRef.close(this.form.value);
+        this.dialogRef.close(this.savePersonDialog.value);
     }
 
     close(){
