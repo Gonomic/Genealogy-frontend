@@ -15,24 +15,21 @@ export interface DialogData {
 
 export class DeletePersonDialogComponent {
 
-    title: string;
-    deletePersonDialog = new FormGroup({
-      NameOfPerson: new FormControl('')
-    });
+    person: string;
+
 
     constructor(
-        private fb: FormBuilder,
         public dialogRef: MatDialogRef<DeletePersonDialogComponent>,
         @Inject(MAT_DIALOG_DATA) data) {
-            this.title = data.title;
+            this.person = data.PersonName;
         }
 
     save() {
-        this.dialogRef.close(this.deletePersonDialog.value);
+        this.dialogRef.close('Save');
     }
 
     close() {
-        this.dialogRef.close();
+        this.dialogRef.close('Discard');
     }
 
     onClick(): void {

@@ -199,17 +199,13 @@ ngOnInit() {
   }
 
   private openSavePersonDialog(): void {
-    console.log('In openSavePersonDialog');
     const dialogSavePersonConfig = new MatDialogConfig();
     dialogSavePersonConfig.disableClose = true;
     dialogSavePersonConfig.autoFocus = true;
-    dialogSavePersonConfig.data = {
-      PersonName: this.personForm.get('PersonGivenName').value  +  this.personForm.get('PersonFamilyName').value
-    }
-    this.saveDialog.open(SavePersonDialogComponent, dialogSavePersonConfig);
-    const dialogRef = this.saveDialog.open(SavePersonDialogComponent, dialogSavePersonConfig);
-    dialogRef.afterClosed().subscribe(
-      data => console.log('Dialog ouput: ', data)
+    dialogSavePersonConfig.data = { PersonName: this.personForm.get('PersonGivenName').value  +  ' ' + this.personForm.get('PersonFamilyName').value };
+    const dialogRef1 = this.saveDialog.open(SavePersonDialogComponent, dialogSavePersonConfig);
+    dialogRef1.afterClosed().subscribe(
+      data => console.log('Dialog ouput SaveDialogWindow: ', data)
     );
   }
 
@@ -217,11 +213,11 @@ ngOnInit() {
     const dialogDeletePersonConfig = new MatDialogConfig();
     dialogDeletePersonConfig.disableClose = true;
     dialogDeletePersonConfig.autoFocus = true;
-    dialogDeletePersonConfig.data = {
-      PersonName: this.personForm.get('PersonGivenName').value + this.personForm.get('PersonFamilyName').value
-    }
-    this.deleteDialog.open(DeletePersonDialogComponent, dialogDeletePersonConfig);
-
+    dialogDeletePersonConfig.data = { PersonName: this.personForm.get('PersonGivenName').value + ' ' + this.personForm.get('PersonFamilyName').value };
+    const dialogRef2 = this.deleteDialog.open(DeletePersonDialogComponent, dialogDeletePersonConfig);
+    dialogRef2.afterClosed().subscribe(
+      data => console.log('Dialog output DeleteDialogWindow= ', data)
+    );
   }
 
 
