@@ -304,4 +304,11 @@ ngOnInit() {
     // TODO: Gebriuk EventEmitter with form value to save data to backend (?)
     console.log('Waarde van onSubmit= ' + JSON.stringify(this.personForm.value));
   }
+
+  get PersonGivenName() {return this.personForm.get('PersonGivenName'); }
+
+  get PersonFamilyName() {return this.personForm.get('PersonFamilyName'); }
+
+  get PersonDateOfBirth() { return this.personForm.get('PersonDateOfBirth'); }
+
 }

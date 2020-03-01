@@ -10,13 +10,22 @@
     <div>
         <mat-form-field class="form-group ">
             <label>Voornaam</label>
-            <!-- <input matInput class="form-control " [(ngModel)]="person.PersonGivvenName " name='Voornaam'>     -->
-            <input matInput class="form-control " name='Voornaam' formControlName='PersonGivenName'>
+            <input matInput class="form-control " name='Voornaam' formControlName='PersonGivenName' required>
+            <div *ngIf="PersonGivenName.invalid && (PersonGivenName.dirty || PersonGivenName.touched)" class='alert alert-danger'>
+                <div *ngIf="PersonGivenName.errors.required">
+                    Voornaam is een verplicht veld en moet ingevoerd worden.
+                </div>
+            </div>
         </mat-form-field>
 
         <mat-form-field class="form-group ">
             <label>Achternaam</label>
             <input matInput class="form-control " formControlName="PersonFamilyName" name='Achternaam'>
+            <div *ngIf="PersonFamilyName.invalid && (PersonFamilyName.dirty || PersonFamilyName.touched)" class='alert alert-danger'>
+                <div *ngIf="PersonFamilyName.errors.required">
+                    Achternaam is een verplicht veld en moet ingevoerd worden.
+                </div>
+            </div>
         </mat-form-field>
     </div>
 
@@ -24,10 +33,15 @@
     <div>
         <mat-form-field class="form-group ">
             <label>Geboortedatum</label>
-            <!-- <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum " (change)=DateChanged(person.PersonDateOfBirth) required> -->
             <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum">
+            <div *ngIf="PersonDateOfBirth.invalid && (PersonDateOfBirth.dirty || PersonDateOfBirth.touched)" class='alert alert-danger'>
+                <div *ngIf="PersonDateOfBirth.errors.required">
+                    Geboortedatum is een verplicht veld en moet ingevoerd worden.
+                </div>
+            </div>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
+
         </mat-form-field>
 
         <mat-form-field class="form-group ">
