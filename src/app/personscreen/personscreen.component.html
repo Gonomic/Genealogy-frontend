@@ -1,8 +1,4 @@
 <form [formGroup]='personForm' (ngSubmit)='onSubmit()'>
-
-    <!-- <mat-grid-list cols=" 2 "> -->
-
-    <!-- <mat-grid-tile> -->
     <div>
         <h1>Persoon</h1>
     </div>
@@ -20,7 +16,7 @@
 
         <mat-form-field class="form-group ">
             <label>Achternaam</label>
-            <input matInput class="form-control " formControlName="PersonFamilyName" name='Achternaam'>
+            <input matInput class="form-control " formControlName="PersonFamilyName" name='Achternaam' required>
             <div *ngIf="PersonFamilyName.invalid && (PersonFamilyName.dirty || PersonFamilyName.touched)" class='alert alert-danger'>
                 <div *ngIf="PersonFamilyName.errors.required">
                     Achternaam is een verplicht veld en moet ingevoerd worden.
@@ -33,7 +29,7 @@
     <div>
         <mat-form-field class="form-group ">
             <label>Geboortedatum</label>
-            <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum">
+            <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum" required>
             <div *ngIf="PersonDateOfBirth.invalid && (PersonDateOfBirth.dirty || PersonDateOfBirth.touched)" class='alert alert-danger'>
                 <div *ngIf="PersonDateOfBirth.errors.required">
                     Geboortedatum is een verplicht veld en moet ingevoerd worden.
@@ -66,13 +62,18 @@
 
     <div>
         <label class="right-20">Geslacht</label>
-        <mat-button-toggle-group formControlName="PersonIsMale" name="Geslacht">
+        <mat-button-toggle-group formControlName="PersonIsMale" name="Geslacht" required>
             <mat-button-toggle [value]=1>
                 Man
             </mat-button-toggle>
             <mat-button-toggle [value]=0>
                 Vrouw
             </mat-button-toggle>
+            <div *ngIf="PersonIsMale.invalid && (PersonIsMale.dirty || PersonIsMale.touched)" class='alert alert-danger'>
+                <div *ngIf="PersonIsMale.errors.required">
+                    Geslacht is een verplicht veld en moet ingevoerd worden.
+                </div>
+            </div>
         </mat-button-toggle-group>
     </div>
 
@@ -128,8 +129,8 @@
     </div>
 
     <div class="button-row">
-        <button mat-raised-button type='submit' [disabled]="!personForm.valid" (click)='openSavePersonDialog()'>Gegevens persoon opslaan</button>
-        <button mat-raised-button (click)=openDeletePersonDialog()>Gegevens persoon verwijderen</button>
+        <button mat-raised-button type='submit' [disabled]="(!personForm.dirty || !personForm.touched)" (click)='openSavePersonDialog()'>Gegevens persoon opslaan</button>
+        <button mat-raised-button [disabled]="(!personID)" (click)=openDeletePersonDialog()>Gegevens persoon verwijderen</button>
     </div>
 
 </form>
