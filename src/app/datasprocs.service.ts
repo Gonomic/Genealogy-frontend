@@ -163,4 +163,25 @@ export class DataSprocsService {
       catchError(this.handleError<any>('getPossiblePartnersListBasedOnDate= Date=${this.DateString}'))
     );
   }
+
+  AddPerson(personObj: Person ) {
+    const url = 'http://localhost:1337/addPerson';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpClient.post<Person>(url, personObj, httpOptions);
+  }
+
+  ChangePerson(personObj: Person ) {
+    const url = 'http://localhost:1337/changePerson';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpClient.post<Person>(url, personObj, httpOptions);
+  }
+
 }

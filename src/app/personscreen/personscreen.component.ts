@@ -117,7 +117,7 @@ ngOnInit() {
   this.personForm.get('PersonDateOfBirth').valueChanges.subscribe(
     DateIn => {
     if (! this.personForm.get('PersonDateOfBirth').pristine) {
-        if  (this.personForm.get('PersonID').value === null) {
+        if  (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
           this.getPossibleFathersBasedOnDate(DateIn);
           this.getPossibleMothersBasedOnDate(DateIn);
           this.getPossiblePartnersBasedOnDate(DateIn);
@@ -209,12 +209,12 @@ ngOnInit() {
       DialogResult => {
         console.log('Dialog ouput SaveDialogWindow: ', DialogResult);
         if (DialogResult === 'Save') {
-          if (this.personForm.get('personID').value === 0) {
+          if (this.personForm.get('PersonID').value === 0) {
             this.dataSprocsService.AddPerson(this.personForm.value).subscribe(
               PostResult => {
                 console.log('Resultaat van AddPerson post= ' + JSON.stringify(PostResult));
                 this.personForm.reset({
-                  PersonID: PostResult.data.PersonID,
+                  PersonID: PostResult.PersonId,
                   PersonGivenName: PostResult.PersonGivvenName,
                   PersonFamilyName: PostResult.PersonFamilyName,
                   PersonDateOfBirth: PostResult.PersonDateOfBirth,
@@ -236,14 +236,13 @@ ngOnInit() {
                 this.getPossibleFathers(PostResult.PersonId);
                 this.getPossibleMothers(PostResult.PersonId);
                 this.getPossiblePartners(PostResult.PersonId);
-              }
-            );
-          } {
+              });
+          } else {
             this.dataSprocsService.ChangePerson(this.personForm.value).subscribe(
               PostResult => {
                 console.log('Resultaat van ChangePerson post= ' + JSON.stringify(PostResult));
                 this.personForm.reset({
-                  PersonID: PostResult.data.PersonID,
+                  PersonID: PostResult.PersonId,
                   PersonGivenName: PostResult.PersonGivvenName,
                   PersonFamilyName: PostResult.PersonFamilyName,
                   PersonDateOfBirth: PostResult.PersonDateOfBirth,
