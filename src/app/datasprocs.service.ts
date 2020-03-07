@@ -165,7 +165,7 @@ export class DataSprocsService {
   }
 
   AddPerson(personObj: Person ) {
-    const url = 'http://localhost:1337/addPerson';
+    const url = 'http://localhost:1337/postAddPerson';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -175,7 +175,7 @@ export class DataSprocsService {
   }
 
   ChangePerson(personObj: Person ) {
-    const url = 'http://localhost:1337/changePerson';
+    const url = 'http://localhost:1337/PostChangePerson';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

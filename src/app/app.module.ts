@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { HttpClientModule} from '@angular/common/http';
 import { MatIconModule, MatSidenavContent, MatDialogModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -16,7 +17,6 @@ import { InfoScreenComponent} from './infoscreen/infoscreen.component';
 import { ChildrenScreenComponent } from './childrenscreen/childrenscreen.component';
 import { DataSprocsService } from './datasprocs.service';
 import { MessageService } from './eventhub.service';
-import { DatePipe } from '@angular/common';
 import { SavePersonDialogComponent } from './Dialogs/SavePerson/savePersonDialog.component';
 import { DeletePersonDialogComponent } from './Dialogs/DeletePerson/deletePersonDialog.component';
 
@@ -57,11 +57,11 @@ const appRoutes: Routes = [
     )
   ],
   providers: [
+    DatePipe,
     DataSprocsService,
-    MessageService,
-    DatePipe
+    MessageService
   ],
   bootstrap: [AppComponent],
   entryComponents: [SavePersonDialogComponent, DeletePersonDialogComponent]
 })
-export class AppModule { }
+export class AppModule {}

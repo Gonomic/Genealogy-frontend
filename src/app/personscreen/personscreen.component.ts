@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy, Output, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { formatDate } from '@angular/common';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { DataSprocsService } from '../datasprocs.service';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../eventhub.service';
 import { SavePersonDialogComponent } from '../Dialogs/SavePerson/savePersonDialog.component';
 import { DeletePersonDialogComponent } from '../Dialogs/DeletePerson/deletePersonDialog.component';
-import { JsonPipe } from '@angular/common';
+import { JsonPipe, DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-person-screen',
@@ -26,12 +28,12 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
   incomingMessage: Subscription;
   motherChanged: Subscription;
 
-
   constructor(
     private dataSprocsService: DataSprocsService,
     private messageService: MessageService,
     private saveDialog: MatDialog,
-    private deleteDialog: MatDialog
+    private deleteDialog: MatDialog,
+    private datepipe: DatePipe
   ) {
       this.incomingMessage = this.messageService
         .getMessage()
@@ -116,6 +118,9 @@ ngOnInit() {
 
   this.personForm.get('PersonDateOfBirth').valueChanges.subscribe(
     DateIn => {
+    // this.personForm.patchValue({
+    //   PersonDateOfBirth: formatDate(DateIn, 'yyyyMMdd')
+    //     });
     if (! this.personForm.get('PersonDateOfBirth').pristine) {
         if  (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
           this.getPossibleFathersBasedOnDate(DateIn);
@@ -214,28 +219,28 @@ ngOnInit() {
               PostResult => {
                 console.log('Resultaat van AddPerson post= ' + JSON.stringify(PostResult));
                 this.personForm.reset({
-                  PersonID: PostResult.PersonId,
-                  PersonGivenName: PostResult.PersonGivvenName,
-                  PersonFamilyName: PostResult.PersonFamilyName,
-                  PersonDateOfBirth: PostResult.PersonDateOfBirth,
-                  PersonPlaceOfBirth: PostResult.PersonPlaceOfBirth,
-                  PersonDateOfDeath: PostResult.PersonDateOfDeath,
-                  PersonPlaceOfDeath: PostResult.PersonPlaceOfDeath,
-                  PersonIsMale: PostResult.PersonIsMale,
-                  MotherID: PostResult.MotherID || null,
-                  MotherName: PostResult.MotherName || null,
-                  FatherID: PostResult.FatherID || null,
-                  FatherName: PostResult.FatherName || null,
-                  PartnerID: PostResult.PartnerID || null,
-                  PartnerName: PostResult.PartnerName || null,
-                  Timestamp: PostResult.Timestamp,
+                  PersonID: PostResult.data[0].PersonId,
+                  PersonGivenName: PostResult.data[0].PersonGivvenName,
+                  PersonFamilyName: PostResult.data[0].PersonFamilyName,
+                  PersonDateOfBirth: PostResult.data[0].PersonDateOfBirth,
+                  PersonPlaceOfBirth: PostResult.data[0].PersonPlaceOfBirth,
+                  PersonDateOfDeath: PostResult.data[0].PersonDateOfDeath,
+                  PersonPlaceOfDeath: PostResult.data[0].PersonPlaceOfDeath,
+                  PersonIsMale: PostResult.data[0].PersonIsMale,
+                  MotherID: PostResult.data[0].MotherID || null,
+                  MotherName: PostResult.data[0].MotherName || null,
+                  FatherID: PostResult.data[0].FatherID || null,
+                  FatherName: PostResult.data[0].FatherName || null,
+                  PartnerID: PostResult.data[0].PartnerID || null,
+                  PartnerName: PostResult.data[0].PartnerName || null,
+                  Timestamp: PostResult.data[0].Timestamp,
                   selectedMother: null,
                   selectedFather: null,
                   selectedPartner: null
                 });
-                this.getPossibleFathers(PostResult.PersonId);
-                this.getPossibleMothers(PostResult.PersonId);
-                this.getPossiblePartners(PostResult.PersonId);
+                this.getPossibleFathers(PostResult.data[0].PersonId);
+                this.getPossibleMothers(PostResult.data[0].PersonId);
+                this.getPossiblePartners(PostResult.data[0].PersonId);
               });
           } else {
             this.dataSprocsService.ChangePerson(this.personForm.value).subscribe(
@@ -364,6 +369,9 @@ ngOnInit() {
   }
 
   private onSubmit() {
+    this.personForm.patchValue({
+      PersonDateOfBirth: this.datepipe.transform( this.PersonDateOfBirth.value, 'yyyy-MM-dd')
+    });
     // TODO: Gebriuk EventEmitter with form value to save data to backend (?)
     console.log('Waarde van onSubmit= ' + JSON.stringify(this.personForm.value));
   }
