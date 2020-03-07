@@ -54,7 +54,7 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
 
 ngOnInit() {
   this.personForm = new FormGroup({
-    PersonID: new FormControl(0),
+    PersonID: new FormControl(null),
     PersonGivenName: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
     PersonFamilyName: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
     PersonDateOfBirth: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
@@ -212,14 +212,12 @@ ngOnInit() {
     const dialogRef1 = this.saveDialog.open(SavePersonDialogComponent, dialogSavePersonConfig);
     dialogRef1.afterClosed().subscribe(
       DialogResult => {
-        console.log('Dialog ouput SaveDialogWindow: ', DialogResult);
         if (DialogResult === 'Save') {
-          if (this.personForm.get('PersonID').value === 0) {
+          if (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
             this.dataSprocsService.AddPerson(this.personForm.value).subscribe(
               PostResult => {
-                console.log('Resultaat van AddPerson post= ' + JSON.stringify(PostResult));
                 this.personForm.reset({
-                  PersonID: PostResult.data[0].PersonId,
+                  PersonID: PostResult.data[0].PersonID,
                   PersonGivenName: PostResult.data[0].PersonGivvenName,
                   PersonFamilyName: PostResult.data[0].PersonFamilyName,
                   PersonDateOfBirth: PostResult.data[0].PersonDateOfBirth,
@@ -238,37 +236,36 @@ ngOnInit() {
                   selectedFather: null,
                   selectedPartner: null
                 });
-                this.getPossibleFathers(PostResult.data[0].PersonId);
-                this.getPossibleMothers(PostResult.data[0].PersonId);
-                this.getPossiblePartners(PostResult.data[0].PersonId);
+                this.getPossibleFathers(this.personForm.get('PersonID').value);
+                this.getPossibleMothers(this.personForm.get('PersonID').value);
+                this.getPossiblePartners(this.personForm.get('PersonID').value);
               });
           } else {
             this.dataSprocsService.ChangePerson(this.personForm.value).subscribe(
               PostResult => {
-                console.log('Resultaat van ChangePerson post= ' + JSON.stringify(PostResult));
                 this.personForm.reset({
-                  PersonID: PostResult.PersonId,
-                  PersonGivenName: PostResult.PersonGivvenName,
-                  PersonFamilyName: PostResult.PersonFamilyName,
-                  PersonDateOfBirth: PostResult.PersonDateOfBirth,
-                  PersonPlaceOfBirth: PostResult.PersonPlaceOfBirth,
-                  PersonDateOfDeath: PostResult.PersonDateOfDeath,
-                  PersonPlaceOfDeath: PostResult.PersonPlaceOfDeath,
-                  PersonIsMale: PostResult.PersonIsMale,
-                  MotherID: PostResult.MotherID || null,
-                  MotherName: PostResult.MotherName || null,
-                  FatherID: PostResult.FatherID || null,
-                  FatherName: PostResult.FatherName || null,
-                  PartnerID: PostResult.PartnerID || null,
-                  PartnerName: PostResult.PartnerName || null,
-                  Timestamp: PostResult.Timestamp,
+                  PersonID: PostResult.data[0].PersonID,
+                  PersonGivenName: PostResult.data[0].PersonGivvenName,
+                  PersonFamilyName: PostResult.data[0].PersonFamilyName,
+                  PersonDateOfBirth: PostResult.data[0].PersonDateOfBirth,
+                  PersonPlaceOfBirth: PostResult.data[0].PersonPlaceOfBirth,
+                  PersonDateOfDeath: PostResult.data[0].PersonDateOfDeath,
+                  PersonPlaceOfDeath: PostResult.data[0].PersonPlaceOfDeath,
+                  PersonIsMale: PostResult.data[0].PersonIsMale,
+                  MotherID: PostResult.data[0].MotherID || null,
+                  MotherName: PostResult.data[0].MotherName || null,
+                  FatherID: PostResult.data[0].FatherID || null,
+                  FatherName: PostResult.data[0].FatherName || null,
+                  PartnerID: PostResult.data[0].PartnerID || null,
+                  PartnerName: PostResult.data[0].PartnerName || null,
+                  Timestamp: PostResult.data[0].Timestamp,
                   selectedMother: null,
                   selectedFather: null,
                   selectedPartner: null
                 });
-                this.getPossibleFathers(PostResult.PersonId);
-                this.getPossibleMothers(PostResult.PersonId);
-                this.getPossiblePartners(PostResult.PersonId);
+                this.getPossibleFathers(this.personForm.get('PersonID').value);
+                this.getPossibleMothers(this.personForm.get('PersonID').value);
+                this.getPossiblePartners(this.personForm.get('PersonID').value);
               }
             );
           }

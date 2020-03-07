@@ -171,7 +171,10 @@ export class DataSprocsService {
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post<Person>(url, personObj, httpOptions);
+    return this.httpClient.post<any>(url, personObj, httpOptions).pipe(
+      tap(_ => console.log('Added person record for person= ' + personObj.PersonGivvenName + ' ' + personObj.PersonFamilyName)),
+      catchError(this.handleError<any>('AddPerson personObj=${personObj}'))
+    );
   }
 
   ChangePerson(personObj: Person ) {
@@ -181,7 +184,10 @@ export class DataSprocsService {
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post<Person>(url, personObj, httpOptions);
+    return this.httpClient.post<any>(url, personObj, httpOptions).pipe(
+      tap(_ => console.log('Changed person record for person= ' + personObj.PersonGivvenName + ' ' + personObj.PersonFamilyName)),
+      catchError(this.handleError<any>('ChangePerson personObj=${personObj}'))
+    );
   }
 
 }
