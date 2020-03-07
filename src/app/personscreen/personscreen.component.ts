@@ -55,7 +55,7 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
 ngOnInit() {
   this.personForm = new FormGroup({
     PersonID: new FormControl(null),
-    PersonGivenName: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
+    PersonGivvenName: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
     PersonFamilyName: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
     PersonDateOfBirth: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
     PersonPlaceOfBirth: new FormControl(null),
@@ -140,7 +140,7 @@ ngOnInit() {
   private resetPersonRecord(PersonNameIn: string): void {
     this.personForm.reset({
       PersonID: null,
-      PersonGivenName: null,
+      PersonGivvenName: null,
       PersonFamilyName: PersonNameIn,
       PersonDateOfBirth: null,
       PersonPlaceOfBirth: null,
@@ -182,7 +182,7 @@ ngOnInit() {
       (person) => {
         this.personForm.reset({
           PersonID: person.data.PersonID,
-          PersonGivenName: person.data.PersonGivvenName,
+          PersonGivvenName: person.data.PersonGivvenName,
           PersonFamilyName: person.data.PersonFamilyName,
           PersonDateOfBirth: person.data.PersonDateOfBirth,
           PersonPlaceOfBirth: person.data.PersonPlaceOfBirth,
@@ -208,17 +208,19 @@ ngOnInit() {
     const dialogSavePersonConfig = new MatDialogConfig();
     dialogSavePersonConfig.disableClose = true;
     dialogSavePersonConfig.autoFocus = true;
-    dialogSavePersonConfig.data = { PersonName: this.personForm.get('PersonGivenName').value  +  ' ' + this.personForm.get('PersonFamilyName').value };
+    dialogSavePersonConfig.data = { PersonName: this.personForm.get('PersonGivvenName').value  +  ' ' + this.personForm.get('PersonFamilyName').value };
     const dialogRef1 = this.saveDialog.open(SavePersonDialogComponent, dialogSavePersonConfig);
     dialogRef1.afterClosed().subscribe(
       DialogResult => {
         if (DialogResult === 'Save') {
+          console.log('personForm.value=' + JSON.stringify(this.personForm.value));
           if (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
+            console.log('In PersonID = null or 0');
             this.dataSprocsService.AddPerson(this.personForm.value).subscribe(
               PostResult => {
                 this.personForm.reset({
                   PersonID: PostResult.data[0].PersonID,
-                  PersonGivenName: PostResult.data[0].PersonGivvenName,
+                  PersonGivvenName: PostResult.data[0].PersonGivvenName,
                   PersonFamilyName: PostResult.data[0].PersonFamilyName,
                   PersonDateOfBirth: PostResult.data[0].PersonDateOfBirth,
                   PersonPlaceOfBirth: PostResult.data[0].PersonPlaceOfBirth,
@@ -241,11 +243,12 @@ ngOnInit() {
                 this.getPossiblePartners(this.personForm.get('PersonID').value);
               });
           } else {
+            console.log('In PersonID <> null or 0');
             this.dataSprocsService.ChangePerson(this.personForm.value).subscribe(
               PostResult => {
                 this.personForm.reset({
                   PersonID: PostResult.data[0].PersonID,
-                  PersonGivenName: PostResult.data[0].PersonGivvenName,
+                  PersonGivvenName: PostResult.data[0].PersonGivvenName,
                   PersonFamilyName: PostResult.data[0].PersonFamilyName,
                   PersonDateOfBirth: PostResult.data[0].PersonDateOfBirth,
                   PersonPlaceOfBirth: PostResult.data[0].PersonPlaceOfBirth,
@@ -278,7 +281,7 @@ ngOnInit() {
     const dialogDeletePersonConfig = new MatDialogConfig();
     dialogDeletePersonConfig.disableClose = true;
     dialogDeletePersonConfig.autoFocus = true;
-    dialogDeletePersonConfig.data = { PersonName: this.personForm.get('PersonGivenName').value + ' ' + this.personForm.get('PersonFamilyName').value };
+    dialogDeletePersonConfig.data = { PersonName: this.personForm.get('PersonGivvenName').value + ' ' + this.personForm.get('PersonFamilyName').value };
     const dialogRef2 = this.deleteDialog.open(DeletePersonDialogComponent, dialogDeletePersonConfig);
     dialogRef2.afterClosed().subscribe(
       data => console.log('Dialog output DeleteDialogWindow= ', data)
@@ -373,7 +376,7 @@ ngOnInit() {
     console.log('Waarde van onSubmit= ' + JSON.stringify(this.personForm.value));
   }
 
-  get PersonGivenName() {return this.personForm.get('PersonGivenName'); }
+  get PersonGivvenName() {return this.personForm.get('PersonGivvenName'); }
 
   get PersonFamilyName() {return this.personForm.get('PersonFamilyName'); }
 

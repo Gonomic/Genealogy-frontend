@@ -172,7 +172,7 @@ export class DataSprocsService {
       })
     };
     return this.httpClient.post<any>(url, personObj, httpOptions).pipe(
-      tap(_ => console.log('Added person record for person= ' + personObj.PersonGivvenName + ' ' + personObj.PersonFamilyName)),
+      tap(result => console.log('Added person record for person= ' + personObj.PersonGivvenName + ' ' + personObj.PersonFamilyName + '. Complete record: ' + JSON.stringify(result))),
       catchError(this.handleError<any>('AddPerson personObj=${personObj}'))
     );
   }

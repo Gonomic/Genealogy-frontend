@@ -6,9 +6,9 @@
     <div>
         <mat-form-field class="form-group ">
             <label>Voornaam</label>
-            <input matInput class="form-control " name='Voornaam' formControlName='PersonGivenName' required>
-            <div *ngIf="PersonGivenName.invalid && (PersonGivenName.dirty || PersonGivenName.touched)" class='alert alert-danger'>
-                <div *ngIf="PersonGivenName.errors.required">
+            <input matInput class="form-control " name='Voornaam' formControlName='PersonGivvenName' required>
+            <div *ngIf="PersonGivvenName.invalid && (PersonGivvenName.dirty || PersonGivvenName.touched)" class='alert alert-danger'>
+                <div *ngIf="PersonGivvenName.errors.required">
                     Voornaam is een verplicht veld en moet ingevoerd worden.
                 </div>
             </div>
@@ -120,7 +120,7 @@
         <mat-form-field class="form-group">
             <Label class="grey-font">Kies een (andere) partner</Label>
             <mat-select class="form-control" formControlName='selectedPartner' name='Kies een (andere) partner'>
-                <mat-option *ngFor="let partner of possiblePartnersList.data" [value]='{"partnerID": partner.PersonID, "PossiblePartner": partner.PossiblePartner}'>
+                <mat-option *ngFor="let partner of possiblePartnersList.data" [value]='{"PersonID": partner.PersonID, "PossiblePartner": partner.PossiblePartner}'>
                     {{partner.PossiblePartner}} ({{partner.BirthDate}})
                 </mat-option>
             </mat-select>
@@ -129,7 +129,7 @@
     </div>
 
     <div class="button-row">
-        <button mat-raised-button type='submit' [disabled]="(!PersonGivenName.dirty || !PersonFamilyName.dirty || !PersonDateOfBirth.dirty || !PersonIsMale.dirty)" (click)='openSavePersonDialog()'>Gegevens persoon opslaan</button>
+        <button mat-raised-button type='submit' [disabled]="(!PersonGivvenName===null || !PersonFamilyName===null || !PersonDateOfBirth===nulll || !PersonIsMale===null || !personForm.dirty)" (click)='openSavePersonDialog()'>Gegevens persoon opslaan</button>
         <button mat-raised-button [disabled]="(PersonID > 0)" (click)=openDeletePersonDialog()>Gegevens persoon verwijderen</button>
     </div>
 
