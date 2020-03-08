@@ -113,6 +113,25 @@ export class DataSprocsService {
     return this.httpClient.delete<any>(url, httpOptions);
   }
 
+  deletePerson(PersonIdIn: Number, MotherIdIn: Number, FatherIdIn: Number, PartnerIdIn: Number, TimestampIn: Date) {
+    const url = 'http://localhost:1337/deletePerson';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        'PersonID': PersonIdIn,
+        'MotherID': MotherIdIn,
+        'FatherID': FatherIdIn,
+        'ParentID': PartnerIdIn,
+        'Timestamp': TimestampIn
+      },
+    };
+    return this.httpClient.delete<any>(url, httpOptions);
+  }
+
+
+
   getPossibleMothersList(PersonId: number): Observable<any> {
     const url = 'http://localhost:1337/getPossibleMothers?PersonId=' + PersonId;
     return this.httpClient.get<any>(url).pipe(

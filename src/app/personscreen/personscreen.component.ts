@@ -290,13 +290,62 @@ ngOnInit() {
   }
 
   private openDeletePersonDialog(): void {
+    // const dialogDeletePersonConfig = new MatDialogConfig();
+    // dialogDeletePersonConfig.disableClose = true;
+    // dialogDeletePersonConfig.autoFocus = true;
+    // dialogDeletePersonConfig.data = { PersonName: this.personForm.get('PersonGivvenName').value + ' ' + this.personForm.get('PersonFamilyName').value };
+    // const dialogRef2 = this.deleteDialog.open(DeletePersonDialogComponent, dialogDeletePersonConfig);
+    // dialogRef2.afterClosed().subscribe(
+    //   data => console.log('Dialog output DeleteDialogWindow= ', data)
+    // );
+
     const dialogDeletePersonConfig = new MatDialogConfig();
     dialogDeletePersonConfig.disableClose = true;
     dialogDeletePersonConfig.autoFocus = true;
-    dialogDeletePersonConfig.data = { PersonName: this.personForm.get('PersonGivvenName').value + ' ' + this.personForm.get('PersonFamilyName').value };
+    dialogDeletePersonConfig.data = { PersonName: this.personForm.get('PersonGivvenName').value  +  ' ' + this.personForm.get('PersonFamilyName').value };
     const dialogRef2 = this.deleteDialog.open(DeletePersonDialogComponent, dialogDeletePersonConfig);
     dialogRef2.afterClosed().subscribe(
-      data => console.log('Dialog output DeleteDialogWindow= ', data)
+      DialogResult => {
+        if (DialogResult === 'Delete') {
+          console.log('personForm.value=' + JSON.stringify(this.personForm.value));
+          if (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
+            console.log('Deletedialog - in PersonID = null or 0 (dus leeg record');
+            this.resetPersonRecord('');
+          } else {
+            this.dataSprocsService.deletePerson(this.personForm.get('PersonID').value,
+                                                this.personForm.get('MotherID').value,
+                                                this.personForm.get('FatherID').value,
+                                                this.personForm.get('PartnerID').value,
+                                                this.personForm.get('Timestamp').value).subscribe(
+              DeleteResult => {
+                console.log('DeleteResult= ' + JSON.stringify(DeleteResult));
+                this.resetPersonRecord('');
+                  // this.personForm.reset({
+                  // PersonID: PostResult.data[0].PersonID,
+                  // PersonGivvenName: PostResult.data[0].PersonGivvenName,
+                  // PersonFamilyName: PostResult.data[0].PersonFamilyName,
+                  // PersonDateOfBirth: PostResult.data[0].PersonDateOfBirth,
+                  // PersonPlaceOfBirth: PostResult.data[0].PersonPlaceOfBirth,
+                  // PersonDateOfDeath: PostResult.data[0].PersonDateOfDeath,
+                  // PersonPlaceOfDeath: PostResult.data[0].PersonPlaceOfDeath,
+                  // PersonIsMale: PostResult.data[0].PersonIsMale,
+                  // MotherID: PostResult.data[0].MotherID || null,
+                  // MotherName: PostResult.data[0].MotherName || null,
+                  // FatherID: PostResult.data[0].FatherID || null,
+                  // FatherName: PostResult.data[0].FatherName || null,
+                  // PartnerID: PostResult.data[0].PartnerID || null,
+                  // PartnerName: PostResult.data[0].PartnerName || null,
+                  // Timestamp: PostResult.data[0].Timestamp,
+                  // selectedMother: null,
+                  // selectedFather: null,
+                  // selectedPartner: null
+                // });
+              });
+          }
+        } else {
+            console.log('Deletedialog - in PersonID <> null or 0 (dus gevuld record');
+        }
+      }
     );
   }
 
