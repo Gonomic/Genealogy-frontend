@@ -130,7 +130,7 @@
 
     <div class="button-row">
         <button mat-raised-button type='submit' [disabled]="(!PersonGivvenName===null || !PersonFamilyName===null || !PersonDateOfBirth===nulll || !PersonIsMale===null || !personForm.dirty)" (click)='openSavePersonDialog()'>Gegevens persoon opslaan</button>
-        <button mat-raised-button [disabled]="(PersonID > 0)" (click)=openDeletePersonDialog()>Gegevens persoon verwijderen</button>
+        <button mat-raised-button [disabled]="!allValuesAreNull()" (click)=openDeletePersonDialog()>Gegevens persoon verwijderen</button>
     </div>
 
 </form>

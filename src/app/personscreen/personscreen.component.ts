@@ -23,6 +23,7 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
   private possibleFathersList = {};
   private possibleMothersList = {};
   private possiblePartnersList = {};
+  private formContainsValue = false;
   personForm: FormGroup;
   message: any;
   incomingMessage: Subscription;
@@ -275,6 +276,17 @@ ngOnInit() {
         }
       }
     );
+  }
+
+  private allValuesAreNull(): boolean {
+    this.formContainsValue = false;
+    Object.keys(this.personForm.controls).forEach(key => {
+      if (this.personForm.controls[key].value != null) {
+        this.formContainsValue = true;
+        return this.formContainsValue;
+      }
+    });
+    return this.formContainsValue;
   }
 
   private openDeletePersonDialog(): void {
