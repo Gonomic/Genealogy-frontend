@@ -113,7 +113,7 @@ export class DataSprocsService {
     return this.httpClient.delete<any>(url, httpOptions);
   }
 
-  deletePerson(PersonIdIn: Number, MotherIdIn: Number, FatherIdIn: Number, PartnerIdIn: Number, TimestampIn: Date) {
+  deletePerson(PersonIdIn: Number, MotherIdIn: Number, FatherIdIn: Number, PartnerIdIn: Number, TimestampIn: string) {
     const url = 'http://localhost:1337/deletePerson';
     const httpOptions = {
       headers: new HttpHeaders({
@@ -123,11 +123,14 @@ export class DataSprocsService {
         'PersonID': PersonIdIn,
         'MotherID': MotherIdIn,
         'FatherID': FatherIdIn,
-        'ParentID': PartnerIdIn,
+        'PartnerID': PartnerIdIn,
         'Timestamp': TimestampIn
       },
     };
-    return this.httpClient.delete<any>(url, httpOptions);
+    return this.httpClient.delete<any>(url, httpOptions).pipe(
+      tap(results => console.log('Attempted delete Person, result= ' + JSON.stringify(results))),
+      catchError(this.handleError<any>('deletePerson'))
+    );
   }
 
 

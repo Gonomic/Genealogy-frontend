@@ -306,6 +306,7 @@ ngOnInit() {
     const dialogRef2 = this.deleteDialog.open(DeletePersonDialogComponent, dialogDeletePersonConfig);
     dialogRef2.afterClosed().subscribe(
       DialogResult => {
+        console.log('DialogResult= ' + DialogResult);
         if (DialogResult === 'Delete') {
           console.log('personForm.value=' + JSON.stringify(this.personForm.value));
           if (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
@@ -341,13 +342,11 @@ ngOnInit() {
                   // selectedPartner: null
                 // });
               });
+            }
           }
-        } else {
-            console.log('Deletedialog - in PersonID <> null or 0 (dus gevuld record');
         }
-      }
-    );
-  }
+      );
+    }
 
 
   private getPossibleMothers(PersonId): void {

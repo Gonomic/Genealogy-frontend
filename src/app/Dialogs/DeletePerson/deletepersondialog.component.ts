@@ -25,7 +25,7 @@ export class DeletePersonDialogComponent {
         }
 
     save() {
-        this.dialogRef.close('Save');
+        this.dialogRef.close('Delete');
     }
 
     close() {
