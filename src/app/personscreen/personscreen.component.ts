@@ -290,15 +290,6 @@ ngOnInit() {
   }
 
   private openDeletePersonDialog(): void {
-    // const dialogDeletePersonConfig = new MatDialogConfig();
-    // dialogDeletePersonConfig.disableClose = true;
-    // dialogDeletePersonConfig.autoFocus = true;
-    // dialogDeletePersonConfig.data = { PersonName: this.personForm.get('PersonGivvenName').value + ' ' + this.personForm.get('PersonFamilyName').value };
-    // const dialogRef2 = this.deleteDialog.open(DeletePersonDialogComponent, dialogDeletePersonConfig);
-    // dialogRef2.afterClosed().subscribe(
-    //   data => console.log('Dialog output DeleteDialogWindow= ', data)
-    // );
-
     const dialogDeletePersonConfig = new MatDialogConfig();
     dialogDeletePersonConfig.disableClose = true;
     dialogDeletePersonConfig.autoFocus = true;
