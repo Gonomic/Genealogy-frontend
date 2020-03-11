@@ -26,15 +26,7 @@ export class SearchHubComponent implements OnInit {
   constructor(
     private dataSprocsService: DataSprocsService,
     private messageService: MessageService
-    ){
-      // this.nameToLookForFromScreenUpdate.pipe(
-      //   debounceTime(500),
-      //   distinctUntilChanged())
-      //   .subscribe(value => {
-      //     console.log(value);
-      //     this.getPlainListOfPersons(value);
-      // });
-
+    ) {
       this.searchForm.get('nameToLookForFromScreen').valueChanges.pipe(
           debounceTime(500),
           distinctUntilChanged())

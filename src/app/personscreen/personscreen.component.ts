@@ -312,26 +312,6 @@ ngOnInit() {
               DeleteResult => {
                 console.log('DeleteResult= ' + JSON.stringify(DeleteResult));
                 this.resetPersonRecord('');
-                  // this.personForm.reset({
-                  // PersonID: PostResult.data[0].PersonID,
-                  // PersonGivvenName: PostResult.data[0].PersonGivvenName,
-                  // PersonFamilyName: PostResult.data[0].PersonFamilyName,
-                  // PersonDateOfBirth: PostResult.data[0].PersonDateOfBirth,
-                  // PersonPlaceOfBirth: PostResult.data[0].PersonPlaceOfBirth,
-                  // PersonDateOfDeath: PostResult.data[0].PersonDateOfDeath,
-                  // PersonPlaceOfDeath: PostResult.data[0].PersonPlaceOfDeath,
-                  // PersonIsMale: PostResult.data[0].PersonIsMale,
-                  // MotherID: PostResult.data[0].MotherID || null,
-                  // MotherName: PostResult.data[0].MotherName || null,
-                  // FatherID: PostResult.data[0].FatherID || null,
-                  // FatherName: PostResult.data[0].FatherName || null,
-                  // PartnerID: PostResult.data[0].PartnerID || null,
-                  // PartnerName: PostResult.data[0].PartnerName || null,
-                  // Timestamp: PostResult.data[0].Timestamp,
-                  // selectedMother: null,
-                  // selectedFather: null,
-                  // selectedPartner: null
-                // });
               });
             }
           }
