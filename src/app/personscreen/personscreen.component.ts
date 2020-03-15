@@ -401,7 +401,8 @@ ngOnInit() {
 
   private onSubmit() {
     this.personForm.patchValue({
-      PersonDateOfBirth: this.datepipe.transform( this.PersonDateOfBirth.value, 'yyyy-MM-dd')
+      PersonDateOfBirth: this.datepipe.transform( this.PersonDateOfBirth.value, 'yyyy-MM-dd'),
+      PersonDateOfDeath: this.datepipe.transform( this.PersonDateOfDeath.value, 'yyyy-MM-dd')
     });
     // TODO: Gebriuk EventEmitter with form value to save data to backend (?)
     console.log('Waarde van onSubmit= ' + JSON.stringify(this.personForm.value));
@@ -412,6 +413,8 @@ ngOnInit() {
   get PersonFamilyName() {return this.personForm.get('PersonFamilyName'); }
 
   get PersonDateOfBirth() { return this.personForm.get('PersonDateOfBirth'); }
+
+  get PersonDateOfDeath() { return this.personForm.get('PeronDateOfDeath'); }
 
   get PersonID() { return this.personForm.get('PersonID'); }
 
