@@ -200,7 +200,7 @@ export class DataSprocsService {
   }
 
   ChangePerson(personObj: Person ) {
-    const url = 'http://localhost:1337/PostChangePerson';
+    const url = 'http://localhost:1337/postChangePerson';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

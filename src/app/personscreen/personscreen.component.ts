@@ -136,6 +136,40 @@ ngOnInit() {
     }
   );
 
+  this.personForm.get('MotherName').valueChanges.subscribe(
+    ValueIn => {
+      if (ValueIn === '') {
+        this.personForm.patchValue({
+          MotherName: null,
+          MotherID: null
+        });
+      }
+    }
+  );
+
+  this.personForm.get('FatherName').valueChanges.subscribe(
+    ValueIn => {
+      if (ValueIn === '') {
+        this.personForm.patchValue({
+          FatherName: null,
+          FatherID: null
+        });
+      }
+    }
+  );
+
+  this.personForm.get('PartnerName').valueChanges.subscribe(
+    ValueIn => {
+      if (ValueIn === '') {
+        this.personForm.patchValue({
+          PartnerName: null,
+          PartnerID: null
+        });
+      }
+    }
+  );
+
+
 }
 
   private resetPersonRecord(PersonNameIn: string): void {
@@ -414,7 +448,7 @@ ngOnInit() {
 
   get PersonDateOfBirth() { return this.personForm.get('PersonDateOfBirth'); }
 
-  get PersonDateOfDeath() { return this.personForm.get('PeronDateOfDeath'); }
+  get PersonDateOfDeath() { return this.personForm.get('PersonDateOfDeath'); }
 
   get PersonID() { return this.personForm.get('PersonID'); }
 
