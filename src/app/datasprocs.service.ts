@@ -127,6 +127,7 @@ export class DataSprocsService {
         'Timestamp': TimestampIn
       },
     };
+    console.log('In Datasproc / deletePerson. Parm. in values= PersonIdIn: ' + PersonIdIn + ', MotherIdIn= ' + MotherIdIn + ', FatherIdIn: ' + FatherIdIn + ', PartnerIdIn: ' + PartnerIdIn + ' and Timestamp: ' + TimestampIn);
     return this.httpClient.delete<any>(url, httpOptions).pipe(
       tap(results => console.log('Attempted delete Person, result= ' + JSON.stringify(results))),
       catchError(this.handleError<any>('deletePerson'))

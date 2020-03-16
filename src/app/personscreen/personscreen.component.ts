@@ -28,6 +28,7 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
   message: any;
   incomingMessage: Subscription;
   motherChanged: Subscription;
+  theMessageObject: object;
 
   constructor(
     private dataSprocsService: DataSprocsService,
@@ -138,38 +139,54 @@ ngOnInit() {
 
   this.personForm.get('MotherName').valueChanges.subscribe(
     ValueIn => {
-      if (ValueIn === '') {
-        this.personForm.patchValue({
-          MotherName: null,
-          MotherID: null
-        });
+      if (! this.personForm.get('MotherName').pristine) {
+        if (ValueIn === '') {
+          this.personForm.patchValue({
+            MotherName: null,
+            MotherID: null
+          });
+        }
       }
     }
   );
 
   this.personForm.get('FatherName').valueChanges.subscribe(
     ValueIn => {
-      if (ValueIn === '') {
-        this.personForm.patchValue({
-          FatherName: null,
-          FatherID: null
-        });
+      if (! this.personForm.get('FatherName').pristine) {
+        if (ValueIn === '') {
+          this.personForm.patchValue({
+            FatherName: null,
+            FatherID: null
+          });
+        }
       }
     }
   );
 
   this.personForm.get('PartnerName').valueChanges.subscribe(
-    ValueIn => {
-      if (ValueIn === '') {
-        this.personForm.patchValue({
-          PartnerName: null,
-          PartnerID: null
-        });
+      ValueIn => {
+     if (! this.personForm.get('PartnerName').pristine) {
+        if (ValueIn === '') {
+          this.personForm.patchValue({
+            PartnerName: null,
+            PartnerID: null
+          });
+        }
       }
     }
   );
 
 
+}
+
+sendMessage(): void {
+  this.theMessageObject = { 'action': 'refreshPersonList'};
+  console.log('sendMessage, message send= ' + this.theMessageObject);
+  this.messageService.sendMessage(this.theMessageObject);
+}
+
+clearMessage(): void {
+  this.messageService.clearMessage();
 }
 
   private resetPersonRecord(PersonNameIn: string): void {
@@ -276,6 +293,7 @@ ngOnInit() {
                 this.getPossibleFathers(this.personForm.get('PersonID').value);
                 this.getPossibleMothers(this.personForm.get('PersonID').value);
                 this.getPossiblePartners(this.personForm.get('PersonID').value);
+                this.sendMessage();
               });
           } else {
             console.log('In PersonID <> null or 0');
@@ -304,6 +322,7 @@ ngOnInit() {
                 this.getPossibleFathers(this.personForm.get('PersonID').value);
                 this.getPossibleMothers(this.personForm.get('PersonID').value);
                 this.getPossiblePartners(this.personForm.get('PersonID').value);
+                this.sendMessage();
               }
             );
           }
@@ -333,11 +352,12 @@ ngOnInit() {
       DialogResult => {
         console.log('DialogResult= ' + DialogResult);
         if (DialogResult === 'Delete') {
-          console.log('personForm.value=' + JSON.stringify(this.personForm.value));
+          console.log('Just after delete dialog, personForm.value= ' + JSON.stringify(this.personForm.value));
           if (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
-            console.log('Deletedialog - in PersonID = null or 0 (dus leeg record');
+            console.log('Just after delete dialog, PersonID = null or 0 (dus alleen scherm leeg maken');
             this.resetPersonRecord('');
           } else {
+            console.log('Just after delete dialog, PersonID <> null or 0 (dus naar centrale database')
             this.dataSprocsService.deletePerson(this.personForm.get('PersonID').value,
                                                 this.personForm.get('MotherID').value,
                                                 this.personForm.get('FatherID').value,
@@ -346,6 +366,7 @@ ngOnInit() {
               DeleteResult => {
                 console.log('DeleteResult= ' + JSON.stringify(DeleteResult));
                 this.resetPersonRecord('');
+                this.sendMessage();
               });
             }
           }

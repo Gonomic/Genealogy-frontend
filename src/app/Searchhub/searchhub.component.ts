@@ -13,10 +13,9 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 export class SearchHubComponent implements OnInit {
   private plainpersonlist: object = {};
-  // public nameToLookForFromScreen = new FormControl('');
   person: number;
   theMessageObject: object;
-  // nameToLookForFromScreenUpdate = new Subject<string>();
+  incomingMessage: Subscription;
   searchForm = new FormGroup({
     nameToLookForFromScreen: new FormControl('')
   });
@@ -34,6 +33,16 @@ export class SearchHubComponent implements OnInit {
             console.log(value);
             this.getPlainListOfPersons(value);
         });
+
+        this.incomingMessage = this.messageService
+        .getMessage()
+        .subscribe(message => {
+          if (message.action === 'refreshPersonList') {
+            console.log('In searchhub component. Message= ' + message.action + ', refreshing plain list of Persons');
+            this.getPlainListOfPersons(this.searchForm.get('nameToLookForFromScreen').value);
+          }
+        });
+
   }
 
 
