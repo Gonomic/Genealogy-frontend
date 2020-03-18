@@ -41,6 +41,7 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
       this.incomingMessage = this.messageService
         .getMessage()
         .subscribe(message => {
+          console.log('PersonForm incoming message= ' + JSON.stringify(message));
           if (message.action === 'addNewPerson') {
             this.resetPersonRecord(message.name);
             this.resetPossibeFatherList();
@@ -182,7 +183,7 @@ ngOnInit() {
 
 sendMessage(): void {
   this.theMessageObject = { 'action': 'refreshPersonList'};
-  console.log('sendMessage, message send= ' + this.theMessageObject);
+  console.log('sendMessage, message send= ' + JSON.stringify(this.theMessageObject));
   this.messageService.sendMessage(this.theMessageObject);
 }
 
@@ -475,7 +476,6 @@ clearMessage(): void {
       PersonDateOfBirth: this.datepipe.transform( this.PersonDateOfBirth.value, 'yyyy-MM-dd'),
       PersonDateOfDeath: this.datepipe.transform( this.PersonDateOfDeath.value, 'yyyy-MM-dd')
     });
-    // TODO: Gebriuk EventEmitter with form value to save data to backend (?)
     console.log('Waarde van onSubmit= ' + JSON.stringify(this.personForm.value));
   }
 

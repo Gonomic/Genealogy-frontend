@@ -38,7 +38,7 @@ export class SearchHubComponent implements OnInit {
         .getMessage()
         .subscribe(message => {
           if (message.action === 'refreshPersonList') {
-            console.log('In searchhub component. Message= ' + message.action + ', refreshing plain list of Persons');
+            console.log('In searchhub component. Message= ' + JSON.stringify(message));
             this.getPlainListOfPersons(this.searchForm.get('nameToLookForFromScreen').value);
           }
         });
