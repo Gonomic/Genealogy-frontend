@@ -78,5 +78,4 @@ export class SearchHubComponent implements OnInit {
             });
     }
   }
-
 }

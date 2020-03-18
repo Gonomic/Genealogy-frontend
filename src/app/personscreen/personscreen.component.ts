@@ -24,6 +24,7 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
   private possibleMothersList = {};
   private possiblePartnersList = {};
   private formContainsValue = false;
+  private formCanBeSubmitted = false;
   personForm: FormGroup;
   message: any;
   incomingMessage: Subscription;
@@ -342,6 +343,21 @@ clearMessage(): void {
     return this.formContainsValue;
   }
 
+  private formIsSubmitable(): boolean {
+    this.formCanBeSubmitted = false;
+    if (this.PersonFamilyName.value != null && this.PersonFamilyName.value !== '' &&
+        this.PersonGivvenName.value != null && this.PersonGivvenName.value !== '' &&
+        this.PersonDateOfBirth.value != null && this.PersonDateOfBirth.value !== '' &&
+        this.PersonPlaceOfBirth.value != null && this.PersonPlaceOfBirth.value !== '' &&
+        this.PersonIsMale.value != null &&
+        this.personForm.dirty) {
+      this.formCanBeSubmitted = true;
+    } else {
+      this.formCanBeSubmitted = false;
+    }
+    return this.formCanBeSubmitted;
+  }
+
   private openDeletePersonDialog(): void {
     const dialogDeletePersonConfig = new MatDialogConfig();
     dialogDeletePersonConfig.disableClose = true;
@@ -468,6 +484,8 @@ clearMessage(): void {
   get PersonFamilyName() {return this.personForm.get('PersonFamilyName'); }
 
   get PersonDateOfBirth() { return this.personForm.get('PersonDateOfBirth'); }
+
+  get PersonPlaceOfBirth() { return this.personForm.get('PersonPlaceOfBirth'); }
 
   get PersonDateOfDeath() { return this.personForm.get('PersonDateOfDeath'); }
 
