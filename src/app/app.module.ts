@@ -17,8 +17,9 @@ import { InfoScreenComponent} from './infoscreen/infoscreen.component';
 import { ChildrenScreenComponent } from './childrenscreen/childrenscreen.component';
 import { DataSprocsService } from './datasprocs.service';
 import { MessageService } from './eventhub.service';
-import { SavePersonDialogComponent } from './Dialogs/SavePerson/savePersonDialog.component';
-import { DeletePersonDialogComponent } from './Dialogs/DeletePerson/deletePersonDialog.component';
+import { SavePersonDialogComponent } from './dialogs/saveperson/savepersondialog.component';
+import { DeletePersonDialogComponent } from './dialogs/deleteperson/deletepersondialog.component';
+import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 
 const appRoutes: Routes = [
     { path: '', outlet: 'primary', redirectTo: '/personscreen(sidenavNavigatie:searchhub//personsChildren:childrenscreen)', pathMatch: 'full' },
@@ -39,7 +40,8 @@ const appRoutes: Routes = [
     InfoScreenComponent,
     ChildrenScreenComponent,
     SavePersonDialogComponent,
-    DeletePersonDialogComponent
+    DeletePersonDialogComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

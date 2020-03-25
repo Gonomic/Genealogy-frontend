@@ -5,8 +5,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angu
 import { DataSprocsService } from '../datasprocs.service';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../eventhub.service';
-import { SavePersonDialogComponent } from '../Dialogs/SavePerson/savePersonDialog.component';
-import { DeletePersonDialogComponent } from '../Dialogs/DeletePerson/deletePersonDialog.component';
+import { SavePersonDialogComponent } from '../dialogs/saveperson/savepersondialog.component';
+import { DeletePersonDialogComponent } from '../dialogs/deleteperson/deletepersondialog.component';
 import { JsonPipe, DatePipe } from '@angular/common';
 
 
@@ -374,7 +374,7 @@ clearMessage(): void {
             console.log('Just after delete dialog, PersonID = null or 0 (dus alleen scherm leeg maken');
             this.resetPersonRecord('');
           } else {
-            console.log('Just after delete dialog, PersonID <> null or 0 (dus naar centrale database')
+            console.log('Just after delete dialog, PersonID <> null or 0 (dus naar centrale database');
             this.dataSprocsService.deletePerson(this.personForm.get('PersonID').value,
                                                 this.personForm.get('MotherID').value,
                                                 this.personForm.get('FatherID').value,
