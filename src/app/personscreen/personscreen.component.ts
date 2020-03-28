@@ -17,6 +17,7 @@ import { JsonPipe, DatePipe } from '@angular/common';
 })
 
 export class PersonScreenComponent implements OnDestroy, OnInit {
+  private plainpersonlist: {};
   private IntermPers: any;
   private namesToLookFor: string;
   private indexOfPerson: number;

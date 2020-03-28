@@ -8,9 +8,9 @@ COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy Angular build package
-COPY ./dist/Genealogie /usr/share/nginx/html
+COPY ./dist /usr/share/nginx/html
 
-EXPOSE 4200 80
+EXPOSE 1001 1001
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
