@@ -12,7 +12,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 })
 
 export class SearchHubComponent implements OnInit {
-  private plainpersonlist: object = {};
+  public plainpersonlist: object = {};
   person: number;
   theMessageObject: object;
   incomingMessage: Subscription;

@@ -34,6 +34,12 @@ node_modules
 # src folder (all source files, not deeded only the compile result s in the distr folder are needed and thgis copied by the dockerfile)
 src
 
+# The non production assets, assets not required for production. This required for production are in dist/assets
+Non_prod_assets
+
+#Do not copy the certificates!!!
+certs
+
 
 
 

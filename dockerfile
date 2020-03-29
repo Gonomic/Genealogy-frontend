@@ -10,7 +10,9 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copy Angular build package
 COPY ./dist /usr/share/nginx/html
 
+RUN mkdir /home/crt
+
 EXPOSE 1001 1001
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
-
+# ENTRYPOINT ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["sh"]
