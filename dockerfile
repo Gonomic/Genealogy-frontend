@@ -14,5 +14,5 @@ RUN mkdir /home/crt
 
 EXPOSE 1001 1001
 
-# ENTRYPOINT ["nginx", "-g", "daemon off;"]
-ENTRYPOINT ["sh"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
