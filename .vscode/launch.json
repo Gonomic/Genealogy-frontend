@@ -13,6 +13,14 @@
             "firefoxArgs": ["-devtools"]
         },
         {
+            "type": "firefox",
+            "request": "launch",
+            "name": "Launch FireFox against Dekknet",
+            "url": "https://dekknet.com:1001",
+            "webRoot": "${workspaceFolder}",
+            "firefoxArgs": ["-devtools"]
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
