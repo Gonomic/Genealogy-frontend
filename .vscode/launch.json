@@ -7,7 +7,7 @@
         {
             "type": "firefox",
             "request": "launch",
-            "name": "Launch FireFox against localhost",
+            "name": "Launch FireFox against localhost on 4200",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}",
             "firefoxArgs": ["-devtools"]
@@ -15,15 +15,23 @@
         {
             "type": "firefox",
             "request": "launch",
-            "name": "Launch FireFox against Dekknet",
+            "name": "Launch FireFox against Dekknet on 1001",
             "url": "https://dekknet.com:1001",
+            "webRoot": "${workspaceFolder}",
+            "firefoxArgs": ["-devtools"]
+        },
+        {
+            "type": "firefox",
+            "request": "launch",
+            "name": "Launch FireFox against Dekknet on 4200",
+            "url": "https://dekknet.com:4200",
             "webRoot": "${workspaceFolder}",
             "firefoxArgs": ["-devtools"]
         },
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
+            "name": "Launch Chrome against localhost on 4200",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}"
         }

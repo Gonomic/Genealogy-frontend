@@ -8,23 +8,23 @@ services:
     volumes:
       - GENDATA01:/var/lib/mysql
 
-  mw:
+  GENMW01:
     depends_on:
       - dekknet.com
     image: fransdekkers/genmiddleware:1.0
     ports:
       - "1002:1002"
     volumes:
-      - d:/frans/development/Gen/Genealogy-frontend/certs:/usr/src/app/config/ssl
+      - /Datavol1/Dockerstuff/Genealogy/Middleware:/usr/src/app/config/ssl
 
-  fe:
+  GENFE01:
     depends_on:
-      - mw
+      - GENMW01
     image: fransdekkers/genfrontend:1.0
     ports:
       - "1001:1001"
     volumes:
-      - d:/frans/development/Gen/Genealogy-frontend/certs:/home/certs
+      - /Datavol1/Dockerstuff/Genealogy/Frontend:/home/certs
 
 volumes:
   GENDATA01:
