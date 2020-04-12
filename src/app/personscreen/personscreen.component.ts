@@ -48,7 +48,7 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
             this.resetPossibeFatherList();
             this.resetPossibeMotherList();
             this.resetPossiblePartnerList();
-          } else {
+          } else if (message.action === 'getExistingPerson') {
             this.getPersonDetails(message.Id);
             this.getPossibleFathers(message.Id);
             this.getPossibleMothers(message.Id);
@@ -81,7 +81,9 @@ ngOnInit() {
 
   this.personForm.get('selectedMother').valueChanges.subscribe(
     value => {
+      console.log('In selectedMother.valueChanges'); 
       if (! this.personForm.get('selectedMother').pristine) {
+        console.log('In selectedMother.valueChanges: field NOT pristine (so further actions ARE taken)');
         if (this.personForm.get('selectedMother').value != null) {
           this.personForm.patchValue({
             MotherID: value.PersonID,
@@ -89,6 +91,8 @@ ngOnInit() {
             selectedMother: null
           });
         }
+      } else {
+          console.log('In selectedMother.valueChanges: field IS pristine (so NO further actions)');
       }
     }
   );
@@ -126,7 +130,9 @@ ngOnInit() {
     // this.personForm.patchValue({
     //   PersonDateOfBirth: formatDate(DateIn, 'yyyyMMdd')
     //     });
+    console.log('In PersonDateOfBirth.valueChanges');
     if (! this.personForm.get('PersonDateOfBirth').pristine) {
+        console.log('In PersonDateOfBirth.valueChanges: field NOT pristine (so further actions ARE taken)');
         if  (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
           this.getPossibleFathersBasedOnDate(DateIn);
           this.getPossibleMothersBasedOnDate(DateIn);
@@ -136,6 +142,8 @@ ngOnInit() {
           this.getPossibleMothers(this.personForm.get('PersonID').value);
           this.getPossiblePartners(this.personForm.get('PersonID').value);
         }
+      } else {
+        console.log('In PersonDateOfBirth.valueChanges: field IS pristine (so NO further actions)');
       }
     }
   );
@@ -270,9 +278,10 @@ clearMessage(): void {
         if (DialogResult === 'Save') {
           console.log('personForm.value=' + JSON.stringify(this.personForm.value));
           if (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
-            console.log('In PersonID = null or 0');
+            console.log('In openSavePersonDialog() and PersonID = null or 0 (so further action taken: AddPerson()');
             this.dataSprocsService.AddPerson(this.personForm.value).subscribe(
               PostResult => {
+                console.log('In openSavePersonDialog, new person');
                 this.personForm.reset({
                   PersonID: PostResult.data[0].PersonID,
                   PersonGivvenName: PostResult.data[0].PersonGivvenName,
@@ -302,6 +311,7 @@ clearMessage(): void {
             console.log('In PersonID <> null or 0');
             this.dataSprocsService.ChangePerson(this.personForm.value).subscribe(
               PostResult => {
+                console.log('In openSavePersonDialog() and PersonID <> null and <> 0 (so futher action taken: ChangePerson()');
                 this.personForm.reset({
                   PersonID: PostResult.data[0].PersonID,
                   PersonGivvenName: PostResult.data[0].PersonGivvenName,
@@ -325,7 +335,7 @@ clearMessage(): void {
                 this.getPossibleFathers(this.personForm.get('PersonID').value);
                 this.getPossibleMothers(this.personForm.get('PersonID').value);
                 this.getPossiblePartners(this.personForm.get('PersonID').value);
-                this.sendMessage();
+                // this.sendMessage(); Remark: no need to refresh the list, person already existed. Risk: when Familyname changes person will remain viewable in list!
               }
             );
           }

@@ -16,7 +16,7 @@
             "type": "firefox",
             "request": "launch",
             "name": "Launch FireFox against localhost on 1001",
-            "url": "http://localhost:4200",
+            "url": "http://localhost:1001",
             "webRoot": "${workspaceFolder}",
             "firefoxArgs": ["-devtools"]
         },      
@@ -32,7 +32,7 @@
             "type": "firefox",
             "request": "launch",
             "name": "Launch FireFox against Dekknet on 4200",
-            "url": "https://dekknet.com:4200",
+            "url": "http://dekknet.com:4200",
             "webRoot": "${workspaceFolder}",
             "firefoxArgs": ["-devtools"]
         },

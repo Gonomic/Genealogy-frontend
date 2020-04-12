@@ -42,10 +42,11 @@ export class ChildrenScreenComponent implements OnDestroy {
           if (message.action === 'addNewPerson') {
             this.resetChildList();
             this.resetpossibleChildrenList();
-          } else {
+          } else if (message.action = 'getExistingPerson') {
             this.PersonIdInPersonScreen = message.Id;
-            this.getChildList(message.Id);
-            this.getPossibleChildrenList(message.Id);
+            // Changes message.Id in beneath lines to this.PersonIdInPersaonScreen
+            this.getChildList(this.PersonIdInPersonScreen);
+            this.getPossibleChildrenList(this.PersonIdInPersonScreen);
           }
         });
     }
