@@ -1,7 +1,7 @@
 version: "3"
 services:
 
-  dekknet.com:
+  DEKKNET.COM:
     image: fransdekkers/genbackend:1.1
     ports:
       - "3306:3306"
@@ -10,8 +10,8 @@ services:
 
   GENMW01:
     depends_on:
-      - dekknet.com
-    image: fransdekkers/genmiddleware:1.0
+      - DEKKNET.COM
+    image: fransdekkers/genmiddleware:1.1
     ports:
       - "1002:1002"
     volumes:
@@ -20,7 +20,7 @@ services:
   GENFE01:
     depends_on:
       - GENMW01
-    image: fransdekkers/genfrontend:1.0
+    image: fransdekkers/genfrontend:1.1
     ports:
       - "1001:1001"
     volumes:
