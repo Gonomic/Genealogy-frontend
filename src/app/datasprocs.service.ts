@@ -23,7 +23,8 @@ export class DataSprocsService {
   private FeedHumans: any;
   private DateString: string;
 
-  uri = 'https://dekknet.com:1002';
+  // uri = 'https://dekknet.com:1002';
+  uri = 'http://localhost:1002'
 
   constructor(private httpClient: HttpClient, private datepipe: DatePipe) {}
 
@@ -42,7 +43,7 @@ export class DataSprocsService {
   }
 
   getFamilyTree(PersonId: number): Observable<FamilytreeMember[]> {
-    const url = 'https://dekknet.com:1002/getFamilyTree?person=' + PersonId + '&GenerationsToGoUp=20&GenerationsToGoDown=20&IncludePartners=1';
+    const url = this.uri + '/getFamilyTree?person=' + PersonId + '&GenerationsToGoUp=20&GenerationsToGoDown=20&IncludePartners=1';
     return this.httpClient.get<FamilytreeMember[]>(url).pipe(
       tap(_ => console.log('Fetched FamilyTree for person with id= ' + PersonId)),
       catchError(this.handleError<FamilytreeMember[]>('getFamilyTree id=${PersonId}'))
@@ -50,7 +51,7 @@ export class DataSprocsService {
   }
 
   getFather(PersonId: number): Observable<Person[]> {
-    const url = 'https://dekknet.com:1002/getFather?person=' + PersonId;
+    const url = this.uri + '/getFather?person=' + PersonId;
     return this.httpClient.get<Person[]>(url).pipe(
       tap(_ => console.log('Fetched father details for Father with id= ' + PersonId)),
       catchError(this.handleError<Person[]>('getFather id=${PersonId}'))
@@ -58,7 +59,7 @@ export class DataSprocsService {
   }
 
   getPlainListOfPersons(PersonNamesLike: string): Observable<PlainPersonListMember[]> {
-    const url = 'https://dekknet.com:1002/getPlainListOfPersons?NameInLike=' + PersonNamesLike;
+    const url = this.uri + '/getPlainListOfPersons?NameInLike=' + PersonNamesLike;
     return this.httpClient.get<PlainPersonListMember[]>(url).pipe(
       tap(_ => console.log('Fetched persons with names like= ' + PersonNamesLike)),
       catchError(this.handleError<PlainPersonListMember[]>('getPlainListOfPersons PersonNamesLike=${PersonNamesLike}'))
@@ -66,7 +67,7 @@ export class DataSprocsService {
   }
 
   getPersonDetails(PersonId: number): Observable<any> {
-    const url = 'https://dekknet.com:1002/getPersonDetails?person=' + PersonId;
+    const url = this.uri + '/getPersonDetails?person=' + PersonId;
     return this.httpClient.get<any>(url).pipe(
       tap(_ => console.log('Fetched person with Id= ' + PersonId)),
       catchError(this.handleError<Person>('getPersonDetails PersonId=${PersonId}'))
@@ -74,7 +75,7 @@ export class DataSprocsService {
   }
 
   getChildList(PersonId: number): Observable<any> {
-    const url = 'https://dekknet.com:1002/getAllChildrenWithPartnerFromOneParent?ParentIn=' + PersonId;
+    const url = this.uri + '/getAllChildrenWithPartnerFromOneParent?ParentIn=' + PersonId;
     return this.httpClient.get<any>(url).pipe(
       tap(_ => console.log('Fetched children for person with Id= ' + PersonId)),
       catchError(this.handleError<any>('getChildList PersonId=${PersonId}'))
@@ -82,7 +83,7 @@ export class DataSprocsService {
   }
 
   getPossibleChildrenList(PersonId: number): Observable<Child> {
-    const url = 'https://dekknet.com:1002/getPossibleChildren?ParentId=' + PersonId;
+    const url = this.uri + '/getPossibleChildren?ParentId=' + PersonId;
     return this.httpClient.get<Child>(url).pipe(
       tap(_ => console.log('Fetched possible children for person with Id= ' + PersonId)),
       catchError(this.handleError<Child>('getPossibleChildrenList PersonId=${PersonId}'))
@@ -90,7 +91,7 @@ export class DataSprocsService {
   }
 
   AddChildToParent(AddChildToParentObj: AddChildToParent ) {
-    const url = 'https://dekknet.com:1002/postAddChildToParent';
+    const url = this.uri + '/postAddChildToParent';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -100,7 +101,7 @@ export class DataSprocsService {
   }
 
   removeChildFromParent(ChildIn: Number, ParentIn: Number) {
-    const url = 'https://dekknet.com:1002/deleteChildFromParent';
+    const url = this.uri + '/deleteChildFromParent';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -114,7 +115,7 @@ export class DataSprocsService {
   }
 
   deletePerson(PersonIdIn: Number, MotherIdIn: Number, FatherIdIn: Number, PartnerIdIn: Number, TimestampIn: string) {
-    const url = 'https://dekknet.com:1002/deletePerson';
+    const url = this.uri + '/deletePerson';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -135,9 +136,8 @@ export class DataSprocsService {
   }
 
 
-
   getPossibleMothersList(PersonId: number): Observable<any> {
-    const url = 'https://dekknet.com:1002/getPossibleMothers?PersonId=' + PersonId;
+    const url = this.uri + '/getPossibleMothers?PersonId=' + PersonId;
     return this.httpClient.get<any>(url).pipe(
       tap(_ => console.log('Fetched possible mothers for person with Id= ' + PersonId)),
       catchError(this.handleError<any>('getPossibleMotherList PersonId=${PersonId}'))
@@ -145,7 +145,7 @@ export class DataSprocsService {
   }
 
   getPossibleFathersList(PersonId: number): Observable<any> {
-    const url = 'https://dekknet.com:1002/getPossibleFathers?PersonId=' + PersonId;
+    const url = this.uri + '/getPossibleFathers?PersonId=' + PersonId;
     return this.httpClient.get<any>(url).pipe(
       tap(_ => console.log('Fetched possible fathers for person with Id= ' + PersonId)),
       catchError(this.handleError<any>('getPossibleFatherList PersonId=${PersonId}'))
@@ -153,7 +153,7 @@ export class DataSprocsService {
   }
 
   GetPossiblePartnersList(PersonId: number): Observable<any> {
-    const url = 'https://dekknet.com:1002/getPossiblePartners?PersonId=' + PersonId;
+    const url = this.uri + '/getPossiblePartners?PersonId=' + PersonId;
     return this.httpClient.get<any>(url).pipe(
       tap(_ => console.log('Fetched possible partners for person with Id= ' + PersonId)),
       catchError(this.handleError<any>('getPossiblePartnerList PersonId=${PersonId}'))
@@ -162,7 +162,7 @@ export class DataSprocsService {
 
   getPossibleMothersListBasedOnDate(DateIn: Date): Observable<any> {
     this.DateString = this.datepipe.transform(DateIn, 'yyyy-MM-dd');
-    const url = 'https://dekknet.com:1002/getPossibleMothersBasedOnDate?DateIn=' + this.DateString;
+    const url = this.uri + '/getPossibleMothersBasedOnDate?DateIn=' + this.DateString;
     return this.httpClient.get<any>(url).pipe(
       tap(_ => console.log('Fetched possible mothers based on date= ' + this.DateString)),
       catchError(this.handleError<any>('getPossibleMotherListBadedOnDate Date=${this.DateString}'))
@@ -171,7 +171,7 @@ export class DataSprocsService {
 
   getPossibleFathersListBasedOnDate(DateIn: Date): Observable<any> {
     this.DateString = this.datepipe.transform(DateIn, 'yyyy-MM-dd');
-    const url = 'https://dekknet.com:1002/getPossibleFathersBasedOnDate?DateIn=' + this.DateString;
+    const url = this.uri + '/getPossibleFathersBasedOnDate?DateIn=' + this.DateString;
     return this.httpClient.get<any>(url).pipe(
       tap(_ => console.log('Fetched possible fathers based on date= ' + this.DateString)),
       catchError(this.handleError<any>('getPossibleFatherListBasedOnDate Date=${this.DateString}'))
@@ -180,7 +180,7 @@ export class DataSprocsService {
 
   GetPossiblePartnersListBasedOnDate(DateIn: Date): Observable<any> {
     this.DateString = this.datepipe.transform(DateIn, 'yyyy-MM-dd');
-    const url = 'https://dekknet.com:1002/getPossiblePartnersBasedOnDate?DateIn=' + this.DateString;
+    const url = this.uri + '/getPossiblePartnersBasedOnDate?DateIn=' + this.DateString;
     return this.httpClient.get<any>(url).pipe(
       tap(_ => console.log('Fetched possible partners based on date= ' + this.DateString)),
       catchError(this.handleError<any>('getPossiblePartnersListBasedOnDate= Date=${this.DateString}'))
@@ -188,7 +188,7 @@ export class DataSprocsService {
   }
 
   AddPerson(personObj: Person ) {
-    const url = 'https://dekknet.com:1002/postAddPerson';
+    const url = this.uri + '/postAddPerson';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -201,7 +201,7 @@ export class DataSprocsService {
   }
 
   ChangePerson(personObj: Person ) {
-    const url = 'https://dekknet.com:1002/postChangePerson';
+    const url = this.uri + '/postChangePerson';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
