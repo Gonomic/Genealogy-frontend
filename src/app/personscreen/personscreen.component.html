@@ -121,7 +121,7 @@
             <Label class="grey-font">Kies een (andere) partner</Label>
             <mat-select class="form-control" formControlName='selectedPartner' name='Kies een (andere) partner'>
                 <mat-option *ngFor="let partner of possiblePartnersList.data" [value]='{"PersonID": partner.PersonID, "PossiblePartner": partner.PossiblePartner}'>
-                    {{partner.PossiblePartner}} ({{partner.BirthDate}})
+                    {{partner.PossiblePartner}} ({{partner.PersonDateOfBirth}})
                 </mat-option>
             </mat-select>
         </mat-form-field>
