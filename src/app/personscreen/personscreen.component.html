@@ -87,7 +87,7 @@
             <label class="grey-font">Kies een (andere) moeder</label>
             <mat-select class="form-control" formControlName='selectedMother' name='Kies een (andere) moeder'>
                 <mat-option *ngFor="let mother of possibleMothersList.data" [value]='{"PersonID": mother.PersonID, "PossibleMother": mother.PossibleMother}'>
-                    {{mother.PossibleMother}} ({{mother.BirthDate}})
+                    {{mother.PossibleMother}} {{mother.PersonDateOfBirth}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
@@ -103,7 +103,7 @@
             <label class="grey-font">Kies een (andere) vader</label>
             <mat-select class="form-control" formControlName='selectedFather' name='Kies een (andere) vader'>
                 <mat-option *ngFor="let father of possibleFathersList.data" [value]='{"PersonID": father.PersonID, "PossibleFather": father.PossibleFather}'>
-                    {{father.PossibleFather}} ({{father.BirthDate}})
+                    {{father.PossibleFather}} {{father.PersonDateOfBirth}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
@@ -121,7 +121,7 @@
             <Label class="grey-font">Kies een (andere) partner</Label>
             <mat-select class="form-control" formControlName='selectedPartner' name='Kies een (andere) partner'>
                 <mat-option *ngFor="let partner of possiblePartnersList.data" [value]='{"PersonID": partner.PersonID, "PossiblePartner": partner.PossiblePartner}'>
-                    {{partner.PossiblePartner}} ({{partner.PersonDateOfBirth}})
+                    {{partner.PossiblePartner}} {{partner.PersonDateOfBirth}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
