@@ -23,8 +23,8 @@ export class DataSprocsService {
   private FeedHumans: any;
   private DateString: string;
 
-  // uri = 'https://dekknet.com:1002';
-  uri = 'http://localhost:1002'
+  // private uri = 'https://dekknet.com:1002';
+  private uri = 'https://Localhost:1002';
 
   constructor(private httpClient: HttpClient, private datepipe: DatePipe) {}
 
