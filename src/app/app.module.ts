@@ -16,6 +16,7 @@ import { RelationScreenComponent } from './relationscreen/relationscreen.compone
 import { InfoScreenComponent} from './infoscreen/infoscreen.component';
 import { ChildrenScreenComponent } from './childrenscreen/childrenscreen.component';
 import { DataSprocsService } from './datasprocs.service';
+import { StateManagementService } from './statemanagement.service';
 import { MessageService } from './eventhub.service';
 import { SavePersonDialogComponent } from './dialogs/saveperson/savepersondialog.component';
 import { DeletePersonDialogComponent } from './dialogs/deleteperson/deletepersondialog.component';
@@ -61,6 +62,7 @@ const appRoutes: Routes = [
   providers: [
     DatePipe,
     DataSprocsService,
+    StateManagementService,
     MessageService
   ],
   bootstrap: [AppComponent],

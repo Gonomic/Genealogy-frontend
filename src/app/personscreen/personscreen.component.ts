@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { DataSprocsService } from '../datasprocs.service';
+import { StateManagementService } from '../statemanagement.service';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../eventhub.service';
 import { SavePersonDialogComponent } from '../dialogs/saveperson/savepersondialog.component';
@@ -34,6 +35,7 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
 
   constructor(
     private dataSprocsService: DataSprocsService,
+    private stateManagementService: StateManagementService,
     private messageService: MessageService,
     private saveDialog: MatDialog,
     private deleteDialog: MatDialog,
