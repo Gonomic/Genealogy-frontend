@@ -71,7 +71,7 @@
         </mat-form-field>
 
         <mat-form-field class="form-group ">
-            <label>Overlijdenslaats</label>
+            <label>Overlijdensplaats</label>
             <input matInput class="form-control" formControlName="PersonPlaceOfDeath" name="Overlijdensplaats ">
         </mat-form-field>
     </div>
@@ -111,7 +111,7 @@
     <div>
         <mat-form-field class="form-group">
             <label>Moeder</label>
-            <input matInput class="form-control " formControlName="MotherName" name="Moeder ">
+            <input [disabled]="true" matInput class="form-control " formControlName="MotherName" name="Moeder ">
         </mat-form-field>
 
         <mat-form-field class="form-group">
@@ -127,7 +127,7 @@
     <div>
         <mat-form-field class="form-group">
             <label>Vader</label>
-            <input matInput class="form-control " formControlName="FatherName" name="Vader ">
+            <input [disabled]="true" matInput class="form-control " formControlName="FatherName" name="Vader ">
         </mat-form-field>
 
         <mat-form-field class="form-group">
@@ -145,7 +145,7 @@
     <div>
         <mat-form-field class="form-group">
             <Label>Partner</Label>
-            <input matInput class="form-control " formControlName="PartnerName" name="Partner ">
+            <input [disabled]="true" matInput class="form-control " formControlName="PartnerName" name="Partner ">
         </mat-form-field>
 
         <mat-form-field class="form-group">
