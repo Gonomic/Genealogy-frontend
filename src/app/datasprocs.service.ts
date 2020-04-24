@@ -24,7 +24,7 @@ export class DataSprocsService {
   private DateString: string;
 
   // private uri = 'https://dekknet.com:1002';
-  private uri = 'https://Localhost:1002';
+  private uri = 'https://localhost:1002';
 
   constructor(private httpClient: HttpClient, private datepipe: DatePipe) {}
 
