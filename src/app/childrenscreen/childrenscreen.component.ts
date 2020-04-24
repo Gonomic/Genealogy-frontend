@@ -8,6 +8,10 @@ import { AddChildToParent } from '../AddChildToParent';
 import { RemoveChildFromParent } from '../RemoveChildFromParent';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../eventhub.service';
+import { Router, NavigationStart, RouterEvent } from '@angular/router';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+
 
 
 @Component({
@@ -16,7 +20,7 @@ import { MessageService } from '../eventhub.service';
   styleUrls: ['./childrenscreen.component.css'],
 })
 
-export class ChildrenScreenComponent implements OnDestroy {
+export class ChildrenScreenComponent implements OnDestroy, OnInit {
   private children = {};
   private possibleChildrenList = {};
   private child: Child = new Child;
@@ -24,6 +28,8 @@ export class ChildrenScreenComponent implements OnDestroy {
   private removeChildFromParent: RemoveChildFromParent;
   private PersonIdInPersonScreen: number;
   private tranResult = {};
+
+  private destroyed$ = new Subject();
 
   message: any;
   subscription: Subscription;
@@ -34,7 +40,8 @@ export class ChildrenScreenComponent implements OnDestroy {
 
   constructor(
     private dataSprocsService: DataSprocsService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {
       this.subscription = this.messageService
         .getMessage()
@@ -51,8 +58,20 @@ export class ChildrenScreenComponent implements OnDestroy {
         });
     }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    throw new Error('ngOnDestroy() Method in ChildrenScreenComponent only partially implemented.');
+  }
+
+  ngOnInit(){
+    this.router.events
+    .pipe(
+        filter((event: RouterEvent) => event instanceof NavigationStart),
+        takeUntil(this.destroyed$),
+      )
+      .subscribe((event: NavigationStart) => {
+        console.log('ChildrenScreenComponent, ngOnInit() => Routing event catched: ' + JSON.stringify(event));
+      });
   }
 
   private onPossibleChildAddition(eventObject): void {

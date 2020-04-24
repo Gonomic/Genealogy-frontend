@@ -10,6 +10,9 @@ import { SavePersonDialogComponent } from '../dialogs/saveperson/savepersondialo
 import { DeletePersonDialogComponent } from '../dialogs/deleteperson/deletepersondialog.component';
 import { JsonPipe, DatePipe } from '@angular/common';
 import { MatSortHeader } from '@angular/material';
+import { Router, NavigationStart, RouterEvent } from '@angular/router';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -22,7 +25,9 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
   @ViewChild('Mother', {read: ElementRef, static: false}) private Mother: ElementRef;
   @ViewChild('Father', {read: ElementRef, static: false}) private Father: ElementRef;
   @ViewChild('Partner', {read: ElementRef, static: false}) private Partner: ElementRef;
-  @ViewChild('Overlijden', {read: ElementRef, static: true}) Overlijden: ElementRef;
+  @ViewChild('Overlijden', {read: ElementRef, static: true}) private Overlijden: ElementRef;
+
+  private destroyed$ = new Subject();
 
   private plainpersonlist: {};
   private IntermPers: any;
@@ -33,22 +38,20 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
   private possiblePartnersList = {};
   private formContainsValue = false;
   private formCanBeSubmitted = false;
-  personForm: FormGroup;
-  message: any;
-  incomingMessage: Subscription;
-  motherChanged: Subscription;
-  theMessageObject: object;
-
-
-
+  private personForm: FormGroup;
+  private message: any;
+  private incomingMessage: Subscription;
+  private motherChanged: Subscription;
+  private theMessageObject: object;
 
   constructor(
     private dataSprocsService: DataSprocsService,
     private stateManagementService: StateManagementService,
+    private router: Router,
     private messageService: MessageService,
     private saveDialog: MatDialog,
     private deleteDialog: MatDialog,
-    private datepipe: DatePipe
+    private datepipe: DatePipe,
   ) {
       this.incomingMessage = this.messageService
         .getMessage()
@@ -68,8 +71,13 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
         });
     }
 
-ngOnInit() {
-  this.personForm = new FormGroup({
+  ngOnDestroy(): void {
+    this.incomingMessage.unsubscribe();
+    throw new Error('ngOnDestroy() Method in PersonScreenComponent only partially implemented.');
+  }
+
+  ngOnInit() {
+    this.personForm = new FormGroup({
     PersonID: new FormControl(null),
     PersonGivvenName: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
     PersonFamilyName: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
@@ -91,6 +99,15 @@ ngOnInit() {
     selectedFather: new FormControl(null, { updateOn: 'blur'}),
     selectedPartner: new FormControl(null, { updateOn: 'blur'})
   });
+
+  this.router.events
+  .pipe(
+      filter((event: RouterEvent) => event instanceof NavigationStart),
+      takeUntil(this.destroyed$),
+    )
+    .subscribe((event: NavigationStart) => {
+      console.log('PersonScreenComponent, ngOnInit() => Routing event catched: ' + JSON.stringify(event));
+    });
 
   this.personForm.get('selectedMother').valueChanges.subscribe(
     value => {
@@ -248,10 +265,6 @@ clearMessage(): void {
 
   private resetPossiblePartnerList(): void {
     this.possiblePartnersList = {};
-  }
-
-  ngOnDestroy() {
-    this.incomingMessage.unsubscribe();
   }
 
   private getPersonDetails(PersonIdIn: number): void {
