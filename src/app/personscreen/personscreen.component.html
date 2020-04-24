@@ -27,34 +27,34 @@
 
 
     <div style="margin-bottom: 50px;">
-        <mat-form-field style="margin-right: 30px;" class="form-group ">
-            <label>Geboortedatum</label>
-            <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum" required>
-            <div *ngIf="PersonDateOfBirth.invalid && (PersonDateOfBirth.dirty || PersonDateOfBirth.touched)" class='alert alert-danger'>
-                <div *ngIf="PersonDateOfBirth.errors.required">
-                    Geboortedatum is een verplicht veld en moet ingevoerd worden.
+        <div>
+            <mat-form-field style="margin-right: 30px;" class="form-group ">
+                <label>Geboortedatum</label>
+                <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum" required>
+                <div *ngIf="PersonDateOfBirth.invalid && (PersonDateOfBirth.dirty || PersonDateOfBirth.touched)" class='alert alert-danger'>
+                    <div *ngIf="PersonDateOfBirth.errors.required">
+                        Geboortedatum is een verplicht veld en moet ingevoerd worden.
+                    </div>
                 </div>
-            </div>
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
 
-        <!-- <label style="margin-right: 5px;">Status: </label> -->
+            <!-- <label style="margin-right: 5px;">Status: </label> -->
 
 
-        <mat-button-toggle-group formControlName="PersonDateOfBirthStatus" name="Status geboortedatum" required>
-            <mat-button-toggle [value]=1>
-                Zeker
-            </mat-button-toggle>
-            <mat-button-toggle [value]=2>
-                Geschat
-            </mat-button-toggle>
-            <mat-button-toggle [value]=3>
-                Onbekend
-            </mat-button-toggle>
-        </mat-button-toggle-group>
-
-        <!-- </div> -->
+            <mat-button-toggle-group formControlName="PersonDateOfBirthStatus" name="Status geboortedatum" required>
+                <mat-button-toggle [value]=1>
+                    Zeker
+                </mat-button-toggle>
+                <mat-button-toggle [value]=2>
+                    Geschat
+                </mat-button-toggle>
+                <mat-button-toggle [value]=3>
+                    Onbekend
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
 
 
         <mat-form-field class="form-group ">
@@ -67,29 +67,31 @@
 
 
     <div style="margin-bottom: 50px;">
-        <mat-form-field style="margin-right: 30px;" class="form-group ">
-            <label>Overlijdensdatum</label>
-            <input matInput class="form-control" [matDatepicker]="picker2" formControlName="PersonDateOfDeath" name="Overlijdensdatum ">
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
+        <div>
+            <mat-form-field style="margin-right: 30px;" class="form-group ">
+                <label>Overlijdensdatum</label>
+                <input matInput class="form-control" [matDatepicker]="picker2" formControlName="PersonDateOfDeath" name="Overlijdensdatum ">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
 
-        <!-- <label style="margin-right: 5px;">Status: </label> -->
-        <mat-button-toggle-group formControlName="PersonDateOfDeathStatus" name="Status overlijdensdatum">
-            <mat-button-toggle [value]=1>
-                Zeker
-            </mat-button-toggle>
-            <mat-button-toggle [value]=2>
-                Geschat
-            </mat-button-toggle>
-            <mat-button-toggle [value]=3>
-                Onbekend
-            </mat-button-toggle>
-        </mat-button-toggle-group>
+            <!-- <label style="margin-right: 5px;">Status: </label> -->
+            <mat-button-toggle-group formControlName="PersonDateOfDeathStatus" name="Status overlijdensdatum">
+                <mat-button-toggle [value]=1>
+                    Zeker
+                </mat-button-toggle>
+                <mat-button-toggle [value]=2>
+                    Geschat
+                </mat-button-toggle>
+                <mat-button-toggle [value]=3>
+                    Onbekend
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
 
         <mat-form-field class="form-group ">
             <label>Overlijdensplaats</label>
-            <input matInput class="form-control" formControlName="PersonPlaceOfDeath" name="Overlijdensplaats ">
+            <input matInput class="form-control" formControlName="PersonPlaceOfDeath" #Overlijden (focus)="ReceivedFocus('Overlijdensplaats')">
         </mat-form-field>
     </div>
 
@@ -115,12 +117,12 @@
     <div>
         <mat-form-field class="form-group">
             <label>Moeder</label>
-            <input [disabled]="true" matInput class="form-control " formControlName="MotherName" name="Moeder ">
+            <input (click)="RelativesFieldsOnFocus('MotherField')" matInput class="form-control " formControlName="MotherName" name="Moeder ">
         </mat-form-field>
 
         <mat-form-field class="form-group">
             <label class="grey-font">Kies een (andere) moeder</label>
-            <mat-select class="form-control" formControlName='selectedMother' name='Kies een (andere) moeder'>
+            <mat-select class="form-control" formControlName='selectedMother' name='Kies een (andere) moeder' #Mother (focus)="ReceivedFocus('MotherPickList')">
                 <mat-option *ngFor="let mother of possibleMothersList.data" [value]='{"PersonID": mother.PersonID, "PossibleMother": mother.PossibleMother}'>
                     {{mother.PossibleMother}} {{mother.PersonDateOfBirth}}
                 </mat-option>
@@ -131,12 +133,12 @@
     <div>
         <mat-form-field class="form-group">
             <label>Vader</label>
-            <input [disabled]="true" matInput class="form-control " formControlName="FatherName" name="Vader ">
+            <input (click)="RelativesFieldsOnFocus('FatherField')" matInput class="form-control " formControlName="FatherName" name="Vader ">
         </mat-form-field>
 
         <mat-form-field class="form-group">
             <label class="grey-font">Kies een (andere) vader</label>
-            <mat-select class="form-control" formControlName='selectedFather' name='Kies een (andere) vader'>
+            <mat-select class="form-control" formControlName='selectedFather' name='Kies een (andere) vader' #Father (focus)="ReceivedFocus('FatherPickList')">
                 <mat-option *ngFor="let father of possibleFathersList.data" [value]='{"PersonID": father.PersonID, "PossibleFather": father.PossibleFather}'>
                     {{father.PossibleFather}} {{father.PersonDateOfBirth}}
                 </mat-option>
@@ -149,12 +151,12 @@
     <div>
         <mat-form-field class="form-group">
             <Label>Partner</Label>
-            <input [disabled]="true" matInput class="form-control " formControlName="PartnerName" name="Partner ">
+            <input (click)="RelativesFieldsOnFocus('PartnerField')" matInput class="form-control " formControlName="PartnerName" name="Partner ">
         </mat-form-field>
 
         <mat-form-field class="form-group">
             <Label class="grey-font">Kies een (andere) partner</Label>
-            <mat-select class="form-control" formControlName='selectedPartner' name='Kies een (andere) partner'>
+            <mat-select class="form-control" formControlName='selectedPartner' name='Kies een (andere) partner' #Partner (focus)="ReceivedFocus('PartnerPickList')">
                 <mat-option *ngFor="let partner of possiblePartnersList.data" [value]='{"PersonID": partner.PersonID, "PossiblePartner": partner.PossiblePartner}'>
                     {{partner.PossiblePartner}} {{partner.PersonDateOfBirth}}
                 </mat-option>
