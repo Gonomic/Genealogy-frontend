@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, Inject, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
@@ -9,6 +9,7 @@ import { MessageService } from '../eventhub.service';
 import { SavePersonDialogComponent } from '../dialogs/saveperson/savepersondialog.component';
 import { DeletePersonDialogComponent } from '../dialogs/deleteperson/deletepersondialog.component';
 import { JsonPipe, DatePipe } from '@angular/common';
+import { MatSortHeader } from '@angular/material';
 
 
 @Component({
@@ -18,6 +19,11 @@ import { JsonPipe, DatePipe } from '@angular/common';
 })
 
 export class PersonScreenComponent implements OnDestroy, OnInit {
+  @ViewChild('Mother', {read: ElementRef, static: false}) private Mother: ElementRef;
+  @ViewChild('Father', {read: ElementRef, static: false}) private Father: ElementRef;
+  @ViewChild('Partner', {read: ElementRef, static: false}) private Partner: ElementRef;
+  @ViewChild('Overlijden', {read: ElementRef, static: true}) Overlijden: ElementRef;
+
   private plainpersonlist: {};
   private IntermPers: any;
   private namesToLookFor: string;
@@ -32,6 +38,9 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
   incomingMessage: Subscription;
   motherChanged: Subscription;
   theMessageObject: object;
+
+
+
 
   constructor(
     private dataSprocsService: DataSprocsService,
@@ -500,6 +509,25 @@ clearMessage(): void {
       PersonDateOfDeath: this.datepipe.transform( this.PersonDateOfDeath.value, 'yyyy-MM-dd')
     });
     console.log('Waarde van onSubmit= ' + JSON.stringify(this.personForm.value));
+  }
+
+  RelativesFieldsOnFocus(FieldNameIn: string) {
+    console.log('Relativefield receiving the focus= ' + FieldNameIn);
+    if (FieldNameIn === 'FatherField') {
+      this.Overlijden.nativeElement.focus();
+      this.Overlijden.nativeElement.click();
+      // this.Father.nativeElement.focus();
+    } else if (FieldNameIn === 'MotherField') {
+      this.Mother.nativeElement.focus();
+    } else if (FieldNameIn === 'PartnerField') {
+      this.Partner.nativeElement.focus();
+    } else {
+      console.log('Unexpected input: ' + FieldNameIn);
+    }
+  }
+
+  ReceivedFocus(ControlIn: string) {
+    console.log('Received focus, control= ' + ControlIn);
   }
 
   get PersonGivvenName() {return this.personForm.get('PersonGivvenName'); }
