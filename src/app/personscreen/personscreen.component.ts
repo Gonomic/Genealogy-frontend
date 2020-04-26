@@ -73,7 +73,7 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.incomingMessage.unsubscribe();
-    throw new Error('ngOnDestroy() Method in PersonScreenComponent only partially implemented.');
+    // throw new Error('ngOnDestroy() Method in PersonScreenComponent only partially implemented.');
   }
 
   ngOnInit() {

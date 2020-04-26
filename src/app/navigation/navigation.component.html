@@ -3,14 +3,17 @@
         <mat-list-item fxLayoutAlign="center">
             <mat-icon>directions_walk</mat-icon>&nbsp;
             <a [routerLink]="[{ outlets: { primary: ['personscreen'], sidenavNavigatie: ['searchhub'], personsChildren: ['childrenscreen'] } } ]" routerLinkActive="active-list-item">Personen</a>
+            <!-- <a [routerLink]="[{ outlets: { primary: ['personscreen'], sidenavNavigatie: ['searchhub'] } } ]" routerLinkActive="active-list-item">Personen</a> -->
         </mat-list-item>
         <mat-list-item fxLayoutAlign="center">
             <mat-icon>supervisor_account</mat-icon>&nbsp;
             <a [routerLink]="[{ outlets: { primary: ['relationscreen'], sidenavNavigatie: ['searchhub'] } } ]" routerLinkActive="active-list-item">Relaties</a>
+            <!-- <a [routerLink]="[{ outlets: { primary: ['relationscreen'], sidenavNavigatie: ['searchhub'] } } ]" routerLinkActive="active-list-item">Relaties</a> -->
         </mat-list-item>
         <mat-list-item fxLayoutAlign="center">
             <mat-icon>description</mat-icon>&nbsp;
-            <a [routerLink]="[{ outlets: { primary: ['infoscreen'] } } ]" routerLinkActive="active-list-item">Info</a>
+            <!-- <a [routerLink]="[{ outlets: { primary: ['infoscreen'] } } ]" routerLinkActive="active-list-item">Info</a> -->
+            <a [routerLink]="[{ outlets: { primary: ['infoscreen'], sidenavNavigatie: null } } ]" routerLinkActive="active-list-item">Info</a>
         </mat-list-item>
     </mat-nav-list>
     <span class="logo-container" fxLayoutAlign="start">
@@ -29,16 +32,16 @@
             <router-outlet></router-outlet>
         </div>
 
-        <div class="content-right" fxLayout="column">
+        <!-- <div class="content-right" fxLayout="column">
             <div class="right-upper-cell">
                 <router-outlet name="personsChildren"></router-outlet>
 
             </div>
             <div class="right-lower-cell">
                 <router-outlet name="personsDocuments"></router-outlet>
-                <!-- -----! Hier komen de documenten !----- -->
+                ! Hier komen de documenten !
             </div>
-        </div>
+        </div> -->
 
     </mat-sidenav-content>
 </mat-sidenav-container>

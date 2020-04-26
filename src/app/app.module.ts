@@ -23,12 +23,17 @@ import { DeletePersonDialogComponent } from './dialogs/deleteperson/deleteperson
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 
 const appRoutes: Routes = [
-    { path: '', outlet: 'primary', redirectTo: '/personscreen(sidenavNavigatie:searchhub//personsChildren:childrenscreen)', pathMatch: 'full' },
-    { path: 'personscreen', outlet: 'primary', component: PersonScreenComponent},
+    { path: '', outlet: 'primary', redirectTo: 'personscreen(sidenavNavigatie:searchhub)', pathMatch: 'full' },
+    // { path: '', outlet: 'primary', redirectTo: '/personscreen/childrenscreen(sidenavNavigatie:searchhub)', pathMatch: 'full' },
+    // { path: 'personscreen', outlet: 'primary', component: PersonScreenComponent} //,
+    //   children: [
+    //    { path: 'childrenscreen', outlet: 'personsChildren', component: ChildrenScreenComponent}]},
+    { path: 'personscreen', outlet: 'primary', component: PersonScreenComponent}, // children: [
+    { path: 'childrenscreen', outlet: 'personsChildren', component: ChildrenScreenComponent},
+    //  ]},
     { path: 'relationscreen', outlet: 'primary', component: RelationScreenComponent},
     { path: 'infoscreen', outlet: 'primary', component: InfoScreenComponent},
     { path: 'searchhub', outlet: 'sidenavNavigatie', component: SearchHubComponent},
-    { path: 'childrenscreen', outlet: 'personsChildren', component: ChildrenScreenComponent}
   ];
 
 @NgModule({
@@ -56,7 +61,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(
       appRoutes,
-      { useHash: false, enableTracing: false } // Change enableTracing: to true to debug
+      { useHash: false, enableTracing: true } // Change enableTracing: to true to debug
     )
   ],
   providers: [
