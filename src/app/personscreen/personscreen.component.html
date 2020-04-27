@@ -1,180 +1,185 @@
 <form [formGroup]='personForm' (ngSubmit)='onSubmit()'>
-    <div class="content-left">
-        <div>
-            <h1>Persoon</h1>
-        </div>
 
-        <div style="margin-bottom: 50px;">
-            <mat-form-field style="margin-right: 50px;" class="form-group ">
-                <label>Voornaam</label>
-                <input matInput class="form-control " name='Voornaam' formControlName='PersonGivvenName' required>
-                <div *ngIf="PersonGivvenName.invalid && (PersonGivvenName.dirty || PersonGivvenName.touched)" class='alert alert-danger'>
-                    <div *ngIf="PersonGivvenName.errors.required">
-                        Voornaam is een verplicht veld en moet ingevoerd worden.
-                    </div>
-                </div>
-            </mat-form-field>
+    <div class="container-for-left-and-right">
 
-            <mat-form-field class="form-group ">
-                <label>Achternaam</label>
-                <input matInput class="form-control " formControlName="PersonFamilyName" name='Achternaam' required>
-                <div *ngIf="PersonFamilyName.invalid && (PersonFamilyName.dirty || PersonFamilyName.touched)" class='alert alert-danger'>
-                    <div *ngIf="PersonFamilyName.errors.required">
-                        Achternaam is een verplicht veld en moet ingevoerd worden.
-                    </div>
-                </div>
-            </mat-form-field>
-        </div>
-
-
-        <div style="margin-bottom: 50px;">
+        <div class="leftpart">
+            <!-- <div> -->
             <div>
-                <mat-form-field style="margin-right: 30px;" class="form-group ">
-                    <label>Geboortedatum</label>
-                    <input matInput class="form-control " [matDatepicker]="picker1" formControlName="PersonDateOfBirth" name="Geboortedatum" required>
-                    <div *ngIf="PersonDateOfBirth.invalid && (PersonDateOfBirth.dirty || PersonDateOfBirth.touched)" class='alert alert-danger'>
-                        <div *ngIf="PersonDateOfBirth.errors.required">
-                            Geboortedatum is een verplicht veld en moet ingevoerd worden.
+                <h1>Persoon</h1>
+            </div>
+
+            <div style="margin-bottom: 50px; ">
+                <mat-form-field style="margin-right: 50px; " class="form-group ">
+                    <label>Voornaam</label>
+                    <input matInput class="form-control " name='Voornaam' formControlName='PersonGivvenName' required>
+                    <div *ngIf="PersonGivvenName.invalid && (PersonGivvenName.dirty || PersonGivvenName.touched) " class='alert alert-danger'>
+                        <div *ngIf="PersonGivvenName.errors.required ">
+                            Voornaam is een verplicht veld en moet ingevoerd worden.
                         </div>
                     </div>
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
                 </mat-form-field>
 
-                <!-- <label style="margin-right: 5px;">Status: </label> -->
-
-
-                <mat-button-toggle-group formControlName="PersonDateOfBirthStatus" name="Status geboortedatum" required>
-                    <mat-button-toggle [value]=1>
-                        Zeker
-                    </mat-button-toggle>
-                    <mat-button-toggle [value]=2>
-                        Geschat
-                    </mat-button-toggle>
-                    <mat-button-toggle [value]=3>
-                        Onbekend
-                    </mat-button-toggle>
-                </mat-button-toggle-group>
-            </div>
-
-
-            <mat-form-field class="form-group ">
-                <label>Geboorteplaats</label>
-                <input matInput class="form-control " formControlName="PersonPlaceOfBirth" name="Geboorteplaats ">
-            </mat-form-field>
-        </div>
-
-
-
-
-        <div style="margin-bottom: 50px;">
-            <div>
-                <mat-form-field style="margin-right: 30px;" class="form-group ">
-                    <label>Overlijdensdatum</label>
-                    <input matInput class="form-control" [matDatepicker]="picker2" formControlName="PersonDateOfDeath" name="Overlijdensdatum ">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                </mat-form-field>
-
-                <!-- <label style="margin-right: 5px;">Status: </label> -->
-                <mat-button-toggle-group formControlName="PersonDateOfDeathStatus" name="Status overlijdensdatum">
-                    <mat-button-toggle [value]=1>
-                        Zeker
-                    </mat-button-toggle>
-                    <mat-button-toggle [value]=2>
-                        Geschat
-                    </mat-button-toggle>
-                    <mat-button-toggle [value]=3>
-                        Onbekend
-                    </mat-button-toggle>
-                </mat-button-toggle-group>
-            </div>
-
-            <mat-form-field class="form-group ">
-                <label>Overlijdensplaats</label>
-                <input matInput class="form-control" formControlName="PersonPlaceOfDeath" #Overlijden (focus)="ReceivedFocus('Overlijdensplaats')">
-            </mat-form-field>
-        </div>
-
-
-
-        <div style="margin-bottom: 50px;">
-            <label style="margin-bottom: 30px; margin-right: 5px;" class="right-20">Geslacht: </label>
-            <mat-button-toggle-group formControlName="PersonIsMale" name="Geslacht" required>
-                <mat-button-toggle [value]=1>
-                    Man
-                </mat-button-toggle>
-                <mat-button-toggle [value]=0>
-                    Vrouw
-                </mat-button-toggle>
-                <div *ngIf="PersonIsMale.invalid && (PersonIsMale.dirty || PersonIsMale.touched)" class='alert alert-danger'>
-                    <div *ngIf="PersonIsMale.errors.required">
-                        Geslacht is een verplicht veld en moet ingevoerd worden.
+                <mat-form-field class="form-group ">
+                    <label>Achternaam</label>
+                    <input matInput class="form-control " formControlName="PersonFamilyName " name='Achternaam' required>
+                    <div *ngIf="PersonFamilyName.invalid && (PersonFamilyName.dirty || PersonFamilyName.touched) " class='alert alert-danger'>
+                        <div *ngIf="PersonFamilyName.errors.required ">
+                            Achternaam is een verplicht veld en moet ingevoerd worden.
+                        </div>
                     </div>
+                </mat-form-field>
+            </div>
+
+
+            <div style="margin-bottom: 50px; ">
+                <div>
+                    <mat-form-field style="margin-right: 30px; " class="form-group ">
+                        <label>Geboortedatum</label>
+                        <input matInput class="form-control " [matDatepicker]="picker1 " formControlName="PersonDateOfBirth " name="Geboortedatum " required>
+                        <div *ngIf="PersonDateOfBirth.invalid && (PersonDateOfBirth.dirty || PersonDateOfBirth.touched) " class='alert alert-danger'>
+                            <div *ngIf="PersonDateOfBirth.errors.required ">
+                                Geboortedatum is een verplicht veld en moet ingevoerd worden.
+                            </div>
+                        </div>
+                        <mat-datepicker-toggle matSuffix [for]="picker1 "></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+
+                    <!-- <label style="margin-right: 5px; ">Status: </label> -->
+
+
+                    <mat-button-toggle-group formControlName="PersonDateOfBirthStatus " name="Status geboortedatum " required>
+                        <mat-button-toggle [value]=1>
+                            Zeker
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]=2>
+                            Geschat
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]=3>
+                            Onbekend
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
                 </div>
-            </mat-button-toggle-group>
+
+
+                <mat-form-field class="form-group ">
+                    <label>Geboorteplaats</label>
+                    <input matInput class="form-control " formControlName="PersonPlaceOfBirth " name="Geboorteplaats ">
+                </mat-form-field>
+            </div>
+
+
+
+
+            <div style="margin-bottom: 50px; ">
+                <div>
+                    <mat-form-field style="margin-right: 30px; " class="form-group ">
+                        <label>Overlijdensdatum</label>
+                        <input matInput class="form-control " [matDatepicker]="picker2 " formControlName="PersonDateOfDeath " name="Overlijdensdatum ">
+                        <mat-datepicker-toggle matSuffix [for]="picker2 "></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+
+                    <!-- <label style="margin-right: 5px; ">Status: </label> -->
+                    <mat-button-toggle-group formControlName="PersonDateOfDeathStatus " name="Status overlijdensdatum ">
+                        <mat-button-toggle [value]=1>
+                            Zeker
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]=2>
+                            Geschat
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]=3>
+                            Onbekend
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+
+                <mat-form-field class="form-group ">
+                    <label>Overlijdensplaats</label>
+                    <input matInput class="form-control " formControlName="PersonPlaceOfDeath " #Overlijden (focus)="ReceivedFocus( 'Overlijdensplaats') ">
+                </mat-form-field>
+            </div>
+
+
+
+            <div style="margin-bottom: 50px; ">
+                <label style="margin-bottom: 30px; margin-right: 5px; " class="right-20 ">Geslacht: </label>
+                <mat-button-toggle-group formControlName="PersonIsMale " name="Geslacht " required>
+                    <mat-button-toggle [value]=1>
+                        Man
+                    </mat-button-toggle>
+                    <mat-button-toggle [value]=0>
+                        Vrouw
+                    </mat-button-toggle>
+                    <div *ngIf="PersonIsMale.invalid && (PersonIsMale.dirty || PersonIsMale.touched) " class='alert alert-danger'>
+                        <div *ngIf="PersonIsMale.errors.required ">
+                            Geslacht is een verplicht veld en moet ingevoerd worden.
+                        </div>
+                    </div>
+                </mat-button-toggle-group>
+            </div>
+
+            <div>
+                <mat-form-field class="form-group ">
+                    <label>Moeder</label>
+                    <input (click)="RelativesFieldsOnFocus( 'MotherField') " matInput class="form-control " formControlName="MotherName " name="Moeder ">
+                </mat-form-field>
+
+                <mat-form-field class="form-group ">
+                    <label class="grey-font ">Kies een (andere) moeder</label>
+                    <mat-select class="form-control " formControlName='selectedMother' name='Kies een (andere) moeder' #Mother (focus)="ReceivedFocus( 'MotherPickList') ">
+                        <mat-option *ngFor="let mother of possibleMothersList.data " [value]='{"PersonID ": mother.PersonID, "PossibleMother ": mother.PossibleMother}'>
+                            {{mother.PossibleMother}} {{mother.PersonDateOfBirth}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field class="form-group ">
+                    <label>Vader</label>
+                    <input (click)="RelativesFieldsOnFocus( 'FatherField') " matInput class="form-control " formControlName="FatherName " name="Vader ">
+                </mat-form-field>
+
+                <mat-form-field class="form-group ">
+                    <label class="grey-font ">Kies een (andere) vader</label>
+                    <mat-select class="form-control " formControlName='selectedFather' name='Kies een (andere) vader' #Father (focus)="ReceivedFocus( 'FatherPickList') ">
+                        <mat-option *ngFor="let father of possibleFathersList.data " [value]='{"PersonID ": father.PersonID, "PossibleFather ": father.PossibleFather}'>
+                            {{father.PossibleFather}} {{father.PersonDateOfBirth}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+
+            <div>
+                <mat-form-field class="form-group ">
+                    <Label>Partner</Label>
+                    <input (click)="RelativesFieldsOnFocus( 'PartnerField') " matInput class="form-control " formControlName="PartnerName " name="Partner ">
+                </mat-form-field>
+
+                <mat-form-field class="form-group ">
+                    <Label class="grey-font ">Kies een (andere) partner</Label>
+                    <mat-select class="form-control " formControlName='selectedPartner' name='Kies een (andere) partner' #Partner (focus)="ReceivedFocus( 'PartnerPickList') ">
+                        <mat-option *ngFor="let partner of possiblePartnersList.data " [value]='{"PersonID ": partner.PersonID, "PossiblePartner ": partner.PossiblePartner}'>
+                            {{partner.PossiblePartner}} {{partner.PersonDateOfBirth}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="button-row ">
+                <button mat-raised-button type='submit' [disabled]="!formIsSubmitable() " (click)='openSavePersonDialog()'>Gegevens persoon opslaan</button>
+                <button mat-raised-button [disabled]="!allValuesAreNull() " (click)=openDeletePersonDialog()>Gegevens persoon verwijderen</button>
+            </div>
+
         </div>
 
-        <div>
-            <mat-form-field class="form-group">
-                <label>Moeder</label>
-                <input (click)="RelativesFieldsOnFocus('MotherField')" matInput class="form-control " formControlName="MotherName" name="Moeder ">
-            </mat-form-field>
-
-            <mat-form-field class="form-group">
-                <label class="grey-font">Kies een (andere) moeder</label>
-                <mat-select class="form-control" formControlName='selectedMother' name='Kies een (andere) moeder' #Mother (focus)="ReceivedFocus('MotherPickList')">
-                    <mat-option *ngFor="let mother of possibleMothersList.data" [value]='{"PersonID": mother.PersonID, "PossibleMother": mother.PossibleMother}'>
-                        {{mother.PossibleMother}} {{mother.PersonDateOfBirth}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+        <div class="rightpart">
+            <!-- <div> -->
+            <app-children-screen></app-children-screen>
         </div>
 
-        <div>
-            <mat-form-field class="form-group">
-                <label>Vader</label>
-                <input (click)="RelativesFieldsOnFocus('FatherField')" matInput class="form-control " formControlName="FatherName" name="Vader ">
-            </mat-form-field>
-
-            <mat-form-field class="form-group">
-                <label class="grey-font">Kies een (andere) vader</label>
-                <mat-select class="form-control" formControlName='selectedFather' name='Kies een (andere) vader' #Father (focus)="ReceivedFocus('FatherPickList')">
-                    <mat-option *ngFor="let father of possibleFathersList.data" [value]='{"PersonID": father.PersonID, "PossibleFather": father.PossibleFather}'>
-                        {{father.PossibleFather}} {{father.PersonDateOfBirth}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-        </div>
-
-
-        <div>
-            <mat-form-field class="form-group">
-                <Label>Partner</Label>
-                <input (click)="RelativesFieldsOnFocus('PartnerField')" matInput class="form-control " formControlName="PartnerName" name="Partner ">
-            </mat-form-field>
-
-            <mat-form-field class="form-group">
-                <Label class="grey-font">Kies een (andere) partner</Label>
-                <mat-select class="form-control" formControlName='selectedPartner' name='Kies een (andere) partner' #Partner (focus)="ReceivedFocus('PartnerPickList')">
-                    <mat-option *ngFor="let partner of possiblePartnersList.data" [value]='{"PersonID": partner.PersonID, "PossiblePartner": partner.PossiblePartner}'>
-                        {{partner.PossiblePartner}} {{partner.PersonDateOfBirth}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-        </div>
-
-        <div class="button-row">
-            <button mat-raised-button type='submit' [disabled]="!formIsSubmitable()" (click)='openSavePersonDialog()'>Gegevens persoon opslaan</button>
-            <button mat-raised-button [disabled]="!allValuesAreNull()" (click)=openDeletePersonDialog()>Gegevens persoon verwijderen</button>
-        </div>
-    </div>
-    <!-- <router-outlet name="personsChildren"></router-outlet> -->
-
-    <div class="content-right">
-        <app-children-screen></app-children-screen>
     </div>
 
 </form>

@@ -26,6 +26,27 @@
     margin-right: 20px;
 }
 
+.wrapper {
+    width: 100%;
+    overflow: hidden;
+}
+
+.leftpart {
+    width: 500px;
+    border: 1px solid red;
+    margin-right: 20px;
+}
+
+.rightpart {
+    width: 500px;
+    border: 1px solid green;
+}
+
+.container-for-left-and-right {
+    display: flex;
+    flex-direction: row;
+}
+
 .content-left {
     display: flex;
     flex: 1;
