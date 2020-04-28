@@ -43,7 +43,7 @@ export class PreviousMariageScreenComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    throw new Error('ngOnDestroy() Method in PreviousMariageScreenComponent only partially implemented.');
+    console.log('ngOnDestroy() Method in PreviousMariageScreenComponent only partially implemented.');
   }
 
   ngOnInit(){

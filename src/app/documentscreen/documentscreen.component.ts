@@ -43,7 +43,7 @@ export class DocumentScreenComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    throw new Error('ngOnDestroy() Method in DocumentScreenComponent only partially implemented.');
+    console.log('ngOnDestroy() Method in DocumentScreenComponent only partially implemented.');
   }
 
   ngOnInit(){

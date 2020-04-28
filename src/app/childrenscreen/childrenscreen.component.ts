@@ -60,7 +60,7 @@ export class ChildrenScreenComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    throw new Error('ngOnDestroy() Method in ChildrenScreenComponent only partially implemented.');
+    console.log('ngOnDestroy() Method in ChildrenScreenComponent only partially implemented.');
   }
 
   ngOnInit(){
