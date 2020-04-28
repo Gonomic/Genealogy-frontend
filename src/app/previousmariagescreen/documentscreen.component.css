@@ -1,0 +1,17 @@
+.flex container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.left-column {
+    flex: 1
+}
+
+.right-column {
+    flex: 2
+}
+
+.child-input-field {
+    width: 360px;
+}

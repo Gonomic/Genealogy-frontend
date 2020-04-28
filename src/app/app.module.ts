@@ -21,16 +21,12 @@ import { MessageService } from './eventhub.service';
 import { SavePersonDialogComponent } from './dialogs/saveperson/savepersondialog.component';
 import { DeletePersonDialogComponent } from './dialogs/deleteperson/deletepersondialog.component';
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
+import { DocumentScreenComponent } from './documentscreen/documentscreen.component';
 
 const appRoutes: Routes = [
     { path: '', outlet: 'primary', redirectTo: 'personscreen(sidenavNavigatie:searchhub)', pathMatch: 'full' },
-    // { path: '', outlet: 'primary', redirectTo: '/personscreen/childrenscreen(sidenavNavigatie:searchhub)', pathMatch: 'full' },
-    // { path: 'personscreen', outlet: 'primary', component: PersonScreenComponent} //,
-    //   children: [
-    //    { path: 'childrenscreen', outlet: 'personsChildren', component: ChildrenScreenComponent}]},
     { path: 'personscreen', outlet: 'primary', component: PersonScreenComponent}, // children: [
     { path: 'childrenscreen', outlet: 'personsChildren', component: ChildrenScreenComponent},
-    //  ]},
     { path: 'relationscreen', outlet: 'primary', component: RelationScreenComponent},
     { path: 'infoscreen', outlet: 'primary', component: InfoScreenComponent},
     { path: 'searchhub', outlet: 'sidenavNavigatie', component: SearchHubComponent},
@@ -45,6 +41,7 @@ const appRoutes: Routes = [
     RelationScreenComponent,
     InfoScreenComponent,
     ChildrenScreenComponent,
+    DocumentScreenComponent,
     SavePersonDialogComponent,
     DeletePersonDialogComponent,
     PageNotFoundComponent
