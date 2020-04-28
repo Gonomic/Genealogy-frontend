@@ -10,12 +10,12 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 
 @Component({
-  selector: 'app-document-screen',
-  templateUrl: './documentscreen.component.html',
-  styleUrls: ['./documentscreen.component.css'],
+  selector: 'app-previousmariage-screen',
+  templateUrl: './previousmariagescreen.component.html',
+  styleUrls: ['./previousmariagescreen.component.css'],
 })
 
-export class DocumentScreenComponent implements OnDestroy, OnInit {
+export class PreviousMariageScreenComponent implements OnDestroy, OnInit {
   private destroyed$ = new Subject();
 
   message: any;
@@ -34,16 +34,16 @@ export class DocumentScreenComponent implements OnDestroy, OnInit {
         .getMessage()
         .subscribe(message => {
           if (message.action === '????????') {
-          console.log('DocumentScreen code to be added.');
+          console.log('PreviousMariageScreen code to be added.');
           } else if (message.action = '??????????') {
-            console.log('DocumentScreen code to be added.');
+            console.log('PreviousMariageScreen code to be added.');
           }
         });
     }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    throw new Error('ngOnDestroy() Method in DocumentScreenComponent only partially implemented.');
+    throw new Error('ngOnDestroy() Method in PreviousMariageScreenComponent only partially implemented.');
   }
 
   ngOnInit(){
@@ -53,7 +53,7 @@ export class DocumentScreenComponent implements OnDestroy, OnInit {
         takeUntil(this.destroyed$),
       )
       .subscribe((event: NavigationStart) => {
-        console.log('DocumentScreenComponent, ngOnInit() => Routing event catched: ' + JSON.stringify(event));
+        console.log('PreviousMariageScreenComponent, ngOnInit() => Routing event catched: ' + JSON.stringify(event));
       });
   }
 }

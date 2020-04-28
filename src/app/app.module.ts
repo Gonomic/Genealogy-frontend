@@ -22,6 +22,7 @@ import { SavePersonDialogComponent } from './dialogs/saveperson/savepersondialog
 import { DeletePersonDialogComponent } from './dialogs/deleteperson/deletepersondialog.component';
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { DocumentScreenComponent } from './documentscreen/documentscreen.component';
+import { PreviousMariageScreenComponent } from './previousmariagescreen/previousmariagescreen.component';
 
 const appRoutes: Routes = [
     { path: '', outlet: 'primary', redirectTo: 'personscreen(sidenavNavigatie:searchhub)', pathMatch: 'full' },
@@ -42,6 +43,7 @@ const appRoutes: Routes = [
     InfoScreenComponent,
     ChildrenScreenComponent,
     DocumentScreenComponent,
+    PreviousMariageScreenComponent,
     SavePersonDialogComponent,
     DeletePersonDialogComponent,
     PageNotFoundComponent
