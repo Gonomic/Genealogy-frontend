@@ -37,22 +37,3 @@
     height: 80px;
     width: 150px;
 }
-
-.content-left {
-    display: flex;
-    flex: 1;
-}
-
-.content-right {
-    display: flex;
-    flex: 1;
-}
-
-.right-upper-cell {
-    margin-left: 15px;
-    margin-bottom: 15px;
-}
-
-.right-lower-cell {
-    margin-left: 15px;
-}

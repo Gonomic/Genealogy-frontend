@@ -26,33 +26,28 @@
     margin-right: 20px;
 }
 
-.wrapper {
-    width: 100%;
-    overflow: hidden;
+.container {
+    display: grid;
+    grid-template-columns: [first-column] 50% [second-column] 50% [end-of-columns];
+    grid-template-rows: [first-row] 33% [second-row] 33% [third-row] 33% [end-of-rows];
 }
 
-.leftpart {
-    width: 500px;
-    border: 1px solid red;
-    margin-right: 20px;
+.personpart {
+    grid-column: first-column / second-column;
+    grid-row: first-row / end-of-rows;
 }
 
-.rightpart {
-    width: 500px;
-    border: 1px solid green;
+.childpart {
+    grid-column: second-column / end-of-columns;
+    grid-row: first-row / second-row;
 }
 
-.container-for-left-and-right {
-    display: flex;
-    flex-direction: row;
+.documentpart {
+    grid-column: second-column / end-of-columns;
+    grid-row: second-row / second-row;
 }
 
-.content-left {
-    display: flex;
-    flex: 1;
-}
-
-.content-right {
-    display: flex;
-    flex: 1;
+.previouspartnerpart {
+    grid-column: second-column / end-of-columns;
+    grid-row: third-row / third-row;
 }
