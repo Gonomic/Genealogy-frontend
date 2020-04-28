@@ -18,32 +18,32 @@ declare var mina: any;
 
 
 export class RelationScreenComponent implements OnInit {
-  private persons: Person[];
-  private familytree: FamilytreeMember[];
-  private plainpersonlist: PlainPersonListMember[];
-  private PerzonId1: number;
-  private PerzonId2: number;
-  private namesToLookFor: string;
+//   private persons: Person[];
+//   private familytree: FamilytreeMember[];
+//   private plainpersonlist: PlainPersonListMember[];
+//   private PerzonId1: number;
+//   private PerzonId2: number;
+//   private namesToLookFor: string;
   private s: object;
-  private StartposX = 0;
-  private StartPosY = 0;
-  private endPosX = 0;
-  private endPosY = 0;
-  private indexOfPerson = 0;
-  private tmpLineIn = null;
-  private tmpLineOut = null;
+//   private StartposX = 0;
+//   private StartPosY = 0;
+//   private endPosX = 0;
+//   private endPosY = 0;
+//   private indexOfPerson = 0;
+//   private tmpLineIn = null;
+//   private tmpLineOut = null;
 
-  private widthBox = 30;
-  private heightBox = 30;
+//   private widthBox = 30;
+//   private heightBox = 30;
 
-  private defaultGapX = 50;
-  private defaultGapY = 50;
+//   private defaultGapX = 50;
+//   private defaultGapY = 50;
 
-  private perzonId: number;
+//   private perzonId: number;
 
-  constructor(
-    private dataSprocsService: DataSprocsService
-  ) {}
+//   constructor(
+//     private dataSprocsService: DataSprocsService
+//   ) {}
 
   ngOnInit() {
     this.s = Snap('#MySvgID');
@@ -113,4 +113,5 @@ export class RelationScreenComponent implements OnInit {
 //       return i;
 //     }
 //   }
+// }
 }

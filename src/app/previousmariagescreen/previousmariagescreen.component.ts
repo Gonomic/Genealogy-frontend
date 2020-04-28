@@ -8,7 +8,6 @@ import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 
-
 @Component({
   selector: 'app-previousmariage-screen',
   templateUrl: './previousmariagescreen.component.html',
@@ -18,12 +17,11 @@ import { filter, takeUntil } from 'rxjs/operators';
 export class PreviousMariageScreenComponent implements OnDestroy, OnInit {
   private destroyed$ = new Subject();
 
-  message: any;
-  subscription: Subscription;
+  private message: any;
+  private subscription: Subscription;
+  private previousMariageForm: FormGroup;
 
-  documentForm = new FormGroup({
-    DocumentToAdd: new FormControl(0)
-  });
+
 
   constructor(
     private dataSprocsService: DataSprocsService,
@@ -47,6 +45,11 @@ export class PreviousMariageScreenComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(){
+    
+    this.previousMariageForm = new FormGroup({
+      previousMariageToAdd: new FormControl(0)
+    });
+
     this.router.events
     .pipe(
         filter((event: RouterEvent) => event instanceof NavigationStart),
