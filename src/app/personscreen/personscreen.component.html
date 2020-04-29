@@ -113,13 +113,13 @@
         <div>
             <mat-form-field class="form-group ">
                 <label>Moeder</label>
-                <input (click)="RelativesFieldsOnFocus( 'MotherField') " matInput class="form-control " formControlName='MotherName' name="Moeder ">
+                <input (click)="RelativesFieldsOnFocus('MotherField')" matInput class="form-control" formControlName='MotherName' name="Moeder ">
             </mat-form-field>
 
             <mat-form-field class="form-group ">
                 <label class="grey-font ">Kies een (andere) moeder</label>
                 <mat-select class="form-control " formControlName='selectedMother' name='Kies een (andere) moeder' #Mother (focus)="ReceivedFocus( 'MotherPickList') ">
-                    <mat-option *ngFor="let mother of possibleMothersList.data " [value]='{"PersonID ": mother.PersonID, "PossibleMother ": mother.PossibleMother}'>
+                    <mat-option *ngFor="let mother of possibleMothersList.data " [value]='{"PersonID": mother.PersonID, "PossibleMother ": mother.PossibleMother}'>
                         {{mother.PossibleMother}} {{mother.PersonDateOfBirth}}
                     </mat-option>
                 </mat-select>
@@ -127,15 +127,15 @@
         </div>
 
         <div>
-            <mat-form-field class="form-group ">
+            <mat-form-field class="form-group">
                 <label>Vader</label>
                 <input (click)="RelativesFieldsOnFocus( 'FatherField') " matInput class="form-control " formControlName='FatherName' name="Vader ">
             </mat-form-field>
 
-            <mat-form-field class="form-group ">
-                <label class="grey-font ">Kies een (andere) vader</label>
-                <mat-select class="form-control " formControlName='selectedFather' name='Kies een (andere) vader' #Father (focus)="ReceivedFocus( 'FatherPickList') ">
-                    <mat-option *ngFor="let father of possibleFathersList.data " [value]='{"PersonID ": father.PersonID, "PossibleFather ": father.PossibleFather}'>
+            <mat-form-field class="form-group">
+                <label class="grey-font">Kies een (andere) vader</label>
+                <mat-select class="form-control" formControlName='selectedFather' name='Kies een (andere) vader' #Father (focus)="ReceivedFocus( 'FatherPickList') ">
+                    <mat-option *ngFor="let father of possibleFathersList.data" [value]='{"PersonID": father.PersonID, "PossibleFather": father.PossibleFather}'>
                         {{father.PossibleFather}} {{father.PersonDateOfBirth}}
                     </mat-option>
                 </mat-select>
@@ -144,15 +144,15 @@
 
 
         <div>
-            <mat-form-field class="form-group ">
+            <mat-form-field class="form-group">
                 <Label>Partner</Label>
                 <input (click)="RelativesFieldsOnFocus( 'PartnerField') " matInput class="form-control " formControlName='PartnerName' name="Partner ">
             </mat-form-field>
 
             <mat-form-field class="form-group ">
                 <Label class="grey-font ">Kies een (andere) partner</Label>
-                <mat-select class="form-control " formControlName='selectedPartner' name='Kies een (andere) partner' #Partner (focus)="ReceivedFocus( 'PartnerPickList') ">
-                    <mat-option *ngFor="let partner of possiblePartnersList.data " [value]='{"PersonID ": partner.PersonID, "PossiblePartner ": partner.PossiblePartner}'>
+                <mat-select class="form-control" formControlName='selectedPartner' name='Kies een (andere) partner' #Partner (focus)="ReceivedFocus( 'PartnerPickList') ">
+                    <mat-option *ngFor="let partner of possiblePartnersList.data" [value]='{"PersonID": partner.PersonID, "PossiblePartner": partner.PossiblePartner}'>
                         {{partner.PossiblePartner}} {{partner.PersonDateOfBirth}}
                     </mat-option>
                 </mat-select>

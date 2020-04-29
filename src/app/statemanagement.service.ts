@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
+import { FormGroup } from '@angular/forms';
 
 
 @Injectable({
@@ -9,17 +10,19 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 export class StateManagementService {
+    private personformgroup: FormGroup;
     private plainpersonlist: {};
-    private IntermPers: any;
-    private namesToLookFor: string;
-    private indexOfPerson: number;
-    private possibleFathersList = {};
-    private possibleMothersList = {};
-    private possiblePartnersList = {};
-    private formContainsValue = false;
-    private formCanBeSubmitted = false;
-    private actionAtHand: string;
+    // private IntermPers: any;
+    private namestolookfor: string;
+    private indexofperson: number;
+    private possiblefatherslist = {};
+    private possiblemotherslist = {};
+    private possiblepartnerslist = {};
+    private formcontainsvalue = false;
+    private formcanbesubmitted = false;
+    private actionathand: string;
     private initial = true;
+
     message: any;
     incomingMessage: Subscription;
     theMessageObject: object;
@@ -40,8 +43,10 @@ export class StateManagementService {
         };
     }
 
-    SetStatusBeforeLeavingPersonScreen( plainpersonlistIn: {},
-                            IntermPersIn: any,
+    SetStatusBeforeLeavingPersonScreen(
+                            formGroupIn: FormGroup,
+            	            plainpersonlistIn: {},
+                            // IntermPersIn: any,
                             namesToLookForIn: string,
                             indexOfPersonIn: number,
                             possibleFathersListIn: {},
@@ -50,21 +55,54 @@ export class StateManagementService {
                             formContainsValueIn: boolean,
                             formCanBeSubmittedIn: boolean,
                             actionAtHandIn: string) {
+        this.personformgroup = formGroupIn,
         this.plainpersonlist = plainpersonlistIn,
-        this.IntermPers = IntermPersIn,
-        this.namesToLookFor =  namesToLookForIn,
-        this.indexOfPerson = indexOfPersonIn,
-        this.possibleFathersList = possibleFathersListIn,
-        this.possibleMothersList = possibleMothersListIn,
-        this.possiblePartnersList = possiblePartnersListIn,
-        this.formContainsValue = formContainsValueIn;
-        this.formCanBeSubmitted = formCanBeSubmittedIn;
-        this.actionAtHand = actionAtHandIn;
+        // this.IntermPers = IntermPersIn,
+        this.namestolookfor =  namesToLookForIn,
+        this.indexofperson = indexOfPersonIn,
+        this.possiblefatherslist = possibleFathersListIn,
+        this.possiblemotherslist = possibleMothersListIn,
+        this.possiblepartnerslist = possiblePartnersListIn,
+        this.formcontainsvalue = formContainsValueIn;
+        this.formcanbesubmitted = formCanBeSubmittedIn;
+        this.actionathand = actionAtHandIn;
         this.initial = false;
     }
 
-    GetStatusAfterReturningToPerson() {
+    get personFormGroup(): FormGroup {
+        return this.personformgroup;
+    }
 
+    get plainPersonlist(): object {
+        return this.plainpersonlist;
+    }
+
+    get namesToLookFor(): string {
+        return this.namestolookfor;
+    }
+
+    get indexOfPerson(): number {
+        return this.indexofperson;
+    }
+
+    get possibleFathersList(): object {
+        return this.possiblefatherslist;
+    }
+
+    get possibleMothersList(): object {
+        return this.possiblemotherslist;
+    }
+
+    get possiblePartnersList(): object {
+        return this.possiblepartnerslist;
+    }
+
+    get formContainsValue(): boolean {
+        return this.formcontainsvalue;
+    }
+
+    get formCanbeSubmitted(): boolean {
+        return this.formcanbesubmitted;
     }
 
 }

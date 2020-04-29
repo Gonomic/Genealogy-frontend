@@ -10,7 +10,7 @@ import { SavePersonDialogComponent } from '../dialogs/saveperson/savepersondialo
 import { DeletePersonDialogComponent } from '../dialogs/deleteperson/deletepersondialog.component';
 import { JsonPipe, DatePipe } from '@angular/common';
 import { MatSortHeader } from '@angular/material';
-import { Router, NavigationStart, RouterEvent } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd, RouterEvent } from '@angular/router';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -30,7 +30,7 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
   private destroyed$ = new Subject();
 
   private plainpersonlist: {};
-  private IntermPers: any;
+  // private IntermPers: any;
   private namesToLookFor: string;
   private indexOfPerson: number;
   private possibleFathersList = {};
@@ -106,8 +106,47 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
       takeUntil(this.destroyed$),
     )
     .subscribe((event: NavigationStart) => {
-      console.log('PersonScreenComponent, ngOnInit() => Routing event catched: ' + JSON.stringify(event));
+      console.log('|=> event.url.slice(1, 7)= ' + event.url.slice(1, 7));
+      if ( event.url.slice(1, 7) !== 'person') {
+        this.stateManagementService.SetStatusBeforeLeavingPersonScreen(
+          this.personForm,
+          this.plainpersonlist,
+          // this.IntermPers,
+          this.namesToLookFor,
+          this.indexOfPerson,
+          this.possibleFathersList,
+          this.possibleMothersList,
+          this.possiblePartnersList,
+          this.formContainsValue,
+          this.formCanBeSubmitted,
+          'edditing'
+        );
+        console.log('PersonScreenComponent, ngOnInit() => Routing event catched: NavigationStart, leaving PersonScreen. Local vars have been stored.', JSON.stringify(event));
+      }
     });
+
+
+  this.router.events
+  .pipe(
+      filter((event: RouterEvent) => event instanceof NavigationEnd),
+      takeUntil(this.destroyed$),
+    )
+    .subscribe((event: NavigationEnd) => {
+      console.log('|=> event.url.slice(1, 7)= ' + event.url.slice(1, 7));
+      if ( event.url.slice(1, 7) === 'person') {
+        this.personForm = this.stateManagementService.personFormGroup;
+        this.plainpersonlist = this.stateManagementService.plainPersonlist;
+        this.namesToLookFor = this.stateManagementService.namesToLookFor;
+        this.indexOfPerson = this.stateManagementService.indexOfPerson;
+        this.possibleFathersList = this.stateManagementService.possibleFathersList;
+        this.possibleMothersList = this.stateManagementService.possibleMothersList;
+        this.possiblePartnersList = this.stateManagementService.possiblePartnersList;
+        this.formContainsValue = this.stateManagementService.formContainsValue;
+        this.formCanBeSubmitted = this.stateManagementService.formCanbeSubmitted;
+        console.log('PersonScreenComponent, ngOnInit() => Routing event catched: NavigationEnd, entering  PersonScreen. Local vars have been restored', JSON.stringify(event));
+      }
+    });
+
 
   this.personForm.get('selectedMother').valueChanges.subscribe(
     value => {

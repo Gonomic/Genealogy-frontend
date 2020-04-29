@@ -60,7 +60,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(
       appRoutes,
-      { useHash: false, enableTracing: true } // Change enableTracing: to true to debug
+      { useHash: false, enableTracing: false } // Change enableTracing: to true to debug
     )
   ],
   providers: [
