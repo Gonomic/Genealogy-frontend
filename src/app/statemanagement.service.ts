@@ -27,7 +27,9 @@ export class StateManagementService {
     incomingMessage: Subscription;
     theMessageObject: object;
 
-    constructor(private datepipe: DatePipe) {}
+    constructor(private datepipe: DatePipe) {
+        this.initial = true;
+    }
 
     private handleError<T> (operation = 'operation', results?: T) {
         return (error: any): Observable<T> => {
@@ -45,8 +47,7 @@ export class StateManagementService {
 
     SetStatusBeforeLeavingPersonScreen(
                             formGroupIn: FormGroup,
-            	            plainpersonlistIn: {},
-                            // IntermPersIn: any,
+                            plainpersonlistIn: {},
                             namesToLookForIn: string,
                             indexOfPersonIn: number,
                             possibleFathersListIn: {},
@@ -57,7 +58,6 @@ export class StateManagementService {
                             actionAtHandIn: string) {
         this.personformgroup = formGroupIn,
         this.plainpersonlist = plainpersonlistIn,
-        // this.IntermPers = IntermPersIn,
         this.namestolookfor =  namesToLookForIn,
         this.indexofperson = indexOfPersonIn,
         this.possiblefatherslist = possibleFathersListIn,
@@ -66,10 +66,11 @@ export class StateManagementService {
         this.formcontainsvalue = formContainsValueIn;
         this.formcanbesubmitted = formCanBeSubmittedIn;
         this.actionathand = actionAtHandIn;
-        this.initial = false;
+        console.log('In statemanagementservice, method SetStatusBeforeLeavingPersonScreen(). Value of this.personformgroup.controls.PersonFamilyName= ' + this.personformgroup.controls.PersonFamilyName.value);
     }
 
     get personFormGroup(): FormGroup {
+        console.log('In statemanagementservice, getter personFormGroup(). Value of this.personformgroup.controls.PersonFamilyName= ' + this.personformgroup.controls.PersonFamilyName.value);
         return this.personformgroup;
     }
 
@@ -103,6 +104,78 @@ export class StateManagementService {
 
     get formCanbeSubmitted(): boolean {
         return this.formcanbesubmitted;
+    }
+
+    get stateIsInitial(): boolean {
+        return this.initial;
+    }
+
+    set setStateIsInitial(IsInitial: boolean) {
+        this.initial = IsInitial;
+    }
+
+}
+
+export class StateServiceChildrenScreen {
+    private childrenformgroup: FormGroup;
+    private children = {};
+    private possiblechildrenlist = {};
+    private actionathand: string;
+    private initial = true;
+
+    private message: any;
+    private incomingMessage: Subscription;
+    private theMessageObject: object;
+
+    // constructor(private datepipe: DatePipe) {
+        constructor() {
+        this.initial = true;
+
+    }
+
+    private handleError<T> (operation = 'operation', results?: T) {
+        return (error: any): Observable<T> => {
+
+        // TODO: send the error to default logging service
+        console.error(error);
+
+        // TODO: transform error to make it user readeable
+        // this.log('${operation' failed: ${error.message}');
+
+        // Return empty result so the app keeps running
+        return of(results as T);
+        };
+    }
+
+    SetStatusBeforeLeavingChildrenScreen(
+                            formGroupIn: FormGroup,
+                            childrenIn: {},
+                            possibleChildrenListIn: {},
+                            actionAtHandIn: string) {
+        this.childrenformgroup = formGroupIn;
+        this.children = childrenIn;
+        this.possiblechildrenlist = possibleChildrenListIn;
+        this.actionathand = actionAtHandIn;
+    }
+
+    get childrenFormGroup(): FormGroup {
+        return this.childrenformgroup;
+    }
+
+    get Children(): object {
+        return this.children;
+    }
+
+    get possibleChildrenList(): object {
+        return this.possiblechildrenlist;
+    }
+
+    get stateIsInitial(): boolean {
+        return this.initial;
+    }
+
+    set setStateIsInitial(IsInitial: boolean) {
+        this.initial = IsInitial;
     }
 
 }

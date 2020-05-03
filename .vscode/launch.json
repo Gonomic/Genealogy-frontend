@@ -18,6 +18,7 @@
             "name": "Launch FireFox against localhost on 1001",
             "url": "http://localhost:1001",
             "webRoot": "${workspaceFolder}",
+            "runtimeArgs": ["--disable-web-security"],
             "firefoxArgs": ["-devtools"]
         },      
         {
@@ -39,8 +40,8 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost on 4200",
-            "url": "http://localhost:4200",
+            "name": "Launch Chrome against localhost on 1001",
+            "url": "http://localhost:1001",
             "webRoot": "${workspaceFolder}"
         }
     ]

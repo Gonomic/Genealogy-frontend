@@ -16,7 +16,7 @@ import { RelationScreenComponent } from './relationscreen/relationscreen.compone
 import { InfoScreenComponent} from './infoscreen/infoscreen.component';
 import { ChildrenScreenComponent } from './childrenscreen/childrenscreen.component';
 import { DataSprocsService } from './datasprocs.service';
-import { StateManagementService } from './statemanagement.service';
+import { StateManagementService, StateServiceChildrenScreen } from './statemanagement.service';
 import { MessageService } from './eventhub.service';
 import { SavePersonDialogComponent } from './dialogs/saveperson/savepersondialog.component';
 import { DeletePersonDialogComponent } from './dialogs/deleteperson/deletepersondialog.component';
@@ -25,7 +25,7 @@ import { DocumentScreenComponent } from './documentscreen/documentscreen.compone
 import { PreviousMariageScreenComponent } from './previousmariagescreen/previousmariagescreen.component';
 
 const appRoutes: Routes = [
-    { path: '', outlet: 'primary', redirectTo: 'personscreen(sidenavNavigatie:searchhub)', pathMatch: 'full' },
+    { path: '', outlet: 'primary', redirectTo: '/personscreen(/sidenavNavigatie:searchhub)', pathMatch: 'full' },
     { path: 'personscreen', outlet: 'primary', component: PersonScreenComponent}, // children: [
     { path: 'childrenscreen', outlet: 'personsChildren', component: ChildrenScreenComponent},
     { path: 'relationscreen', outlet: 'primary', component: RelationScreenComponent},
@@ -67,6 +67,7 @@ const appRoutes: Routes = [
     DatePipe,
     DataSprocsService,
     StateManagementService,
+    StateServiceChildrenScreen,
     MessageService
   ],
   bootstrap: [AppComponent],

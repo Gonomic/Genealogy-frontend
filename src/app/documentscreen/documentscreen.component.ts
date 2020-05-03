@@ -43,7 +43,7 @@ export class DocumentScreenComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    console.log('ngOnDestroy() Method in DocumentScreenComponent only partially implemented.');
+    // console.log('ngOnDestroy() Method in DocumentScreenComponent only partially implemented.');
   }
 
   ngOnInit(){
@@ -53,7 +53,7 @@ export class DocumentScreenComponent implements OnDestroy, OnInit {
         takeUntil(this.destroyed$),
       )
       .subscribe((event: NavigationStart) => {
-        console.log('DocumentScreenComponent, ngOnInit() => Routing event catched: ' + JSON.stringify(event));
+        // console.log('DocumentScreenComponent, ngOnInit() => Routing event catched: ' + JSON.stringify(event));
       });
   }
 }

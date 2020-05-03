@@ -11,6 +11,7 @@ import { MessageService } from '../eventhub.service';
 import { Router, NavigationStart, NavigationEnd, RouterEvent } from '@angular/router';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { StateServiceChildrenScreen } from '../statemanagement.service';;
 
 
 
@@ -23,39 +24,60 @@ import { filter, takeUntil } from 'rxjs/operators';
 export class ChildrenScreenComponent implements OnDestroy, OnInit {
   private children = {};
   private possibleChildrenList = {};
-  private child: Child = new Child;
+  // private child: Child = new Child;
   private addChildToParrent: AddChildToParent;
-  private removeChildFromParent: RemoveChildFromParent;
+  // private removeChildFromParent: RemoveChildFromParent;
   private PersonIdInPersonScreen: number;
-  private tranResult = {};
+  private childrenForm: FormGroup;
+  private destroyed$: any;
 
-  private destroyed$ = new Subject();
+  private message: any;
+  private subscription: Subscription;
 
-  message: any;
-  subscription: Subscription;
 
-  childrensForm = new FormGroup({
-    ChildToAdd: new FormControl(0)
-  });
 
   constructor(
     private dataSprocsService: DataSprocsService,
+    private stateServiceChildrenScreen: StateServiceChildrenScreen,
     private messageService: MessageService,
     private router: Router
   ) {
+
+      this.childrenForm = new FormGroup({
+        ChildToAdd: new FormControl(null)
+      });
+
+      this.destroyed$ = new Subject();
+
       this.subscription = this.messageService
-        .getMessage()
-        .subscribe(message => {
-          if (message.action === 'addNewPerson') {
-            this.resetChildList();
-            this.resetpossibleChildrenList();
-          } else if (message.action = 'getExistingPerson') {
-            this.PersonIdInPersonScreen = message.Id;
-            // Changes message.Id in beneath lines to this.PersonIdInPersaonScreen
-            this.getChildList(this.PersonIdInPersonScreen);
-            this.getPossibleChildrenList(this.PersonIdInPersonScreen);
+      .getMessage()
+      .subscribe(message => {
+        if (message.action === 'addNewPerson') {
+          this.resetChildList();
+          this.resetpossibleChildrenList();
+        } else if (message.action = 'getExistingPerson') {
+          this.PersonIdInPersonScreen = message.Id;
+          // Changes message.Id in beneath lines to this.PersonIdInPersaonScreen
+          this.getChildList(this.PersonIdInPersonScreen);
+          this.getPossibleChildrenList(this.PersonIdInPersonScreen);
+        }
+      });
+
+      this.router.events
+      .subscribe((event: RouterEvent) => {
+        if (event instanceof NavigationStart) {
+          console.log('!-> PersonScreenComponent, Navigationstart.');
+          if ( event.url.slice(1, 7) !== 'person') {
+            this.stateServiceChildrenScreen.SetStatusBeforeLeavingChildrenScreen(
+              this.childrenForm,
+              this.children,
+              this.possibleChildrenList,
+              'edditing'
+            );
           }
-        });
+          this.stateServiceChildrenScreen.setStateIsInitial = false;
+        }
+      });
     }
 
   ngOnDestroy(): void {
@@ -64,23 +86,11 @@ export class ChildrenScreenComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.router.events
-    .pipe(
-        filter((event: RouterEvent) => event instanceof NavigationStart),
-        takeUntil(this.destroyed$),
-      )
-      .subscribe((event: NavigationStart) => {
-        console.log('ChildrenScreenComponent, ngOnInit() => Routing event catched: NavigationStart ' + JSON.stringify(event));
-      });
-
-    this.router.events
-    .pipe(
-        filter((event: RouterEvent) => event instanceof NavigationEnd),
-        takeUntil(this.destroyed$),
-      )
-      .subscribe((event: NavigationEnd) => {
-        console.log('ChildrenScreenComponent, ngOnInit() => Routing event catched: NavigationEnd ' + JSON.stringify(event));
-      });
+    if (! this.stateServiceChildrenScreen.stateIsInitial) {
+      this.childrenForm = this.stateServiceChildrenScreen.childrenFormGroup;
+      this.children = this.stateServiceChildrenScreen.Children;
+      this.possibleChildrenList = this.stateServiceChildrenScreen.possibleChildrenList;
+    }
   }
 
   private onPossibleChildAddition(eventObject): void {

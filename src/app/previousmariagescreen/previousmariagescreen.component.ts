@@ -41,7 +41,7 @@ export class PreviousMariageScreenComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    console.log('ngOnDestroy() Method in PreviousMariageScreenComponent only partially implemented.');
+    // console.log('ngOnDestroy() Method in PreviousMariageScreenComponent only partially implemented.');
   }
 
   ngOnInit(){
@@ -56,7 +56,7 @@ export class PreviousMariageScreenComponent implements OnDestroy, OnInit {
         takeUntil(this.destroyed$),
       )
       .subscribe((event: NavigationStart) => {
-        console.log('PreviousMariageScreenComponent, ngOnInit() => Routing event catched: ' + JSON.stringify(event));
+        // console.log('PreviousMariageScreenComponent, ngOnInit() => Routing event catched: ' + JSON.stringify(event));
       });
   }
 }
