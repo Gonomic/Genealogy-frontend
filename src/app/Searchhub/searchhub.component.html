@@ -10,9 +10,17 @@
 
         <div>
             <mat-action-list>
-                <button mat-list-item *ngFor="let item of plainpersonlist.data | keyvalue" (click)="sendMessage(item.value.PersonID, item.value.Birth)">
+                <mat-card *ngFor="let item of plainpersonlist.data | keyvalue">
+                    {{itime.value.name}}
+                    <mat-card-actions>
+                        <button (click)="sendMessage(item.value.PersonID, item.value.Birth)"></button>
+                    </mat-card-actions>
+
+
+                </mat-card>
+                <!-- <button mat-list-item *ngFor="let item of plainpersonlist.data | keyvalue" (click)="sendMessage(item.value.PersonID, item.value.Birth)">
                 {{item.value.Name}} =>
-                </button>
+                </button> -->
             </mat-action-list>
         </div>
     </div>
