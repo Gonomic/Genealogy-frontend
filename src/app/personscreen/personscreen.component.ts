@@ -78,7 +78,6 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
       this.incomingMessage = this.messageService
         .getMessage()
         .subscribe(message => {
-          console.log('PersonForm incoming message= ' + JSON.stringify(message));
           if (message.action === 'addNewPerson') {
             this.resetPersonRecord(message.name);
             this.resetPossibeFatherList();
@@ -95,7 +94,6 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
       this.router.events
       .subscribe((event: RouterEvent) => {
         if (event instanceof NavigationStart) {
-          console.log('!-> PersonScreenComponent, Navigationstart.');
           if ( event.url.slice(1, 7) !== 'person') {
             this.stateManagementService.SetStatusBeforeLeavingPersonScreen(
               this.personForm,
@@ -178,9 +176,7 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
 
   this.personForm.get('PersonDateOfBirth').valueChanges.subscribe(
     DateIn => {
-    console.log('In PersonDateOfBirth.valueChanges');
     if (! this.personForm.get('PersonDateOfBirth').pristine) {
-        console.log('In PersonDateOfBirth.valueChanges: field NOT pristine (so further actions ARE taken)');
         if  (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
           this.getPossibleFathersBasedOnDate(DateIn);
           this.getPossibleMothersBasedOnDate(DateIn);
@@ -353,7 +349,6 @@ clearMessage(): void {
                 this.sendMessage();
               });
           } else {
-            console.log('In PersonID <> null or 0');
             this.dataSprocsService.ChangePerson(this.personForm.value).subscribe(
               PostResult => {
                 this.personForm.reset({
@@ -531,7 +526,6 @@ clearMessage(): void {
   }
 
   RelativesFieldsOnFocus(FieldNameIn: string) {
-    console.log('Relativefield receiving the focus= ' + FieldNameIn);
     if (FieldNameIn === 'FatherField') {
       this.Overlijden.nativeElement.focus();
       this.Overlijden.nativeElement.click();
@@ -544,7 +538,7 @@ clearMessage(): void {
   }
 
   ReceivedFocus(ControlIn: string) {
-    console.log('Received focus, control= ' + ControlIn);
+    // console.log('Received focus, control= ' + ControlIn);
   }
 
   get PersonGivvenName() {return this.personForm.get('PersonGivvenName'); }
