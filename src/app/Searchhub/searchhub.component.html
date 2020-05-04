@@ -3,24 +3,23 @@
     <div fxLayout="column">
         <div>
             <label>Zoek persoon:</label>
-            <!-- <input formControlName="nameToLookForFromScreen" type="text" name="nameToLookForFromScreen" id="namesToLookForFromScreen" (ngModelChange)='this.nameToLookForFromScreenUpdate.next($event)'> -->
             <input formControlName="nameToLookForFromScreen" type="text" name="nameToLookForFromScreen" id="namesToLookForFromScreen">
             <button (click)='AddPerson()'>+</button>
         </div>
 
         <div>
             <mat-action-list>
-                <mat-card *ngFor="let item of plainpersonlist.data | keyvalue">
-                    {{itime.value.name}}
+                <mat-card class="name-card" *ngFor="let item of plainpersonlist.data | keyvalue">
+                    <div>
+                        {{item.value.Name}}
+                    </div>
+                    <div>
+                        Geboren: {{item.value.Birth | date: "dd-MM-yyyy"}}
+                    </div>
                     <mat-card-actions>
-                        <button (click)="sendMessage(item.value.PersonID, item.value.Birth)"></button>
+                        <button mat-button (click)="sendMessage(item.value.PersonID, item.value.Birth)">Bewerken =-></button>
                     </mat-card-actions>
-
-
                 </mat-card>
-                <!-- <button mat-list-item *ngFor="let item of plainpersonlist.data | keyvalue" (click)="sendMessage(item.value.PersonID, item.value.Birth)">
-                {{item.value.Name}} =>
-                </button> -->
             </mat-action-list>
         </div>
     </div>

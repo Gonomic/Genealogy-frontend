@@ -37,3 +37,8 @@ p {
 .active-list-item {
     color: blue !important;
 }
+
+.name-card {
+    background-color: lightgray;
+    color: black;
+}
