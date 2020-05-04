@@ -3,7 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DataSprocsService } from '../datasprocs.service';
 import { Subject, Observable, Subscription, of } from 'rxjs';
 import { MessageService } from '../eventhub.service';
+import { StateServiceSerchHubScreen } from '../statemanagement.service';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Router, NavigationStart, RouterEvent } from '@angular/router';
 
 @Component({
   selector: 'app-search-hub',
@@ -13,19 +15,26 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 export class SearchHubComponent implements OnInit {
   public plainpersonlist: object = {};
-  person: number;
-  theMessageObject: object;
-  incomingMessage: Subscription;
-  searchForm = new FormGroup({
-    nameToLookForFromScreen: new FormControl('')
-  });
+  private person: number;
+  private theMessageObject: object;
+  private incomingMessage: Subscription;
+  private searchForm: FormGroup;
 
+private destroyed = new Subject();
 
 
   constructor(
     private dataSprocsService: DataSprocsService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private stateServiceSerchHubScreen: StateServiceSerchHubScreen,
+    private router: Router,
+
     ) {
+
+      this.searchForm = new FormGroup({
+        nameToLookForFromScreen: new FormControl('')
+      });
+
       this.searchForm.get('nameToLookForFromScreen').valueChanges.pipe(
           debounceTime(500),
           distinctUntilChanged())
@@ -43,10 +52,30 @@ export class SearchHubComponent implements OnInit {
           }
         });
 
+        this.router.events
+        .subscribe((event: RouterEvent) => {
+          if (event instanceof NavigationStart) {
+            if ( event.url.slice(1, 7) !== 'person') {
+              this.stateServiceSerchHubScreen.SetStatusBeforeLeavingSearchHubScreen(
+                this.searchForm,
+                this.plainpersonlist,
+                'edditing'
+              );
+            }
+            this.stateServiceSerchHubScreen.setStateIsInitial = false;
+          }
+        });
+
   }
 
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (! this.stateServiceSerchHubScreen.stateIsInitial) {
+      this.searchForm = this.stateServiceSerchHubScreen.searchFormGroup;
+      this.plainpersonlist = this.stateServiceSerchHubScreen.plainPersonList;
+    }
+
+  }
 
 
   sendMessage(PersonIdIn: number, BirthDateIn: Date): void {

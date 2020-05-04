@@ -177,5 +177,45 @@ export class StateServiceChildrenScreen {
     set setStateIsInitial(IsInitial: boolean) {
         this.initial = IsInitial;
     }
+}
+
+export class StateServiceSerchHubScreen {
+    private searchform: FormGroup;
+    private plainpersonlist = {};
+    private actionathand: string;
+    private initial = true;
+
+    private message: any;
+    private incomingMessage: Subscription;
+    private theMessageObject: object;
+
+    constructor() {
+        this.initial = true;
+    }
+
+    SetStatusBeforeLeavingSearchHubScreen(
+                            searchFormIn: FormGroup,
+                            plainPersonListIn: {},
+                            actionAtHandIn: string) {
+        this.searchform = searchFormIn;
+        this.plainpersonlist = plainPersonListIn;
+        this.actionathand = actionAtHandIn;
+    }
+
+    get searchFormGroup(): FormGroup {
+        return this.searchform;
+    }
+
+    get plainPersonList(): object {
+        return this.plainpersonlist;
+    }
+
+    get stateIsInitial(): boolean {
+        return this.initial;
+    }
+
+    set setStateIsInitial(IsInitial: boolean) {
+        this.initial = IsInitial;
+    }
 
 }
