@@ -32,7 +32,7 @@
             <div>
                 <mat-form-field style="margin-right: 30px; " class="form-group ">
                     <label>Geboortedatum</label>
-                    <input matInput class="form-control " name='Geboortedatum' [matDatepicker]="picker1 " formControlName='PersonDateOfBirth' required>
+                    <input matInput class="form-control" name='Geboortedatum' [matDatepicker]="picker1" formControlName='PersonDateOfBirth' required pattern="\d{4}-\d{2}-\d{2}">
                     <div *ngIf="PersonDateOfBirth.invalid && (PersonDateOfBirth.dirty || PersonDateOfBirth.touched) " class='alert alert-danger'>
                         <div *ngIf="PersonDateOfBirth.errors.required ">
                             Geboortedatum is een verplicht veld en moet ingevoerd worden.
@@ -67,7 +67,7 @@
             <div>
                 <mat-form-field style="margin-right: 30px; " class="form-group ">
                     <label>Overlijdensdatum</label>
-                    <input matInput class="form-control " [matDatepicker]="picker2 " formControlName='PersonDateOfDeath' name="Overlijdensdatum ">
+                    <input matInput class="form-control " [matDatepicker]="picker2 " formControlName='PersonDateOfDeath' name="Overlijdensdatum " pattern="\d{4}-\d{2}-\d{2}">
                     <mat-datepicker-toggle matSuffix [for]="picker2 "></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
