@@ -23,6 +23,7 @@ import { DeletePersonDialogComponent } from './dialogs/deleteperson/deleteperson
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { DocumentScreenComponent } from './documentscreen/documentscreen.component';
 import { PreviousMariageScreenComponent } from './previousmariagescreen/previousmariagescreen.component';
+import { TreeFactory } from './core/TreeBranches';
 
 const appRoutes: Routes = [
     { path: '', outlet: 'primary', redirectTo: '/personscreen(/sidenavNavigatie:searchhub)', pathMatch: 'full' },
@@ -58,6 +59,7 @@ const appRoutes: Routes = [
     MatDialogModule,
     CustomMaterialModule,
     HttpClientModule,
+    TreeFactory,
     RouterModule.forRoot(
       appRoutes,
       { useHash: false, enableTracing: false } // Change enableTracing: to true to debug

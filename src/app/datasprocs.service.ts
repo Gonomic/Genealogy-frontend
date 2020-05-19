@@ -213,4 +213,12 @@ export class DataSprocsService {
     );
   }
 
+  GetFamilyTreeDownwards(PersonIdIn: number, NumberOfGenerationsToGoDownIn: number): Observable<any> {
+    const url = this.uri + '/getFamilyTreeDownwards?PersonIn=' + PersonIdIn + '?NumberOfGeneratonsToGoDown=' + NumberOfGenerationsToGoDownIn;
+    return this.httpClient.get<any>(url).pipe(
+      tap(_ => console.log('Fetched downward FamilyTree for PersonId= ' + PersonIdIn + ' and number of Generations to go down= ' + NumberOfGenerationsToGoDownIn)),
+      catchError(this.handleError<any>('getTreeBranch= PersonIdIn=${PersonIdIn} and number of Generations to go down=${NumberOfGenerationsIn}'))
+    );
+  }
+
 }

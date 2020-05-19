@@ -5,10 +5,13 @@ import { DataSprocsService } from '../datasprocs.service';
 import { Person } from '../person';
 import {FamilytreeMember} from '../familytreemember';
 import { PlainPersonListMember } from '../Plainpersonlistmember';
+import { TreeFactory } from '../core/TreeBranches';
 
 
 declare var Snap: any;
 declare var mina: any;
+
+
 
 @Component({
   selector: 'app-relation-screen',
@@ -18,6 +21,7 @@ declare var mina: any;
 
 
 export class RelationScreenComponent implements OnInit {
+  private treeFactory: TreeFactory;
 //   private persons: Person[];
 //   private familytree: FamilytreeMember[];
 //   private plainpersonlist: PlainPersonListMember[];
@@ -47,6 +51,7 @@ export class RelationScreenComponent implements OnInit {
 
   ngOnInit() {
     this.s = Snap('#MySvgID');
+    this.treeFactory = new TreeFactory();
   }
 
 //   private dragStart(x, y, e) {
