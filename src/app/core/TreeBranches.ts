@@ -1,4 +1,9 @@
-export class TreeFactory {
+
+import {NgModule} from '@angular/core';
+
+@NgModule({})
+
+export class TreeFactoryModule {
     private treeBranch: TreeBranch;
     private treeBranchLength;
     private connectinlines: ConnectingLines;

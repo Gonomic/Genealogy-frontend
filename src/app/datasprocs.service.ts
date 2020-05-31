@@ -221,4 +221,13 @@ export class DataSprocsService {
     );
   }
 
+  loginUser(userNameIn: String, PasswordIn: String): Observable<any> {
+    const url = this.uri + '/getCheckPassword?userId' + userNameIn + '?Wachtwoord' + PasswordIn;
+    return this.httpClient.get<any>(url).pipe(
+      tap(_ => console.log('Checked password based on userName= ' + userNameIn)),
+      catchError(this.handleError<any>('getCheckPassword= userName=${userNameIn}'))
+    );
+  }
+
+
 }

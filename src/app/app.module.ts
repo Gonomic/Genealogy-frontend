@@ -23,15 +23,19 @@ import { DeletePersonDialogComponent } from './dialogs/deleteperson/deleteperson
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { DocumentScreenComponent } from './documentscreen/documentscreen.component';
 import { PreviousMariageScreenComponent } from './previousmariagescreen/previousmariagescreen.component';
-import { TreeFactory } from './core/TreeBranches';
+import { LogInOutScreenComponent } from './loginoutscreen/loginoutscreen.component';
+import { TreeFactoryModule } from './core/TreeBranches';
 
 const appRoutes: Routes = [
-    { path: '', outlet: 'primary', redirectTo: '/personscreen(/sidenavNavigatie:searchhub)', pathMatch: 'full' },
+    // { path: '', outlet: 'primary', redirectTo: '/personscreen(/sidenavNavigatie:searchhub)', pathMatch: 'full' },
+    { path: '', outlet: 'primary', redirectTo: '/loginoutscreen', pathMatch: 'full' },
+    { path: 'loginoutscreen', outlet: 'primary', component: LogInOutScreenComponent},
     { path: 'personscreen', outlet: 'primary', component: PersonScreenComponent}, // children: [
     { path: 'childrenscreen', outlet: 'personsChildren', component: ChildrenScreenComponent},
     { path: 'relationscreen', outlet: 'primary', component: RelationScreenComponent},
     { path: 'infoscreen', outlet: 'primary', component: InfoScreenComponent},
     { path: 'searchhub', outlet: 'sidenavNavigatie', component: SearchHubComponent},
+    { path: 'loginout', outlet: 'primary', component: LogInOutScreenComponent}
   ];
 
 @NgModule({
@@ -47,6 +51,7 @@ const appRoutes: Routes = [
     PreviousMariageScreenComponent,
     SavePersonDialogComponent,
     DeletePersonDialogComponent,
+    LogInOutScreenComponent,
     PageNotFoundComponent
   ],
   imports: [
@@ -59,7 +64,7 @@ const appRoutes: Routes = [
     MatDialogModule,
     CustomMaterialModule,
     HttpClientModule,
-    TreeFactory,
+    TreeFactoryModule,
     RouterModule.forRoot(
       appRoutes,
       { useHash: false, enableTracing: false } // Change enableTracing: to true to debug

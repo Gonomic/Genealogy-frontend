@@ -1,0 +1,46 @@
+<div class="container">
+    <form [formGroup]='loginLogoutForm' (ngSubmit)='onSubmit()'>
+
+        <div>
+            <h1>Gebruiker</h1>
+        </div>
+
+        <div style="margin-bottom: 50px; ">
+            <mat-form-field style="margin-right: 50px; " class="form-group ">
+                <label>GebruikersNaam</label>
+                <input matInput class="form-control " name='UserName' formControlName='UserName' required>
+                <div *ngIf="UserName.invalid && (UserName.dirty || UserName.touched) " class='alert alert-danger'>
+                    <div *ngIf="UserName.errors.required ">
+                        Gebruikersnaam is een verplicht veld en moet ingevoerd worden.
+                    </div>
+                </div>
+            </mat-form-field>
+
+            <mat-form-field class="form-group ">
+                <label>Wachtwoord (1e keer ingeven)</label>
+                <input matInput class="form-control " name='Wachtwoord1' formControlName='Wachtwoord1' required>
+                <div *ngIf="Wachtwoord1.invalid && (Wachtwoord1.dirty || Wachtwoord1.touched) " class='alert alert-danger'>
+                    <div *ngIf="Wachtwoord1.errors.required ">
+                        Wachtwoord is een verplicht veld en moet ingevoerd worden.
+                    </div>
+                </div>
+            </mat-form-field>
+
+            <mat-form-field class="form-group ">
+                <label>Wachtwoord (2e keer ingeven)</label>
+                <input matInput class="form-control " name='Wachtwoord2' formControlName='Wachtwoord2' required>
+                <div *ngIf="Wachtwoord2.invalid && (Wachtwoord2.dirty || Wachtwoord2.touched) " class='alert alert-danger'>
+                    <div *ngIf="Wachtwoord2.errors.required ">
+                        Wachtwoord is een verplicht veld en moet ingevoerd worden. Het wachtwoord dat u de eerste keer invoert en dat u de tweede keer invoerd moet gelijk zijn
+                    </div>
+                </div>
+            </mat-form-field>
+        </div>
+
+        <div class="button-row ">
+            <button mat-raised-button type='submit' [disabled]="!formIsSubmitable() " (click)='loginUser()'>Inloggen</button>
+            <button mat-raised-button [disabled]="AlreadyLoggedIn() " (click)=logoutUser()>Uitloggen</button>
+        </div>
+
+    </form>
+</div>
