@@ -25,6 +25,7 @@ import { DocumentScreenComponent } from './documentscreen/documentscreen.compone
 import { PreviousMariageScreenComponent } from './previousmariagescreen/previousmariagescreen.component';
 import { LogInOutScreenComponent } from './loginoutscreen/loginoutscreen.component';
 import { TreeFactoryModule } from './core/TreeBranches';
+import { UserManagementService } from './usermanagement.service';
 
 const appRoutes: Routes = [
     // { path: '', outlet: 'primary', redirectTo: '/personscreen(/sidenavNavigatie:searchhub)', pathMatch: 'full' },
@@ -35,7 +36,7 @@ const appRoutes: Routes = [
     { path: 'relationscreen', outlet: 'primary', component: RelationScreenComponent},
     { path: 'infoscreen', outlet: 'primary', component: InfoScreenComponent},
     { path: 'searchhub', outlet: 'sidenavNavigatie', component: SearchHubComponent},
-    { path: 'loginout', outlet: 'primary', component: LogInOutScreenComponent}
+    { path: 'loginoutscreen', outlet: 'primary', component: LogInOutScreenComponent}
   ];
 
 @NgModule({
@@ -67,7 +68,7 @@ const appRoutes: Routes = [
     TreeFactoryModule,
     RouterModule.forRoot(
       appRoutes,
-      { useHash: false, enableTracing: false } // Change enableTracing: to true to debug
+      { useHash: false, enableTracing: true } // Change enableTracing: to true to debug
     )
   ],
   providers: [
@@ -76,7 +77,8 @@ const appRoutes: Routes = [
     StateManagementService,
     StateServiceChildrenScreen,
     StateServiceSerchHubScreen,
-    MessageService
+    MessageService,
+    UserManagementService
   ],
   bootstrap: [AppComponent],
   entryComponents: [SavePersonDialogComponent, DeletePersonDialogComponent]

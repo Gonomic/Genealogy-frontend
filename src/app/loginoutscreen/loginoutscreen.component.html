@@ -38,8 +38,8 @@
         </div>
 
         <div class="button-row ">
-            <button mat-raised-button type='submit' [disabled]="!formIsSubmitable() " (click)='loginUser()'>Inloggen</button>
-            <button mat-raised-button [disabled]="AlreadyLoggedIn() " (click)=logoutUser()>Uitloggen</button>
+            <button mat-raised-button type='button' [disabled]="!ShowLoginButton()" (click)="LogInToDekkNet()">Inloggen</button>
+            <button mat-raised-button type='button' [disabled]="!ShowLogoutButton()" (click)="LogOutFromDekkNet()">Uitloggen</button>
         </div>
 
     </form>
