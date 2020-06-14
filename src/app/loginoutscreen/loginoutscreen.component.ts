@@ -5,7 +5,10 @@ import { Router, NavigationStart, NavigationEnd, RouterEvent } from '@angular/ro
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SYNOSSO } from '../synoSSO-1.0.0';
 import { UserManagementService } from '../usermanagement.service';
-import { HttpClient , HttpHeaders} from '@angular/common/http';
+import { HttpClient , HttpHeaders, HttpParams} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 
 
 declare const $;
@@ -34,73 +37,127 @@ export class LogInOutScreenComponent implements OnInit {
         Wachtwoord1: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
         Wachtwoord2: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
       });
-      // userManagementService = new UserManagementService();
-      console.log('In LoginLogOutScreenComponent constructor, initiating SYNOSSO');
-      this.InitSynnoSSO();
     }
+
 
   ngOnInit() {
-    console.log('In LoginLogOutScreenComponent ngOninit, starting LogInToDekkNet.')
-    this.LogInToDekkNet();
   }
 
-  private InitSynnoSSO() {
-  console.log('In InitSynoSSO starting SYNOSSO.init');
+  InitSynnoSSO() {
+    // private InitSynnoSSO() {
+    console.log('In InitSynoSSO starting SYNOSSO.init');
 
-  SYNOSSO.init({
-      oauthserver_url: 'https://dekknet.com:4001',
-      app_id: '59edb93d8167896de8f74f5ba619a909',
+    SYNOSSO.init({
+      oauthserver_url: 'https://dekknet.com:4005',
+      app_id: 'd07123f5f109399f799865bf10346dc9',
       redirect_uri: 'http://localhost:1001',
-      callback: authCallback
-    });
+      ldap_baseDN: 'dc=dekknet,dc=com',
+      callback: (response) => {
+        if (response.status === 'not_login') {
+          // user NOT logged in, take appropriate actions
+          // this.ShowLogoutButton = false;
+          // this.showLoginButton = true;
+          console.log ('In function authCallBack, user NOT loged in, response= ' + JSON.stringify(response) + '. Loging on now!');
+          SYNOSSO.login();
+        } else if (response.status === 'login') {
+          this.userManagementService.userAccesToken = response.access_token;
+          this.userManagementService.logedIn = response.status;
+          // user IS logged in, take appropriate actions
+          // this.ShowLogoutButton = true;
+          // this.ShowLoginButton = false;
+          console.log ('In function authCallBack, user loged in, response= ' + JSON.stringify(response));
+          console.log('Usermanagement values are, AccessToken= ' + this.userManagementService.accessToken + '. status= ' + this.userManagementService.logedIn);
+          // const params = new HttpParams().set('accestoken', this.userManagementService.accessToken);
+          const params = new HttpParams().set('action', 'exchange').set('accestoken', this.userManagementService.accessToken);
+          // this.httpClient.get('https://dekknet.com:4005/webman/sso/SSOAccessToken.cgi', {params})
+          this.httpClient.get('/https://dekknet.com:4005/webman/sso/login-backend.php', {params})
+          .subscribe(
+            (data) => {
+              console.log('Returned data= ' + JSON.stringify(data));
+            }
+          );
 
-    function authCallback(response) {
-      if (response.status === 'not_login') {
-        // user NOT logged in, take appropriate actions
-        // this.ShowLogoutButton = false;
-        // this.showLoginButton = true;
-        console.log ('In function authCallBack, user NOT loged in, response= ' + JSON.stringify(response));
-      } else if (response.status === 'login') {
-        this.userManagementService.userAccesToken(response.access_token);
-        // user IS logged in, take appropriate actions
-        // this.ShowLogoutButton = true;
-        // this.ShowLoginButton = false;
-        console.log ('In function authCallBack, user loged in, response= ' + JSON.stringify(response));
-        // this.httpClient({
-        //     url: '/login-backend.php',
-        //     method: 'GET',
-        //     params: {data: {accesstoken: response.access_token } }
-        //  }).
-        // success(function(data, status, headers, config) {
-        //     console.log('In SYNOSSO.init, function authCallback,', 'Data= ' + JSON.stringify(data), 'Status= ' + JSON.stringify(status), 'Headers= ' + JSON.stringify(headers), 'Config= ' + JSON.stringify(config));
-        // }).
-        // error(function(data, status, headers, config) {
-        //   console.log('In SYNOSSO.init, function authCallback,', 'Data= ' + JSON.stringify(data), 'Status= ' + JSON.stringify(status), 'Headers= ' + JSON.stringify(headers), 'Config= ' + JSON.stringify(config));
-        // });
-        // $.ajax ({ url : '/login_backend.php' ,
-        //   cache: false,
-        //   type: 'GET',
-        //   data: {
-        //     accesstoken:
-        //     response.access_token
-        //   },
-        //   error: function(xhr) {
-        //     console.log('In function authCallBack, ajax error occured, error= ' + JSON.stringify(xhr));
-        //     // deal with errors
-        //   },
-        //   success: function(responseItIs) {
-        //     console.log('In function authCallBack, success, response= ' + JSON.stringify(responseItIs));
-        //     // deal with success
-        //   }
-        // });
-      } else {
-          console.log('Error, error= ' + JSON.stringify(response));
-          // deal with errors;
+            // this.httpClient({
+            //     url: '/login-backend.php',
+            //     method: 'GET',
+            //     params: {data: {accesstoken: response.access_token } }
+            // }).
+            // success(function(data, status, headers, config) {
+            //     console.log('In SYNOSSO.init, function authCallback,', 'Data= ' + JSON.stringify(data), 'Status= ' + JSON.stringify(status), 'Headers= ' + JSON.stringify(headers), 'Config= ' + JSON.stringify(config));
+            // }).
+            // error(function(data, status, headers, config) {
+            //   console.log('In SYNOSSO.init, function authCallback,', 'Data= ' + JSON.stringify(data), 'Status= ' + JSON.stringify(status), 'Headers= ' + JSON.stringify(headers), 'Config= ' + JSON.stringify(config));
+            // });
+            // $.ajax ({ url : '/login_backend.php' ,
+            //   cache: false,
+            //   type: 'GET',
+            //   data: {
+            //     accesstoken:
+            //     response.access_token
+            //   },
+            //   error: function(xhr) {
+            //     console.log('In function authCallBack, ajax error occured, error= ' + JSON.stringify(xhr));
+            //     // deal with errors
+            //   },
+            //   success: function(responseItIs) {
+            //     console.log('In function authCallBack, success, response= ' + JSON.stringify(responseItIs));
+            //     // deal with success
+            //   }
+            // });
+          } else {
+              console.log('Error, error= ' + JSON.stringify(response));
+              // deal with errors;
+          }
+        }
       }
-    }
+    );
   }
 
 
+    // private authCallback(response) {
+    //   if (response.status === 'not_login') {
+    //     // user NOT logged in, take appropriate actions
+    //     // this.ShowLogoutButton = false;
+    //     // this.showLoginButton = true;
+    //     console.log ('In function authCallBack, user NOT loged in, response= ' + JSON.stringify(response));
+    //   } else if (response.status === 'login') {
+    //     this.userManagementService.userAccesToken = response.access_token;
+    //     // user IS logged in, take appropriate actions
+    //     // this.ShowLogoutButton = true;
+    //     // this.ShowLoginButton = false;
+    //     console.log ('In function authCallBack, user loged in, response= ' + JSON.stringify(response));
+    //     this.httpClient({
+    //         url: '/login-backend.php',
+    //         method: 'GET',
+    //         params: {data: {accesstoken: response.access_token } }
+    //     }).
+    //     success(function(data, status, headers, config) {
+    //         console.log('In SYNOSSO.init, function authCallback,', 'Data= ' + JSON.stringify(data), 'Status= ' + JSON.stringify(status), 'Headers= ' + JSON.stringify(headers), 'Config= ' + JSON.stringify(config));
+    //     }).
+    //     error(function(data, status, headers, config) {
+    //       console.log('In SYNOSSO.init, function authCallback,', 'Data= ' + JSON.stringify(data), 'Status= ' + JSON.stringify(status), 'Headers= ' + JSON.stringify(headers), 'Config= ' + JSON.stringify(config));
+    //     });
+    //     // $.ajax ({ url : '/login_backend.php' ,
+    //     //   cache: false,
+    //     //   type: 'GET',
+    //     //   data: {
+    //     //     accesstoken:
+    //     //     response.access_token
+    //     //   },
+    //     //   error: function(xhr) {
+    //     //     console.log('In function authCallBack, ajax error occured, error= ' + JSON.stringify(xhr));
+    //     //     // deal with errors
+    //     //   },
+    //     //   success: function(responseItIs) {
+    //     //     console.log('In function authCallBack, success, response= ' + JSON.stringify(responseItIs));
+    //     //     // deal with success
+    //     //   }
+    //     // });
+    //   } else {
+    //       console.log('Error, error= ' + JSON.stringify(response));
+    //       // deal with errors;
+    //   }
+    // }
 
   private AlreadyLoggedIn(): boolean {
     console.log('Already Logged in.');
@@ -123,7 +180,8 @@ export class LogInOutScreenComponent implements OnInit {
 
   private LogInToDekkNet(): void {
    console.log('In function LoginToDekknet, performing SYNOSSO.login');
-   SYNOSSO.login();
+    this.InitSynnoSSO();
+  //  SYNOSSO.login();
   }
 
   private LogInToDekkNetto(): void {
