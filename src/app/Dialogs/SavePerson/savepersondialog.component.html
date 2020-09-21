@@ -1,23 +1,21 @@
-<<<<<<< HEAD
-<div class="center-text">
-    <h1 class="inline:display" mat-dialog-title>Gegevens van persoon: {{description}} bewaren?</h1>
+<form [formGroup]='savePersonDialog'>
+    <h1 mat-dialog-title>Gegevens persoon {{data.name}} verwijderen?</h1>
+    <div class="center-text">
 
-    <mat-dialog-content [formGroup]="form">
+    <mat-dialog-content>
     <div>
         Als je op "Gegevens opslaan" klikt, worden de gegevens van deze persoon bewaard. 
         Als je op "Gevens NIET opslaan" klikt, worden de gegevens niet bewaard en verschijnen
         de 'oude' gegevens in het scherm zoals deze waren voordat je deze begon te bewerken.
     </div>
-<div>------------</div>
+    <div>------------</div>
     <div>
         Als dit niet de gegevens van een bestaande persoon zijn, maar van een persoon
         die je nieuw wilt toevoegen, kan je nadat je op "Gegevens opslaan" geklikt hebt ook kinderen 
         gaan toevoegen aan de rechterzijde van het scherm.
     </div>
         <!-- <mat-form-field>
-=======
-<form [formGroup]='savePersonDialog'>
->>>>>>> def38be23a5f25a2858e4636cbfe1a813f637395
+
 
     <h1 mat-dialog-title>Gegevens persoon {{data.name}} verwijderen?</h1>
 
