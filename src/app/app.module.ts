@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { HttpClientModule} from '@angular/common/http';
 import { MatIconModule, MatSidenavContent, MatDialogModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -15,10 +16,11 @@ import { RelationScreenComponent } from './relationscreen/relationscreen.compone
 import { InfoScreenComponent} from './infoscreen/infoscreen.component';
 import { ChildrenScreenComponent } from './childrenscreen/childrenscreen.component';
 import { DataSprocsService } from './datasprocs.service';
+import { StateManagementService } from './statemanagement.service';
 import { MessageService } from './eventhub.service';
-import { DatePipe } from '@angular/common';
-import { SavePersonDialogComponent } from './Dialogs/SavePerson/savePersonDialog.component';
-import { DeletePersonDialogComponent } from './Dialogs/DeletePerson/deletePersonDialog.component';
+import { SavePersonDialogComponent } from './dialogs/saveperson/savepersondialog.component';
+import { DeletePersonDialogComponent } from './dialogs/deleteperson/deletepersondialog.component';
+import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 
 const appRoutes: Routes = [
     { path: '', outlet: 'primary', redirectTo: '/personscreen(sidenavNavigatie:searchhub//personsChildren:childrenscreen)', pathMatch: 'full' },
@@ -39,7 +41,8 @@ const appRoutes: Routes = [
     InfoScreenComponent,
     ChildrenScreenComponent,
     SavePersonDialogComponent,
-    DeletePersonDialogComponent
+    DeletePersonDialogComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -57,11 +60,12 @@ const appRoutes: Routes = [
     )
   ],
   providers: [
+    DatePipe,
     DataSprocsService,
-    MessageService,
-    DatePipe
+    StateManagementService,
+    MessageService
   ],
   bootstrap: [AppComponent],
   entryComponents: [SavePersonDialogComponent, DeletePersonDialogComponent]
 })
-export class AppModule { }
+export class AppModule {}

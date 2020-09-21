@@ -1,11 +1,16 @@
-import { Component, OnInit, OnDestroy, Output, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, Inject, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { formatDate } from '@angular/common';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { DataSprocsService } from '../datasprocs.service';
+import { StateManagementService } from '../statemanagement.service';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../eventhub.service';
-import { SavePersonDialogComponent } from '../Dialogs/SavePerson/savePersonDialog.component';
-import { DeletePersonDialogComponent } from '../Dialogs/DeletePerson/deletePersonDialog.component';
+import { SavePersonDialogComponent } from '../dialogs/saveperson/savepersondialog.component';
+import { DeletePersonDialogComponent } from '../dialogs/deleteperson/deletepersondialog.component';
+import { JsonPipe, DatePipe } from '@angular/common';
+import { MatSortHeader } from '@angular/material';
+
 
 @Component({
   selector: 'app-person-screen',
@@ -14,33 +19,47 @@ import { DeletePersonDialogComponent } from '../Dialogs/DeletePerson/deletePerso
 })
 
 export class PersonScreenComponent implements OnDestroy, OnInit {
+  @ViewChild('Mother', {read: ElementRef, static: false}) private Mother: ElementRef;
+  @ViewChild('Father', {read: ElementRef, static: false}) private Father: ElementRef;
+  @ViewChild('Partner', {read: ElementRef, static: false}) private Partner: ElementRef;
+  @ViewChild('Overlijden', {read: ElementRef, static: true}) Overlijden: ElementRef;
+
+  private plainpersonlist: {};
   private IntermPers: any;
   private namesToLookFor: string;
   private indexOfPerson: number;
   private possibleFathersList = {};
   private possibleMothersList = {};
   private possiblePartnersList = {};
+  private formContainsValue = false;
+  private formCanBeSubmitted = false;
   personForm: FormGroup;
   message: any;
   incomingMessage: Subscription;
   motherChanged: Subscription;
+  theMessageObject: object;
+
+
 
 
   constructor(
     private dataSprocsService: DataSprocsService,
+    private stateManagementService: StateManagementService,
     private messageService: MessageService,
     private saveDialog: MatDialog,
-    private deleteDialog: MatDialog
+    private deleteDialog: MatDialog,
+    private datepipe: DatePipe
   ) {
       this.incomingMessage = this.messageService
         .getMessage()
         .subscribe(message => {
+          console.log('PersonForm incoming message= ' + JSON.stringify(message));
           if (message.action === 'addNewPerson') {
             this.resetPersonRecord(message.name);
             this.resetPossibeFatherList();
             this.resetPossibeMotherList();
             this.resetPossiblePartnerList();
-          } else {
+          } else if (message.action === 'getExistingPerson') {
             this.getPersonDetails(message.Id);
             this.getPossibleFathers(message.Id);
             this.getPossibleMothers(message.Id);
@@ -51,12 +70,14 @@ export class PersonScreenComponent implements OnDestroy, OnInit {
 
 ngOnInit() {
   this.personForm = new FormGroup({
-    PersonID: new FormControl(0),
-    PersonGivenName: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
+    PersonID: new FormControl(null),
+    PersonGivvenName: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
     PersonFamilyName: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
     PersonDateOfBirth: new FormControl(null, { validators: Validators.required, updateOn: 'blur' } ),
+    PersonDateOfBirthStatus: new FormControl(null, { validators: [Validators.required, Validators.min(1), Validators.max(3)], updateOn: 'blur'} ),
     PersonPlaceOfBirth: new FormControl(null),
     PersonDateOfDeath: new FormControl(null),
+    PersonDateOfDeathStatus: new FormControl(null, {validators: [Validators.min(1), Validators.max(3)] } ),
     PersonPlaceOfDeath: new FormControl(null),
     PersonIsMale: new FormControl(null, { validators: Validators.required, updateOn: 'blur'} ),
     MotherID: new FormControl(null),
@@ -73,7 +94,9 @@ ngOnInit() {
 
   this.personForm.get('selectedMother').valueChanges.subscribe(
     value => {
+      console.log('In selectedMother.valueChanges'); 
       if (! this.personForm.get('selectedMother').pristine) {
+        console.log('In selectedMother.valueChanges: field NOT pristine (so further actions ARE taken)');
         if (this.personForm.get('selectedMother').value != null) {
           this.personForm.patchValue({
             MotherID: value.PersonID,
@@ -81,6 +104,8 @@ ngOnInit() {
             selectedMother: null
           });
         }
+      } else {
+          console.log('In selectedMother.valueChanges: field IS pristine (so NO further actions)');
       }
     }
   );
@@ -115,8 +140,13 @@ ngOnInit() {
 
   this.personForm.get('PersonDateOfBirth').valueChanges.subscribe(
     DateIn => {
+    // this.personForm.patchValue({
+    //   PersonDateOfBirth: formatDate(DateIn, 'yyyyMMdd')
+    //     });
+    console.log('In PersonDateOfBirth.valueChanges');
     if (! this.personForm.get('PersonDateOfBirth').pristine) {
-        if  (this.personForm.get('PersonID').value === null) {
+        console.log('In PersonDateOfBirth.valueChanges: field NOT pristine (so further actions ARE taken)');
+        if  (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
           this.getPossibleFathersBasedOnDate(DateIn);
           this.getPossibleMothersBasedOnDate(DateIn);
           this.getPossiblePartnersBasedOnDate(DateIn);
@@ -125,20 +155,74 @@ ngOnInit() {
           this.getPossibleMothers(this.personForm.get('PersonID').value);
           this.getPossiblePartners(this.personForm.get('PersonID').value);
         }
+      } else {
+        console.log('In PersonDateOfBirth.valueChanges: field IS pristine (so NO further actions)');
       }
     }
   );
 
+  this.personForm.get('MotherName').valueChanges.subscribe(
+    ValueIn => {
+      if (! this.personForm.get('MotherName').pristine) {
+        if (ValueIn === '') {
+          this.personForm.patchValue({
+            MotherName: null,
+            MotherID: null
+          });
+        }
+      }
+    }
+  );
+
+  this.personForm.get('FatherName').valueChanges.subscribe(
+    ValueIn => {
+      if (! this.personForm.get('FatherName').pristine) {
+        if (ValueIn === '') {
+          this.personForm.patchValue({
+            FatherName: null,
+            FatherID: null
+          });
+        }
+      }
+    }
+  );
+
+  this.personForm.get('PartnerName').valueChanges.subscribe(
+      ValueIn => {
+     if (! this.personForm.get('PartnerName').pristine) {
+        if (ValueIn === '') {
+          this.personForm.patchValue({
+            PartnerName: null,
+            PartnerID: null
+          });
+        }
+      }
+    }
+  );
+
+
+}
+
+sendMessage(): void {
+  this.theMessageObject = { 'action': 'refreshPersonList'};
+  console.log('sendMessage, message send= ' + JSON.stringify(this.theMessageObject));
+  this.messageService.sendMessage(this.theMessageObject);
+}
+
+clearMessage(): void {
+  this.messageService.clearMessage();
 }
 
   private resetPersonRecord(PersonNameIn: string): void {
     this.personForm.reset({
       PersonID: null,
-      PersonGivenName: null,
+      PersonGivvenName: null,
       PersonFamilyName: PersonNameIn,
       PersonDateOfBirth: null,
+      PersonDateOfBirthStatus: null,
       PersonPlaceOfBirth: null,
       PersonDateOfDeath: null,
+      PersonDateOfDeathStatus: null,
       PersonPlaceOfDeath: null,
       PersonIsMale: null,
       MotherID: null,
@@ -176,11 +260,13 @@ ngOnInit() {
       (person) => {
         this.personForm.reset({
           PersonID: person.data.PersonID,
-          PersonGivenName: person.data.PersonGivvenName,
+          PersonGivvenName: person.data.PersonGivvenName,
           PersonFamilyName: person.data.PersonFamilyName,
           PersonDateOfBirth: person.data.PersonDateOfBirth,
+          PersonDateOfBirthStatus: person.data.PersonDateOfBirthStatus,
           PersonPlaceOfBirth: person.data.PersonPlaceOfBirth,
           PersonDateOfDeath: person.data.PersonDateOfDeath,
+          PersonDateOfDeathStatus: person.data.PersonDateOfDeathStatus,
           PersonPlaceOfDeath: person.data.PersonPlaceOfDeath,
           PersonIsMale: person.data.PersonIsMale,
           MotherID: person.data.MotherID || null,
@@ -199,30 +285,143 @@ ngOnInit() {
   }
 
   private openSavePersonDialog(): void {
-    console.log('In openSavePersonDialog');
     const dialogSavePersonConfig = new MatDialogConfig();
     dialogSavePersonConfig.disableClose = true;
     dialogSavePersonConfig.autoFocus = true;
-    dialogSavePersonConfig.data = {
-      PersonName: this.personForm.get('PersonGivenName').value  +  this.personForm.get('PersonFamilyName').value
-    }
-    this.saveDialog.open(SavePersonDialogComponent, dialogSavePersonConfig);
-    const dialogRef = this.saveDialog.open(SavePersonDialogComponent, dialogSavePersonConfig);
-    dialogRef.afterClosed().subscribe(
-      data => console.log('Dialog ouput: ', data)
+    dialogSavePersonConfig.data = { PersonName: this.personForm.get('PersonGivvenName').value  +  ' ' + this.personForm.get('PersonFamilyName').value };
+    const dialogRef1 = this.saveDialog.open(SavePersonDialogComponent, dialogSavePersonConfig);
+    dialogRef1.afterClosed().subscribe(
+      DialogResult => {
+        if (DialogResult === 'Save') {
+          console.log('personForm.value=' + JSON.stringify(this.personForm.value));
+          if (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
+            console.log('In openSavePersonDialog() and PersonID = null or 0 (so further action taken: AddPerson()');
+            this.dataSprocsService.AddPerson(this.personForm.value).subscribe(
+              PostResult => {
+                console.log('In openSavePersonDialog, new person');
+                this.personForm.reset({
+                  PersonID: PostResult.data[0].PersonID,
+                  PersonGivvenName: PostResult.data[0].PersonGivvenName,
+                  PersonFamilyName: PostResult.data[0].PersonFamilyName,
+                  PersonDateOfBirth: PostResult.data[0].PersonDateOfBirth,
+                  PersonDateOfBirthStatus: PostResult.data[0].PersonDateOfBirthStatus,
+                  PersonPlaceOfBirth: PostResult.data[0].PersonPlaceOfBirth,
+                  PersonDateOfDeath: PostResult.data[0].PersonDateOfDeath,
+                  PersonDateOfDeathStatus: PostResult.data[0].PersonDateOfDeathStatus,
+                  PersonPlaceOfDeath: PostResult.data[0].PersonPlaceOfDeath,
+                  PersonIsMale: PostResult.data[0].PersonIsMale,
+                  MotherID: PostResult.data[0].MotherID || '',
+                  MotherName: PostResult.data[0].MotherName || '',
+                  FatherID: PostResult.data[0].FatherID || '',
+                  FatherName: PostResult.data[0].FatherName || '',
+                  PartnerID: PostResult.data[0].PartnerID || '',
+                  PartnerName: PostResult.data[0].PartnerName || '',
+                  Timestamp: PostResult.data[0].Timestamp,
+                  selectedMother: null,
+                  selectedFather: null,
+                  selectedPartner: null
+                });
+                this.getPossibleFathers(this.personForm.get('PersonID').value);
+                this.getPossibleMothers(this.personForm.get('PersonID').value);
+                this.getPossiblePartners(this.personForm.get('PersonID').value);
+                this.sendMessage();
+              });
+          } else {
+            console.log('In PersonID <> null or 0');
+            this.dataSprocsService.ChangePerson(this.personForm.value).subscribe(
+              PostResult => {
+                console.log('In openSavePersonDialog() and PersonID <> null and <> 0 (so futher action taken: ChangePerson()');
+                this.personForm.reset({
+                  PersonID: PostResult.data[0].PersonID,
+                  PersonGivvenName: PostResult.data[0].PersonGivvenName,
+                  PersonFamilyName: PostResult.data[0].PersonFamilyName,
+                  PersonDateOfBirth: PostResult.data[0].PersonDateOfBirth,
+                  PersonDateOfBirthStatus: PostResult.data[0].PersonDateOfBirthStatus,
+                  PersonPlaceOfBirth: PostResult.data[0].PersonPlaceOfBirth,
+                  PersonDateOfDeath: PostResult.data[0].PersonDateOfDeath,
+                  PersonDateOfDeathStatus: PostResult.data[0].PersonDateOfDeathStatus,
+                  PersonPlaceOfDeath: PostResult.data[0].PersonPlaceOfDeath,
+                  PersonIsMale: PostResult.data[0].PersonIsMale,
+                  MotherID: PostResult.data[0].MotherID || '',
+                  MotherName: PostResult.data[0].MotherName || '',
+                  FatherID: PostResult.data[0].FatherID || '',
+                  FatherName: PostResult.data[0].FatherName || '',
+                  PartnerID: PostResult.data[0].PartnerID || '',
+                  PartnerName: PostResult.data[0].PartnerName || '',
+                  Timestamp: PostResult.data[0].Timestamp,
+                  selectedMother: null,
+                  selectedFather: null,
+                  selectedPartner: null
+                });
+                this.getPossibleFathers(this.personForm.get('PersonID').value);
+                this.getPossibleMothers(this.personForm.get('PersonID').value);
+                this.getPossiblePartners(this.personForm.get('PersonID').value);
+                // this.sendMessage(); Remark: no need to refresh the list, person already existed. Risk: when Familyname changes person will remain viewable in list!
+              }
+            );
+          }
+        }
+      }
     );
+  }
+
+  private allValuesAreNull(): boolean {
+    this.formContainsValue = false;
+    Object.keys(this.personForm.controls).forEach(key => {
+      if (this.personForm.controls[key].value != null) {
+        this.formContainsValue = true;
+        return this.formContainsValue;
+      }
+    });
+    return this.formContainsValue;
+  }
+
+  private formIsSubmitable(): boolean {
+    this.formCanBeSubmitted = false;
+    if (this.PersonFamilyName.value != null && this.PersonFamilyName.value !== '' &&
+        this.PersonGivvenName.value != null && this.PersonGivvenName.value !== '' &&
+        this.PersonDateOfBirth.value != null && this.PersonDateOfBirth.value !== '' &&
+        this.PersonPlaceOfBirth.value != null && this.PersonPlaceOfBirth.value !== '' &&
+        this.PersonIsMale.value != null &&
+        this.personForm.dirty) {
+      this.formCanBeSubmitted = true;
+    } else {
+      this.formCanBeSubmitted = false;
+    }
+    return this.formCanBeSubmitted;
   }
 
   private openDeletePersonDialog(): void {
     const dialogDeletePersonConfig = new MatDialogConfig();
     dialogDeletePersonConfig.disableClose = true;
     dialogDeletePersonConfig.autoFocus = true;
-    dialogDeletePersonConfig.data = {
-      PersonName: this.personForm.get('PersonGivenName').value + this.personForm.get('PersonFamilyName').value
+    dialogDeletePersonConfig.data = { PersonName: this.personForm.get('PersonGivvenName').value  +  ' ' + this.personForm.get('PersonFamilyName').value };
+    const dialogRef2 = this.deleteDialog.open(DeletePersonDialogComponent, dialogDeletePersonConfig);
+    dialogRef2.afterClosed().subscribe(
+      DialogResult => {
+        console.log('DialogResult= ' + DialogResult);
+        if (DialogResult === 'Delete') {
+          console.log('Just after delete dialog, personForm.value= ' + JSON.stringify(this.personForm.value));
+          if (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
+            console.log('Just after delete dialog, PersonID = null or 0 (dus alleen scherm leeg maken');
+            this.resetPersonRecord('');
+          } else {
+            console.log('Just after delete dialog, PersonID <> null or 0 (dus naar centrale database');
+            this.dataSprocsService.deletePerson(this.personForm.get('PersonID').value,
+                                                this.personForm.get('MotherID').value,
+                                                this.personForm.get('FatherID').value,
+                                                this.personForm.get('PartnerID').value,
+                                                this.personForm.get('Timestamp').value).subscribe(
+              DeleteResult => {
+                console.log('DeleteResult= ' + JSON.stringify(DeleteResult));
+                this.resetPersonRecord('');
+                this.sendMessage();
+              });
+            }
+          }
+        }
+      );
     }
-    this.deleteDialog.open(DeletePersonDialogComponent, dialogDeletePersonConfig);
-
-  }
 
 
   private getPossibleMothers(PersonId): void {
@@ -305,7 +504,44 @@ ngOnInit() {
   }
 
   private onSubmit() {
-    // TODO: Gebriuk EventEmitter with form value to save data to backend (?)
+    this.personForm.patchValue({
+      PersonDateOfBirth: this.datepipe.transform( this.PersonDateOfBirth.value, 'yyyy-MM-dd'),
+      PersonDateOfDeath: this.datepipe.transform( this.PersonDateOfDeath.value, 'yyyy-MM-dd')
+    });
     console.log('Waarde van onSubmit= ' + JSON.stringify(this.personForm.value));
   }
+
+  RelativesFieldsOnFocus(FieldNameIn: string) {
+    console.log('Relativefield receiving the focus= ' + FieldNameIn);
+    if (FieldNameIn === 'FatherField') {
+      this.Overlijden.nativeElement.focus();
+      this.Overlijden.nativeElement.click();
+      // this.Father.nativeElement.focus();
+    } else if (FieldNameIn === 'MotherField') {
+      this.Mother.nativeElement.focus();
+    } else if (FieldNameIn === 'PartnerField') {
+      this.Partner.nativeElement.focus();
+    } else {
+      console.log('Unexpected input: ' + FieldNameIn);
+    }
+  }
+
+  ReceivedFocus(ControlIn: string) {
+    console.log('Received focus, control= ' + ControlIn);
+  }
+
+  get PersonGivvenName() {return this.personForm.get('PersonGivvenName'); }
+
+  get PersonFamilyName() {return this.personForm.get('PersonFamilyName'); }
+
+  get PersonDateOfBirth() { return this.personForm.get('PersonDateOfBirth'); }
+
+  get PersonPlaceOfBirth() { return this.personForm.get('PersonPlaceOfBirth'); }
+
+  get PersonDateOfDeath() { return this.personForm.get('PersonDateOfDeath'); }
+
+  get PersonID() { return this.personForm.get('PersonID'); }
+
+  get PersonIsMale() { return this.personForm.get('PersonIsMale'); }
+
 }

@@ -1,0 +1,1 @@
+ng build --prod=true --aot=false --build-optimizer=false --progress=true  

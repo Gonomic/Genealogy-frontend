@@ -12,11 +12,10 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 })
 
 export class SearchHubComponent implements OnInit {
-  private plainpersonlist: object = {};
-  // public nameToLookForFromScreen = new FormControl('');
+  public plainpersonlist: object = {};
   person: number;
   theMessageObject: object;
-  // nameToLookForFromScreenUpdate = new Subject<string>();
+  incomingMessage: Subscription;
   searchForm = new FormGroup({
     nameToLookForFromScreen: new FormControl('')
   });
@@ -26,15 +25,7 @@ export class SearchHubComponent implements OnInit {
   constructor(
     private dataSprocsService: DataSprocsService,
     private messageService: MessageService
-    ){
-      // this.nameToLookForFromScreenUpdate.pipe(
-      //   debounceTime(500),
-      //   distinctUntilChanged())
-      //   .subscribe(value => {
-      //     console.log(value);
-      //     this.getPlainListOfPersons(value);
-      // });
-
+    ) {
       this.searchForm.get('nameToLookForFromScreen').valueChanges.pipe(
           debounceTime(500),
           distinctUntilChanged())
@@ -42,6 +33,16 @@ export class SearchHubComponent implements OnInit {
             console.log(value);
             this.getPlainListOfPersons(value);
         });
+
+        this.incomingMessage = this.messageService
+        .getMessage()
+        .subscribe(message => {
+          if (message.action === 'refreshPersonList') {
+            console.log('In searchhub component. Message= ' + JSON.stringify(message));
+            this.getPlainListOfPersons(this.searchForm.get('nameToLookForFromScreen').value);
+          }
+        });
+
   }
 
 
@@ -77,5 +78,4 @@ export class SearchHubComponent implements OnInit {
             });
     }
   }
-
 }

@@ -1,0 +1,30 @@
+version: "3"
+services:
+
+  DEKKNET.COM:
+    image: fransdekkers/genbackend:1.1
+    ports:
+      - "3306:3306"
+    volumes:
+      - GENDATA01:/var/lib/mysql
+
+  GENMW01:
+    depends_on:
+      - DEKKNET.COM
+    image: fransdekkers/genmiddleware:1.1
+    ports:
+      - "1002:1002"
+    volumes:
+      - /Datavol1/Dockerstuff/Genealogy/Middleware:/usr/src/app/config/ssl
+
+  GENFE01:
+    depends_on:
+      - GENMW01
+    image: fransdekkers/genfrontend:1.1
+    ports:
+      - "1001:1001"
+    volumes:
+      - /Datavol1/Dockerstuff/Genealogy/Frontend:/home/certs
+
+volumes:
+  GENDATA01:

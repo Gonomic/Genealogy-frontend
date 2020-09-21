@@ -1,24 +1,17 @@
-<form [formGroup]='deletePersonDialog'>
-
-    <h1 mat-dialog-title>Gegevens persoon {{data.name}} verwijderen?</h1>
+<div class="center-text">
+    <h1 class="inline:display" mat-dialog-title>Gegevens van persoon: {{person}} verwijderen?</h1>
 
     <mat-dialog-content>
-
-        <mat-form-field>
-
-            <!-- <input matInput [(ngModel)]="data.YesNo" formControlName="description"> -->
-
-            <input matInput formControlName="NameOfPerson">
-
-        </mat-form-field>
-
+        <div>
+            <span>
+                    Als je op "Gegevens verwijderen" klikt, worden de gegevens van deze persoon verwijderd. Als je op "Gevens NIET verwijderen" klikt, worden de gegevens
+                    niet verwijderd en verschijnen de 'oude' gegevens in het scherm zoals deze waren voordat je deze begon te bewerken.
+                </span>
+        </div>
     </mat-dialog-content>
 
 
-
     <mat-dialog-actions>
-        <button class="mat-raised-button" (click)="close()">Persoon NIET verwijderen</button>
-        <button class="mat-raised-button mat-primary" (click)="save()">Persoon verwijderen</button>
+        <button class="mat-raised-button" (click)="close()">Gegevens NIET verwijderen</button>
+        <button class="mat-raised-button mat-primary" (click)="save()">Gegevens verwijderen</button>
     </mat-dialog-actions>
-
-</form>
