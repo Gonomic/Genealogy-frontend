@@ -385,6 +385,85 @@ clearMessage(): void {
     );
   }
 
+  //Action(25-9-2020): change fields to correct values!
+  private openNewPersonDialog(): void {
+    const dialogNewPersonConfig = new MatDialogConfig();
+    dialogNewPersonConfig.disableClose = true;
+    dialogNewPersonConfig.autoFocus = true;
+    dialogNewPersonConfig.data = { PersonName: this.personForm.get('PersonGivvenName').value  +  ' ' + this.personForm.get('PersonFamilyName').value };
+    const dialogRef1 = this.saveDialog.open(SavePersonDialogComponent, dialogNewPersonConfig);
+    dialogRef1.afterClosed().subscribe(
+      DialogResult => {
+        if (DialogResult === 'Save') {
+          if (this.personForm.get('PersonID').value === null || this.personForm.get('PersonID').value === 0 ) {
+            this.dataSprocsService.AddPerson(this.personForm.value).subscribe(
+              PostResult => {
+                this.personForm.reset({
+                  PersonID: PostResult.data[0].PersonID,
+                  PersonGivvenName: PostResult.data[0].PersonGivvenName,
+                  PersonFamilyName: PostResult.data[0].PersonFamilyName,
+                  PersonDateOfBirth: PostResult.data[0].PersonDateOfBirth,
+                  PersonDateOfBirthStatus: PostResult.data[0].PersonDateOfBirthStatus,
+                  PersonPlaceOfBirth: PostResult.data[0].PersonPlaceOfBirth,
+                  PersonDateOfDeath: PostResult.data[0].PersonDateOfDeath,
+                  PersonDateOfDeathStatus: PostResult.data[0].PersonDateOfDeathStatus,
+                  PersonPlaceOfDeath: PostResult.data[0].PersonPlaceOfDeath,
+                  PersonIsMale: PostResult.data[0].PersonIsMale,
+                  MotherID: PostResult.data[0].MotherID || '',
+                  MotherName: PostResult.data[0].MotherName || '',
+                  FatherID: PostResult.data[0].FatherID || '',
+                  FatherName: PostResult.data[0].FatherName || '',
+                  PartnerID: PostResult.data[0].PartnerID || '',
+                  PartnerName: PostResult.data[0].PartnerName || '',
+                  Timestamp: PostResult.data[0].Timestamp,
+                  selectedMother: null,
+                  selectedFather: null,
+                  selectedPartner: null
+                });
+                this.getPossibleFathers(this.personForm.get('PersonID').value);
+                this.getPossibleMothers(this.personForm.get('PersonID').value);
+                this.getPossiblePartners(this.personForm.get('PersonID').value);
+                this.sendMessage();
+              });
+          } else {
+            this.dataSprocsService.ChangePerson(this.personForm.value).subscribe(
+              PostResult => {
+                this.personForm.reset({
+                  PersonID: PostResult.data[0].PersonID,
+                  PersonGivvenName: PostResult.data[0].PersonGivvenName,
+                  PersonFamilyName: PostResult.data[0].PersonFamilyName,
+                  PersonDateOfBirth: PostResult.data[0].PersonDateOfBirth,
+                  PersonDateOfBirthStatus: PostResult.data[0].PersonDateOfBirthStatus,
+                  PersonPlaceOfBirth: PostResult.data[0].PersonPlaceOfBirth,
+                  PersonDateOfDeath: PostResult.data[0].PersonDateOfDeath,
+                  PersonDateOfDeathStatus: PostResult.data[0].PersonDateOfDeathStatus,
+                  PersonPlaceOfDeath: PostResult.data[0].PersonPlaceOfDeath,
+                  PersonIsMale: PostResult.data[0].PersonIsMale,
+                  MotherID: PostResult.data[0].MotherID || '',
+                  MotherName: PostResult.data[0].MotherName || '',
+                  FatherID: PostResult.data[0].FatherID || '',
+                  FatherName: PostResult.data[0].FatherName || '',
+                  PartnerID: PostResult.data[0].PartnerID || '',
+                  PartnerName: PostResult.data[0].PartnerName || '',
+                  Timestamp: PostResult.data[0].Timestamp,
+                  selectedMother: null,
+                  selectedFather: null,
+                  selectedPartner: null
+                });
+                this.getPossibleFathers(this.personForm.get('PersonID').value);
+                this.getPossibleMothers(this.personForm.get('PersonID').value);
+                this.getPossiblePartners(this.personForm.get('PersonID').value);
+                // this.sendMessage(); Remark: no need to refresh the list, person already existed. Risk: when Familyname changes person will remain viewable in list!
+              }
+            );
+          }
+        }
+      }
+    );
+  }
+
+
+
   private allValuesAreNull(): boolean {
     this.formContainsValue = false;
     Object.keys(this.personForm.controls).forEach(key => {

@@ -117,13 +117,19 @@
             </mat-form-field>
 
             <mat-form-field class="form-group ">
-                <label class="grey-font ">Kies een (andere) moeder</label>
+                <label class="grey-font ">Kies een (andere) bestaande persoon als moeder</label>
                 <mat-select class="form-control " formControlName='selectedMother' name='Kies een (andere) moeder' #Mother (focus)="ReceivedFocus( 'MotherPickList') ">
                     <mat-option *ngFor="let mother of possibleMothersList.data " [value]='{"PersonID": mother.PersonID, "PossibleMother ": mother.PossibleMother}'>
                         {{mother.PossibleMother}} {{mother.PersonDateOfBirth}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+
+            <mat-form-field class="form-group ">
+                <label class="grey-font ">Kies een (andere) nieuwe persoon als moeder</label>
+                    <button mat-raised-button type='submit' [disabled]="!formIsSubmitable() " (click)='openAddPersonDialog()'>Gegevens persoon opslaan</button>
+            </mat-form-field>
+
         </div>
 
         <div>
