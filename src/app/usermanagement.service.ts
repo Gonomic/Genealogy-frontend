@@ -11,6 +11,8 @@ export class UserManagementService {
     private LogedIn: boolean;
     private MayEdit: boolean;
     private AccesToken: string;
+    private AppId: string;
+    private UriRedirect: string;
 
     constructor() {}
 
@@ -34,6 +36,14 @@ export class UserManagementService {
         this.MayEdit = MayEditIn;
     }
 
+    get uriRedirect(): string {
+        return this.UriRedirect;
+    }
+
+    get appId(): string {
+        return this.AppId;
+    }
+
     get accessToken(): string {
         return this.AccesToken;
     }
@@ -50,6 +60,14 @@ export class UserManagementService {
         return this.MayEdit;
     }
 
+    set uriRedirect(newUriRedirect: string) {
+        this.UriRedirect = newUriRedirect;
+    }
+
+    set appId(newAppId: string) {
+        this.AppId = newAppId;
+    }
+
     set userName(newUserName: string) {
         this.UserName = newUserName;
     }
@@ -62,7 +80,7 @@ export class UserManagementService {
         this.MayEdit = newMayEdit;
     }
 
-    set userAccesToken(newAccesToken: string){
+    set userAccesToken(newAccesToken: string) {
         this.AccesToken = newAccesToken;
     }
 }

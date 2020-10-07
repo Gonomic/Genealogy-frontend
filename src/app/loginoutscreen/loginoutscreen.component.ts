@@ -9,6 +9,7 @@ import { HttpClient , HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { JsonPipe } from '@angular/common';
 
 
 declare const $;
@@ -47,10 +48,22 @@ export class LogInOutScreenComponent implements OnInit {
     // private InitSynnoSSO() {
     console.log('In InitSynoSSO starting SYNOSSO.init');
 
+    // Development on DekkNet.com with port 1011
+    this.userManagementService.appId = '5fcc2766d29ab8043933f1bac4e7eddc';
+    this.userManagementService.uriRedirect = 'https://dekknet.com:1011';
+
+    // Development on localhost with port 1001
+    // this.userManagementService.appId = 'd07123f5f109399f799865bf10346dc9';
+    // this.userManagementService.uriRedirect = 'http://localhost:1001';
+
+     // Production on Dekknet.com with port 1001
+     // this.userManagementService.appId = '28adb409fb6d699318a23fb0df19129e';
+     // this.userManagementService.uriRedirect = 'https://dekknet.com:1001';
+
     SYNOSSO.init({
       oauthserver_url: 'https://dekknet.com:4005',
-      app_id: 'd07123f5f109399f799865bf10346dc9',
-      redirect_uri: 'http://localhost:1001',
+      app_id : this.userManagementService.appId,
+      redirect_uri: this.userManagementService.uriRedirect,
       ldap_baseDN: 'dc=dekknet,dc=com',
       callback: (response) => {
         if (response.status === 'not_login') {
@@ -62,15 +75,12 @@ export class LogInOutScreenComponent implements OnInit {
         } else if (response.status === 'login') {
           this.userManagementService.userAccesToken = response.access_token;
           this.userManagementService.logedIn = response.status;
-          // user IS logged in, take appropriate actions
-          // this.ShowLogoutButton = true;
-          // this.ShowLoginButton = false;
           console.log ('In function authCallBack, user loged in, response= ' + JSON.stringify(response));
           console.log('Usermanagement values are, AccessToken= ' + this.userManagementService.accessToken + '. status= ' + this.userManagementService.logedIn);
-          // const params = new HttpParams().set('accestoken', this.userManagementService.accessToken);
-          const params = new HttpParams().set('action', 'exchange').set('accestoken', this.userManagementService.accessToken);
-          // this.httpClient.get('https://dekknet.com:4005/webman/sso/SSOAccessToken.cgi', {params})
-          this.httpClient.get('/https://dekknet.com:4005/webman/sso/login-backend.php', {params})
+          const params = new HttpParams().set('action', 'exchange').set('accestoken', this.userManagementService.accessToken).set('app_id', this.userManagementService.appId);
+          console.log('Parameters for getting user data=' + JSON.stringify(params));
+          this.httpClient.get('https://dekknet.com:4005/webman/sso/SSOAccessToken.cgi', {params})
+          // this.httpClient.get('/https://dekknet.com:4005/webman/sso/login-backend.php', {params})
           .subscribe(
             (data) => {
               console.log('Returned data= ' + JSON.stringify(data));
